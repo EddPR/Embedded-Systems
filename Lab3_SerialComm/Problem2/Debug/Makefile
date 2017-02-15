@@ -76,8 +76,7 @@ ADDITIONAL_DEPENDENCIES:=
 
 OUTPUT_FILE_DEP:= ./makedep.mk
 
-LIB_DEP+=  \
-C:/Users/fenim/Desktop/GitRepo/Embedded-Systems/SerialComm/Problem1/libEmSysLib.a
+LIB_DEP+= 
 
 LINKER_SCRIPT_DEP+= 
 
