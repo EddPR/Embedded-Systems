@@ -2,7 +2,8 @@
  * PSerial.c
  *
  * Created: 2/11/2017 2:15:48 PM
- *  Author: Eduardo
+ *  Member1 : Eduardo Padilla [padille]
+ *	Member2: Sam Fenimore	[fenimoress]
  */ 
 #include "PSerial.h"
 
