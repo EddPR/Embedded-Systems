@@ -89,6 +89,7 @@
       <Value>C:\Users\padillae\Downloads</Value>
       <Value>C:\Users\Eduardo\Downloads</Value>
       <Value>C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\SerialComm\Problem1</Value>
+      <Value>C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\Lab3_SerialComm\Problem1</Value>
     </ListValues>
   </avrgcc.linker.libraries.LibrarySearchPaths>
   <avrgcc.assembler.general.IncludePaths>
@@ -139,6 +140,7 @@
       <Value>C:\Users\padillae\Downloads</Value>
       <Value>C:\Users\Eduardo\Downloads</Value>
       <Value>C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\SerialComm\Problem1</Value>
+      <Value>C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\Lab3_SerialComm\Problem1</Value>
     </ListValues>
   </avrgcc.linker.libraries.LibrarySearchPaths>
   <avrgcc.assembler.general.IncludePaths>

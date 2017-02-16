@@ -6,7 +6,7 @@
  */ 
 #include "PSerial.h"
 
-uint8_t ucsrna;
+//static uint8_t ucsrna;
 
 SERIAL_REGS *serial_port[] = {
 	(SERIAL_REGS *)(0xc0),	// serial port 0
@@ -42,11 +42,13 @@ void PSerial_open(unsigned char port, long speed, int config)
 			enableT = (1 << TXEN0);
 			break;
 	}
-
+	
+	//ucsrna = 0x20; //initilize with data reg empty
 	serial_port[port]->ucsrb = enableR | enableT;
 	serial_port[port]->ucsrc = config;
-	serial_port[port]->ubrr = speed;
-	
+	speed = (F_CPU / 16 / speed - 1);
+	serial_port[port]->ubrrH = (unsigned char) (speed >> 8);
+	serial_port[port]->ubrrL = (unsigned char) speed;
 }
 
 
@@ -57,43 +59,41 @@ char PSerial_read(unsigned char port)
 	
 	switch (port) {
 		case 0:
-			ucsrna = UCSR0A;
+	//		ucsrna = UCSR0A;
 			rxcn = (1 << RXC0);
 			data = UDR0;
 			break;
 		case 1:
-			ucsrna = UCSR1A;
+	//		ucsrna = UCSR1A;
 			rxcn = (1 << RXC1);
 			data = UDR1;
 			break;
 		case 2:
-			ucsrna = UCSR2A;
+	//		ucsrna = UCSR2A;
 			rxcn = (1 << RXC2);
 			data = UDR2;
 			break;
 		case 3:
-			ucsrna = UCSR3A;
+	//		ucsrna = UCSR3A;
 			rxcn = (1 << RXC3);
 			data = UDR3;
 			break;
 		default:
-			ucsrna = UCSR0A;
+	//		ucsrna = UCSR0A;
 			rxcn = (1 << RXC0);
 			data = UDR0;
 			break;
 	}
 	
-	while (!(ucsrna & rxcn)) {
+	while (!(serial_port[port]->ucsra & rxcn)) {
 		// wait for RXC
 	}
-	
 	return data;
 }
 
 void PSerial_write(unsigned char port, char data)
 {
-	uint8_t udren;
-	
+	static int udren;
 	switch (port) {
 		case 0:
 			udren = (1 << UDRE0);
@@ -112,6 +112,9 @@ void PSerial_write(unsigned char port, char data)
 			break;
 	}
 	
-	while (!(ucsrna & udren));
+	while (!(serial_port[port]->ucsra & udren))
+	{
+		//wait for RXC
+	}
 	serial_port[port]->udr = data;
 }

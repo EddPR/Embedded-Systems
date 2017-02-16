@@ -7,6 +7,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <stdio.h>
+#include <stdint.h>
 
 #ifndef PSERIAL_H_
 #define PSERIAL_H_
@@ -16,11 +17,12 @@ typedef struct {
 	volatile uint8_t ucsrb;
 	volatile uint8_t ucsrc;
 	volatile uint8_t rsvd;
-	volatile uint16_t ubrr;
+	volatile uint8_t ubrrL;
+	volatile uint8_t ubrrH;
 	volatile uint8_t udr;
 } SERIAL_REGS;
 
-//extern SERIAL_REGS *serial_port[];
+//SERIAL_REGS *serial_port[];
 
 void PSerial_open(unsigned char, long, int);
 char PSerial_read(unsigned char);
