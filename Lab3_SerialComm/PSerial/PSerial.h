@@ -27,5 +27,7 @@ typedef struct {
 void PSerial_open(unsigned char, long, int);
 char PSerial_read(unsigned char);
 void PSerial_write(unsigned char, char);
+void init_ports(long, int);
+void test();
 
 #endif /* PSERIAL_H_ */
