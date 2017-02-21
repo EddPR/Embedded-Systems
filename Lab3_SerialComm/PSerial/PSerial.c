@@ -119,3 +119,21 @@ void PSerial_write(unsigned char port, char data)
 	}
 	serial_port[port]->udr = data;
 }
+
+void init_ports(long baud, int framing) 
+{ 
+	unsigned char port = 0;
+	for (int i = 0; i < 4; i++)
+	{
+		PSerial_open(port, baud, framing);
+		port++;
+	}
+}
+
+void test() 
+{
+	PSerial_write(1, PSerial_read(0));
+	PSerial_write(2, PSerial_read(2));
+	PSerial_write(3, PSerial_read(3));
+	PSerial_write(0, PSerial_read(1));
+}
