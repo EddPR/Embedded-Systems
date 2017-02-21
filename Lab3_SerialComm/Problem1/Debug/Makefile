@@ -72,7 +72,7 @@ ADDITIONAL_DEPENDENCIES:=
 OUTPUT_FILE_DEP:= ./makedep.mk
 
 LIB_DEP+=  \
-C:/Users/fenim/Desktop/GitRepo/Embedded-Systems/Lab3_SerialComm/Problem1/libEmSysLib.a
+C:/Users/fenim/Downloads/Lab2_NotBorked/SoftwareSerial/Problem1/libEmSysLib.a
 
 LINKER_SCRIPT_DEP+= 
 
@@ -127,7 +127,7 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 4.9.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Problem1.map" -Wl,--start-group -Wl,-lm -Wl,-lEmSysLib  -Wl,--end-group -Wl,-L"C:\Users\padillae\Downloads" -Wl,-L"C:\Users\Eduardo\Downloads" -Wl,-L"C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\SerialComm\Problem1" -Wl,-L"C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\Lab3_SerialComm\Problem1"  -Wl,--gc-sections -mrelax -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.1.130\gcc\dev\atmega2560"  
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Problem1.map" -Wl,--start-group -Wl,-lm -Wl,-lEmSysLib  -Wl,--end-group -Wl,-L"C:\Users\padillae\Downloads" -Wl,-L"C:\Users\Eduardo\Downloads" -Wl,-L"C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\SerialComm\Problem1" -Wl,-L"C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\Lab3_SerialComm\Problem1" -Wl,-L"C:\Users\fenim\Downloads\Lab2_NotBorked\SoftwareSerial\Problem1" -Wl,-L"C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\Lab2_sam\Problem1"  -Wl,--gc-sections -mrelax -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.1.130\gcc\dev\atmega2560"  
 	@echo Finished building target: $@
 	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "Problem1.elf" "Problem1.hex"
 	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "Problem1.elf" "Problem1.eep" || exit 0

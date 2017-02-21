@@ -2,7 +2,8 @@
  * PSerial.c
  *
  * Created: 2/11/2017 2:13:04 PM
- * Author : Eduardo
+ * Member1 : Eduardo
+ * Member2 : Sam Fenimore
  */ 
 //#define BAUD 19200 
 #include <avr/io.h>
@@ -13,10 +14,10 @@
 int main(void)
 {
     /* Replace with your application code */
-	PSerial_open(0, 19200, SERIAL_8N1);
+	init_ports(19200, SERIAL_8N1);
     while (1) 
     {
-			PSerial_write(0, PSerial_read(0));
+			test();
     }
 }
 
