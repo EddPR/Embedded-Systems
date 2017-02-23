@@ -8,62 +8,147 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#define HIGH 1
-#define LOW 0
+#define FALLING_EDGE_ONE ((PINF >> 6) == 0x02)	// Button ONE
+#define RISING_EDGE_ONE ((PINF >> 6) == 0x03)	// Button ONE
+#define FALLING_EDGE_ZERO ((PINF >> 7) == 0x00)	// Button ZERO
+#define RISING_EDGE_ZERO ((PINF >> 7) == 0x01)	// Button ZERO
 
-void retainState();
-void lightCycle();
+void lightsCycle();
 void lightsOff();
-
-int oldButtonOneState = LOW;
-int oldButtonTwoState = HIGH;
-
-int x = 0;
+void lightsFlash();
 
 int main(void)
 {
 	//	INPUT = 0, OUTPUT = 1
-	//	oldButtonOneState == HIGH && newButtonOneState == LOW // Falling edge
-	//	oldButtonOneState == LOW && newButtonOneState == HIGH // Rising Edge
 	
 	DDRF = 0x0F;	// Set Pins A0-A3 for OUTPOUT and A6-A7 for INPUT 
 	PORTF = 0xC0;	// Set Pins A6-A7 for PULL_UP
     
-    while (1) 
-    {
-		int newButtonOneState = 0x80 & PINF;	// read button one state
-		int newButtonTwoState = 0x40 & PINF;	// read button two state
-		
-		if (newButtonOneState == LOW)
-		{
-			lightCycle();	// Works only while button is being pressed
-		}
-    }
-}
-
-void lightCycle()
-{
-	PORTF |= 0x01;	// Turn on LED1
-	_delay_ms(1000);
-	PORTF &= ~0x01;	// Turn off LED1
-	_delay_ms(1000);
-	PORTF |= 0x02;	// Turn on LED2
-	_delay_ms(1000);
-	PORTF &= ~0x02;	// Turn off LED2
-	_delay_ms(1000);
-	PORTF |= 0x04;	// Turn on LED3
-	_delay_ms(1000);
-	PORTF &= ~0x04;	// Turn off LED3
-	_delay_ms(1000);
-	PORTF |= 0x08;	// Turn on LED4
-	_delay_ms(1000);
-	PORTF &= ~0x08;	// Turn off LED4
-	_delay_ms(1000);
+    lightsOff();
 }
 
 void lightsOff()
 {
-	PORTF &= ~0x0F;	// Turn off all LEDs
+	while (1)
+	{
+		PORTF &= ~0x0F;	// Turn off all LEDs
+		
+		_delay_ms(5);	// Sample button press
+		if (FALLING_EDGE_ZERO)
+		{
+			_delay_ms(500);	// Sample button release
+			if (RISING_EDGE_ZERO)
+			{
+				lightsCycle();
+			}
+		}
+		else if (FALLING_EDGE_ONE)
+		{
+			_delay_ms(500);	// Sample button release
+			if (RISING_EDGE_ONE)
+			{
+				lightsFlash();
+			}
+		}
+	}
+}
+
+void lightsCycle()
+{
+	while (1)
+	{		
+		int leds = 1;
+		
+		for (int i = 0; i < 4; i++)
+		{
+			PORTF |= leds << i;		// LED on
+			
+			for (int j = 0; j < 100; j++)
+			{
+				
+				if (FALLING_EDGE_ZERO)
+				{
+					_delay_ms(10);	// Sample button release
+					if (RISING_EDGE_ZERO)
+					{
+						lightsOff();
+					}
+				}
+				else if (FALLING_EDGE_ONE)
+				{
+					_delay_ms(10);	// Sample button release
+					if (RISING_EDGE_ONE)
+					{
+						lightsFlash();
+					}
+				}
+				else 
+				{
+					_delay_ms(10);
+				}
+			}
+			
+			PORTF &= ~(leds << i);		// LED off
+		}
+	}
 }
 
 
+void lightsFlash()
+{
+	while (1)
+	{
+		PORTF |= 0x0F;	// Turn on all LEDs
+		
+		for (int j = 0; j < 20; j++)
+		{
+			if (FALLING_EDGE_ZERO)
+			{
+				_delay_ms(10);	// Sample button release
+				if (RISING_EDGE_ZERO)
+				{
+					lightsCycle();
+				}
+			}
+			else if (FALLING_EDGE_ONE)
+			{
+				_delay_ms(10);	// Sample button release
+				if (RISING_EDGE_ONE)
+				{
+					lightsOff();
+				}
+			}
+			else
+			{
+				_delay_ms(10);
+			}
+		}
+		
+		
+		PORTF &= ~0x0F;	// Turn off all LEDs
+		
+		for (int j = 0; j < 100; j++)
+		{
+			if (FALLING_EDGE_ZERO)
+			{
+				_delay_ms(10);	// Sample button release
+				if (RISING_EDGE_ZERO)
+				{
+					lightsCycle();
+				}
+			}
+			else if (FALLING_EDGE_ONE)
+			{
+				_delay_ms(10);	// Sample button release
+				if (RISING_EDGE_ONE)
+				{
+					lightsOff();
+				}
+			}
+			else
+			{
+				_delay_ms(10);
+			}
+		}
+	}
+}
