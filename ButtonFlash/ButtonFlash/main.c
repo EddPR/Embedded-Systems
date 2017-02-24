@@ -3,6 +3,7 @@
  *
  * Created: 2/16/2017 2:49:13 PM
  * Author : padillae
+ * member2: Sam Fenimore
  */ 
 
 #include <avr/io.h>
