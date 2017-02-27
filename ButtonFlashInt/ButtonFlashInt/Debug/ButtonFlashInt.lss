@@ -3,29 +3,31 @@ ButtonFlashInt.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  00000316  2**0
+  0 .data         00000002  00800200  000002ca  0000035e  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000002c2  00000000  00000000  00000054  2**1
+  1 .text         000002ca  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000316  2**0
+  2 .bss          00000002  00800202  00800202  00000360  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000360  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000348  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000390  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000038  00000000  00000000  00000388  2**0
+  5 .debug_aranges 00000040  00000000  00000000  000003d0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00001054  00000000  00000000  000003c0  2**0
+  6 .debug_info   00000e64  00000000  00000000  00000410  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000c3c  00000000  00000000  00001414  2**0
+  7 .debug_abbrev 00000c8c  00000000  00000000  00001274  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000004bf  00000000  00000000  00002050  2**0
+  8 .debug_line   000004a2  00000000  00000000  00001f00  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000054  00000000  00000000  00002510  2**2
+  9 .debug_frame  00000084  00000000  00000000  000023a4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000005a9  00000000  00000000  00002564  2**0
+ 10 .debug_str    000005e4  00000000  00000000  00002428  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000003fd  00000000  00000000  00002b0d  2**0
+ 11 .debug_loc    00000185  00000000  00000000  00002a0c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  00002f0a  2**0
+ 12 .debug_ranges 00000048  00000000  00000000  00002b91  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -33,117 +35,117 @@ Disassembly of section .text:
 00000000 <__vectors>:
    0:	71 c0       	rjmp	.+226    	; 0xe4 <__ctors_end>
    2:	00 00       	nop
-   4:	79 c0       	rjmp	.+242    	; 0xf8 <__bad_interrupt>
+   4:	8e c0       	rjmp	.+284    	; 0x122 <__bad_interrupt>
    6:	00 00       	nop
-   8:	77 c0       	rjmp	.+238    	; 0xf8 <__bad_interrupt>
+   8:	8c c0       	rjmp	.+280    	; 0x122 <__bad_interrupt>
    a:	00 00       	nop
-   c:	75 c0       	rjmp	.+234    	; 0xf8 <__bad_interrupt>
+   c:	8a c0       	rjmp	.+276    	; 0x122 <__bad_interrupt>
    e:	00 00       	nop
-  10:	73 c0       	rjmp	.+230    	; 0xf8 <__bad_interrupt>
+  10:	88 c0       	rjmp	.+272    	; 0x122 <__bad_interrupt>
   12:	00 00       	nop
-  14:	71 c0       	rjmp	.+226    	; 0xf8 <__bad_interrupt>
+  14:	86 c0       	rjmp	.+268    	; 0x122 <__bad_interrupt>
   16:	00 00       	nop
-  18:	6f c0       	rjmp	.+222    	; 0xf8 <__bad_interrupt>
+  18:	84 c0       	rjmp	.+264    	; 0x122 <__bad_interrupt>
   1a:	00 00       	nop
-  1c:	6d c0       	rjmp	.+218    	; 0xf8 <__bad_interrupt>
+  1c:	82 c0       	rjmp	.+260    	; 0x122 <__bad_interrupt>
   1e:	00 00       	nop
-  20:	6b c0       	rjmp	.+214    	; 0xf8 <__bad_interrupt>
+  20:	80 c0       	rjmp	.+256    	; 0x122 <__bad_interrupt>
   22:	00 00       	nop
-  24:	69 c0       	rjmp	.+210    	; 0xf8 <__bad_interrupt>
+  24:	7e c0       	rjmp	.+252    	; 0x122 <__bad_interrupt>
   26:	00 00       	nop
-  28:	67 c0       	rjmp	.+206    	; 0xf8 <__bad_interrupt>
+  28:	7c c0       	rjmp	.+248    	; 0x122 <__bad_interrupt>
   2a:	00 00       	nop
-  2c:	65 c0       	rjmp	.+202    	; 0xf8 <__bad_interrupt>
+  2c:	7b c0       	rjmp	.+246    	; 0x124 <__vector_11>
   2e:	00 00       	nop
-  30:	63 c0       	rjmp	.+198    	; 0xf8 <__bad_interrupt>
+  30:	78 c0       	rjmp	.+240    	; 0x122 <__bad_interrupt>
   32:	00 00       	nop
-  34:	61 c0       	rjmp	.+194    	; 0xf8 <__bad_interrupt>
+  34:	76 c0       	rjmp	.+236    	; 0x122 <__bad_interrupt>
   36:	00 00       	nop
-  38:	5f c0       	rjmp	.+190    	; 0xf8 <__bad_interrupt>
+  38:	74 c0       	rjmp	.+232    	; 0x122 <__bad_interrupt>
   3a:	00 00       	nop
-  3c:	5d c0       	rjmp	.+186    	; 0xf8 <__bad_interrupt>
+  3c:	72 c0       	rjmp	.+228    	; 0x122 <__bad_interrupt>
   3e:	00 00       	nop
-  40:	5b c0       	rjmp	.+182    	; 0xf8 <__bad_interrupt>
+  40:	70 c0       	rjmp	.+224    	; 0x122 <__bad_interrupt>
   42:	00 00       	nop
-  44:	59 c0       	rjmp	.+178    	; 0xf8 <__bad_interrupt>
+  44:	6e c0       	rjmp	.+220    	; 0x122 <__bad_interrupt>
   46:	00 00       	nop
-  48:	57 c0       	rjmp	.+174    	; 0xf8 <__bad_interrupt>
+  48:	6c c0       	rjmp	.+216    	; 0x122 <__bad_interrupt>
   4a:	00 00       	nop
-  4c:	55 c0       	rjmp	.+170    	; 0xf8 <__bad_interrupt>
+  4c:	6a c0       	rjmp	.+212    	; 0x122 <__bad_interrupt>
   4e:	00 00       	nop
-  50:	53 c0       	rjmp	.+166    	; 0xf8 <__bad_interrupt>
+  50:	68 c0       	rjmp	.+208    	; 0x122 <__bad_interrupt>
   52:	00 00       	nop
-  54:	51 c0       	rjmp	.+162    	; 0xf8 <__bad_interrupt>
+  54:	66 c0       	rjmp	.+204    	; 0x122 <__bad_interrupt>
   56:	00 00       	nop
-  58:	4f c0       	rjmp	.+158    	; 0xf8 <__bad_interrupt>
+  58:	64 c0       	rjmp	.+200    	; 0x122 <__bad_interrupt>
   5a:	00 00       	nop
-  5c:	4d c0       	rjmp	.+154    	; 0xf8 <__bad_interrupt>
+  5c:	62 c0       	rjmp	.+196    	; 0x122 <__bad_interrupt>
   5e:	00 00       	nop
-  60:	4b c0       	rjmp	.+150    	; 0xf8 <__bad_interrupt>
+  60:	60 c0       	rjmp	.+192    	; 0x122 <__bad_interrupt>
   62:	00 00       	nop
-  64:	49 c0       	rjmp	.+146    	; 0xf8 <__bad_interrupt>
+  64:	5e c0       	rjmp	.+188    	; 0x122 <__bad_interrupt>
   66:	00 00       	nop
-  68:	47 c0       	rjmp	.+142    	; 0xf8 <__bad_interrupt>
+  68:	5c c0       	rjmp	.+184    	; 0x122 <__bad_interrupt>
   6a:	00 00       	nop
-  6c:	45 c0       	rjmp	.+138    	; 0xf8 <__bad_interrupt>
+  6c:	5a c0       	rjmp	.+180    	; 0x122 <__bad_interrupt>
   6e:	00 00       	nop
-  70:	43 c0       	rjmp	.+134    	; 0xf8 <__bad_interrupt>
+  70:	58 c0       	rjmp	.+176    	; 0x122 <__bad_interrupt>
   72:	00 00       	nop
-  74:	41 c0       	rjmp	.+130    	; 0xf8 <__bad_interrupt>
+  74:	56 c0       	rjmp	.+172    	; 0x122 <__bad_interrupt>
   76:	00 00       	nop
-  78:	3f c0       	rjmp	.+126    	; 0xf8 <__bad_interrupt>
+  78:	54 c0       	rjmp	.+168    	; 0x122 <__bad_interrupt>
   7a:	00 00       	nop
-  7c:	3d c0       	rjmp	.+122    	; 0xf8 <__bad_interrupt>
+  7c:	52 c0       	rjmp	.+164    	; 0x122 <__bad_interrupt>
   7e:	00 00       	nop
-  80:	3b c0       	rjmp	.+118    	; 0xf8 <__bad_interrupt>
+  80:	50 c0       	rjmp	.+160    	; 0x122 <__bad_interrupt>
   82:	00 00       	nop
-  84:	39 c0       	rjmp	.+114    	; 0xf8 <__bad_interrupt>
+  84:	4e c0       	rjmp	.+156    	; 0x122 <__bad_interrupt>
   86:	00 00       	nop
-  88:	37 c0       	rjmp	.+110    	; 0xf8 <__bad_interrupt>
+  88:	4c c0       	rjmp	.+152    	; 0x122 <__bad_interrupt>
   8a:	00 00       	nop
-  8c:	35 c0       	rjmp	.+106    	; 0xf8 <__bad_interrupt>
+  8c:	4a c0       	rjmp	.+148    	; 0x122 <__bad_interrupt>
   8e:	00 00       	nop
-  90:	33 c0       	rjmp	.+102    	; 0xf8 <__bad_interrupt>
+  90:	48 c0       	rjmp	.+144    	; 0x122 <__bad_interrupt>
   92:	00 00       	nop
-  94:	31 c0       	rjmp	.+98     	; 0xf8 <__bad_interrupt>
+  94:	46 c0       	rjmp	.+140    	; 0x122 <__bad_interrupt>
   96:	00 00       	nop
-  98:	2f c0       	rjmp	.+94     	; 0xf8 <__bad_interrupt>
+  98:	44 c0       	rjmp	.+136    	; 0x122 <__bad_interrupt>
   9a:	00 00       	nop
-  9c:	2d c0       	rjmp	.+90     	; 0xf8 <__bad_interrupt>
+  9c:	42 c0       	rjmp	.+132    	; 0x122 <__bad_interrupt>
   9e:	00 00       	nop
-  a0:	2b c0       	rjmp	.+86     	; 0xf8 <__bad_interrupt>
+  a0:	40 c0       	rjmp	.+128    	; 0x122 <__bad_interrupt>
   a2:	00 00       	nop
-  a4:	29 c0       	rjmp	.+82     	; 0xf8 <__bad_interrupt>
+  a4:	3e c0       	rjmp	.+124    	; 0x122 <__bad_interrupt>
   a6:	00 00       	nop
-  a8:	27 c0       	rjmp	.+78     	; 0xf8 <__bad_interrupt>
+  a8:	3c c0       	rjmp	.+120    	; 0x122 <__bad_interrupt>
   aa:	00 00       	nop
-  ac:	25 c0       	rjmp	.+74     	; 0xf8 <__bad_interrupt>
+  ac:	3a c0       	rjmp	.+116    	; 0x122 <__bad_interrupt>
   ae:	00 00       	nop
-  b0:	23 c0       	rjmp	.+70     	; 0xf8 <__bad_interrupt>
+  b0:	38 c0       	rjmp	.+112    	; 0x122 <__bad_interrupt>
   b2:	00 00       	nop
-  b4:	21 c0       	rjmp	.+66     	; 0xf8 <__bad_interrupt>
+  b4:	36 c0       	rjmp	.+108    	; 0x122 <__bad_interrupt>
   b6:	00 00       	nop
-  b8:	1f c0       	rjmp	.+62     	; 0xf8 <__bad_interrupt>
+  b8:	34 c0       	rjmp	.+104    	; 0x122 <__bad_interrupt>
   ba:	00 00       	nop
-  bc:	1d c0       	rjmp	.+58     	; 0xf8 <__bad_interrupt>
+  bc:	32 c0       	rjmp	.+100    	; 0x122 <__bad_interrupt>
   be:	00 00       	nop
-  c0:	1b c0       	rjmp	.+54     	; 0xf8 <__bad_interrupt>
+  c0:	30 c0       	rjmp	.+96     	; 0x122 <__bad_interrupt>
   c2:	00 00       	nop
-  c4:	19 c0       	rjmp	.+50     	; 0xf8 <__bad_interrupt>
+  c4:	2e c0       	rjmp	.+92     	; 0x122 <__bad_interrupt>
   c6:	00 00       	nop
-  c8:	17 c0       	rjmp	.+46     	; 0xf8 <__bad_interrupt>
+  c8:	2c c0       	rjmp	.+88     	; 0x122 <__bad_interrupt>
   ca:	00 00       	nop
-  cc:	15 c0       	rjmp	.+42     	; 0xf8 <__bad_interrupt>
+  cc:	2a c0       	rjmp	.+84     	; 0x122 <__bad_interrupt>
   ce:	00 00       	nop
-  d0:	13 c0       	rjmp	.+38     	; 0xf8 <__bad_interrupt>
+  d0:	28 c0       	rjmp	.+80     	; 0x122 <__bad_interrupt>
   d2:	00 00       	nop
-  d4:	11 c0       	rjmp	.+34     	; 0xf8 <__bad_interrupt>
+  d4:	26 c0       	rjmp	.+76     	; 0x122 <__bad_interrupt>
   d6:	00 00       	nop
-  d8:	0f c0       	rjmp	.+30     	; 0xf8 <__bad_interrupt>
+  d8:	24 c0       	rjmp	.+72     	; 0x122 <__bad_interrupt>
   da:	00 00       	nop
-  dc:	0d c0       	rjmp	.+26     	; 0xf8 <__bad_interrupt>
+  dc:	22 c0       	rjmp	.+68     	; 0x122 <__bad_interrupt>
   de:	00 00       	nop
-  e0:	0b c0       	rjmp	.+22     	; 0xf8 <__bad_interrupt>
+  e0:	20 c0       	rjmp	.+64     	; 0x122 <__bad_interrupt>
 	...
 
 000000e4 <__ctors_end>:
@@ -155,407 +157,391 @@ Disassembly of section .text:
   ee:	cd bf       	out	0x3d, r28	; 61
   f0:	00 e0       	ldi	r16, 0x00	; 0
   f2:	0c bf       	out	0x3c, r16	; 60
-  f4:	df d0       	rcall	.+446    	; 0x2b4 <main>
-  f6:	e3 c0       	rjmp	.+454    	; 0x2be <_exit>
 
-000000f8 <__bad_interrupt>:
-  f8:	83 cf       	rjmp	.-250    	; 0x0 <__vectors>
+000000f4 <__do_copy_data>:
+  f4:	12 e0       	ldi	r17, 0x02	; 2
+  f6:	a0 e0       	ldi	r26, 0x00	; 0
+  f8:	b2 e0       	ldi	r27, 0x02	; 2
+  fa:	ea ec       	ldi	r30, 0xCA	; 202
+  fc:	f2 e0       	ldi	r31, 0x02	; 2
+  fe:	00 e0       	ldi	r16, 0x00	; 0
+ 100:	0b bf       	out	0x3b, r16	; 59
+ 102:	02 c0       	rjmp	.+4      	; 0x108 <__do_copy_data+0x14>
+ 104:	07 90       	elpm	r0, Z+
+ 106:	0d 92       	st	X+, r0
+ 108:	a2 30       	cpi	r26, 0x02	; 2
+ 10a:	b1 07       	cpc	r27, r17
+ 10c:	d9 f7       	brne	.-10     	; 0x104 <__do_copy_data+0x10>
 
-000000fa <lightsFlash>:
+0000010e <__do_clear_bss>:
+ 10e:	22 e0       	ldi	r18, 0x02	; 2
+ 110:	a2 e0       	ldi	r26, 0x02	; 2
+ 112:	b2 e0       	ldi	r27, 0x02	; 2
+ 114:	01 c0       	rjmp	.+2      	; 0x118 <.do_clear_bss_start>
 
-void lightsFlash()
-{
-	while (1)
+00000116 <.do_clear_bss_loop>:
+ 116:	1d 92       	st	X+, r1
+
+00000118 <.do_clear_bss_start>:
+ 118:	a4 30       	cpi	r26, 0x04	; 4
+ 11a:	b2 07       	cpc	r27, r18
+ 11c:	e1 f7       	brne	.-8      	; 0x116 <.do_clear_bss_loop>
+ 11e:	b7 d0       	rcall	.+366    	; 0x28e <main>
+ 120:	d2 c0       	rjmp	.+420    	; 0x2c6 <_exit>
+
+00000122 <__bad_interrupt>:
+ 122:	6e cf       	rjmp	.-292    	; 0x0 <__vectors>
+
+00000124 <__vector_11>:
+	
+	lightsOff();
+}
+
+ISR(PCINT2_vect) //INTurpt vect enable for for a8 & a9 ie pcint16 & 17
+{ 
+ 124:	1f 92       	push	r1
+ 126:	0f 92       	push	r0
+ 128:	0f b6       	in	r0, 0x3f	; 63
+ 12a:	0f 92       	push	r0
+ 12c:	11 24       	eor	r1, r1
+ 12e:	0b b6       	in	r0, 0x3b	; 59
+ 130:	0f 92       	push	r0
+ 132:	8f 93       	push	r24
+ 134:	9f 93       	push	r25
+ 136:	ef 93       	push	r30
+ 138:	ff 93       	push	r31
+	// your interrupt handler code
+	char changed = prevPins ^ PINK; //get the changed things
+ 13a:	e6 e0       	ldi	r30, 0x06	; 6
+ 13c:	f1 e0       	ldi	r31, 0x01	; 1
+ 13e:	80 81       	ld	r24, Z
+ 140:	90 91 00 02 	lds	r25, 0x0200	; 0x800200 <__data_start>
+ 144:	89 27       	eor	r24, r25
+	prevPins = PINK; //set previous pins to the current one
+ 146:	90 81       	ld	r25, Z
+ 148:	90 93 00 02 	sts	0x0200, r25	; 0x800200 <__data_start>
+	
+	//now do logic to see if pink0 or k1 ie. a8 or a9 respectavly was changed
+	if ((changed & (1 << PINK0))) //look at a8
+ 14c:	80 ff       	sbrs	r24, 0
+ 14e:	08 c0       	rjmp	.+16     	; 0x160 <__vector_11+0x3c>
 	{
-		PORTF |= 0x0F;	// Turn on all LEDs
-  fa:	0f 2e       	mov	r0, r31
-  fc:	f4 e1       	ldi	r31, 0x14	; 20
-  fe:	ef 2e       	mov	r14, r31
- 100:	f0 2d       	mov	r31, r0
- 102:	f1 2c       	mov	r15, r1
-				_delay_ms(10);
-			}
-		}
-		
-		
-		PORTF &= ~0x0F;	// Turn off all LEDs
- 104:	04 e6       	ldi	r16, 0x64	; 100
- 106:	10 e0       	ldi	r17, 0x00	; 0
-
-void lightsFlash()
-{
-	while (1)
-	{
-		PORTF |= 0x0F;	// Turn on all LEDs
- 108:	81 b3       	in	r24, 0x11	; 17
- 10a:	8f 60       	ori	r24, 0x0F	; 15
- 10c:	81 bb       	out	0x11, r24	; 17
- 10e:	ce 2d       	mov	r28, r14
- 110:	df 2d       	mov	r29, r15
-		
-		for (int j = 0; j < 20; j++)
+		if((PINK & 0x01) == 0x01) //if it changed & had a falling edge
+ 150:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <__TEXT_REGION_LENGTH__+0x700106>
+ 154:	80 ff       	sbrs	r24, 0
+ 156:	0d c0       	rjmp	.+26     	; 0x172 <__vector_11+0x4e>
 		{
-			if (FALLING_EDGE_ZERO)
- 112:	7f 99       	sbic	0x0f, 7	; 15
- 114:	0a c0       	rjmp	.+20     	; 0x12a <lightsFlash+0x30>
+			button0Pressed = 1;
+ 158:	81 e0       	ldi	r24, 0x01	; 1
+ 15a:	80 93 03 02 	sts	0x0203, r24	; 0x800203 <button0Pressed>
+ 15e:	09 c0       	rjmp	.+18     	; 0x172 <__vector_11+0x4e>
+		}
+	}
+	else if ((changed & (1 << PINK1))) //look at a9
+ 160:	81 ff       	sbrs	r24, 1
+ 162:	07 c0       	rjmp	.+14     	; 0x172 <__vector_11+0x4e>
+	{
+		
+		if((PINK & 0x02) == 0x02)
+ 164:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <__TEXT_REGION_LENGTH__+0x700106>
+ 168:	81 ff       	sbrs	r24, 1
+ 16a:	03 c0       	rjmp	.+6      	; 0x172 <__vector_11+0x4e>
+		{
+			button1Pressed = 1;
+ 16c:	81 e0       	ldi	r24, 0x01	; 1
+ 16e:	80 93 02 02 	sts	0x0202, r24	; 0x800202 <__data_end>
+		}
+	}
+}
+ 172:	ff 91       	pop	r31
+ 174:	ef 91       	pop	r30
+ 176:	9f 91       	pop	r25
+ 178:	8f 91       	pop	r24
+ 17a:	0f 90       	pop	r0
+ 17c:	0b be       	out	0x3b, r0	; 59
+ 17e:	0f 90       	pop	r0
+ 180:	0f be       	out	0x3f, r0	; 63
+ 182:	0f 90       	pop	r0
+ 184:	1f 90       	pop	r1
+ 186:	18 95       	reti
+
+00000188 <lightsFlash>:
+}
+
+	
+void lightsFlash()
+{
+	PORTF &= ~0x0F;
+ 188:	81 b3       	in	r24, 0x11	; 17
+ 18a:	80 7f       	andi	r24, 0xF0	; 240
+ 18c:	81 bb       	out	0x11, r24	; 17
+	while (1)
+	{
+		//compiler does very weird things without this first delay
+		PORTF |= 0x0F;	// Turn on all LEDs
+ 18e:	81 b3       	in	r24, 0x11	; 17
+ 190:	8f 60       	ori	r24, 0x0F	; 15
+ 192:	81 bb       	out	0x11, r24	; 17
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 116:	8f e3       	ldi	r24, 0x3F	; 63
- 118:	9c e9       	ldi	r25, 0x9C	; 156
- 11a:	01 97       	sbiw	r24, 0x01	; 1
- 11c:	f1 f7       	brne	.-4      	; 0x11a <lightsFlash+0x20>
- 11e:	00 c0       	rjmp	.+0      	; 0x120 <lightsFlash+0x26>
- 120:	00 00       	nop
-			{
-				_delay_ms(10);	// Sample button release
-				if (RISING_EDGE_ZERO)
- 122:	7f 9b       	sbis	0x0f, 7	; 15
- 124:	1e c0       	rjmp	.+60     	; 0x162 <lightsFlash+0x68>
-				{
-					lightsCycle();
- 126:	7f d0       	rcall	.+254    	; 0x226 <lightsCycle>
- 128:	1c c0       	rjmp	.+56     	; 0x162 <lightsFlash+0x68>
-				}
-			}
-			else if (FALLING_EDGE_ONE)
- 12a:	8f b1       	in	r24, 0x0f	; 15
- 12c:	82 95       	swap	r24
- 12e:	86 95       	lsr	r24
- 130:	86 95       	lsr	r24
- 132:	83 70       	andi	r24, 0x03	; 3
- 134:	82 30       	cpi	r24, 0x02	; 2
- 136:	79 f4       	brne	.+30     	; 0x156 <lightsFlash+0x5c>
- 138:	8f e3       	ldi	r24, 0x3F	; 63
- 13a:	9c e9       	ldi	r25, 0x9C	; 156
- 13c:	01 97       	sbiw	r24, 0x01	; 1
- 13e:	f1 f7       	brne	.-4      	; 0x13c <lightsFlash+0x42>
- 140:	00 c0       	rjmp	.+0      	; 0x142 <lightsFlash+0x48>
- 142:	00 00       	nop
-			{
-				_delay_ms(10);	// Sample button release
-				if (RISING_EDGE_ONE)
- 144:	8f b1       	in	r24, 0x0f	; 15
- 146:	82 95       	swap	r24
- 148:	86 95       	lsr	r24
- 14a:	86 95       	lsr	r24
- 14c:	83 70       	andi	r24, 0x03	; 3
- 14e:	83 30       	cpi	r24, 0x03	; 3
- 150:	41 f4       	brne	.+16     	; 0x162 <lightsFlash+0x68>
-				{
-					lightsOff();
- 152:	39 d0       	rcall	.+114    	; 0x1c6 <lightsOff>
- 154:	06 c0       	rjmp	.+12     	; 0x162 <lightsFlash+0x68>
- 156:	8f e3       	ldi	r24, 0x3F	; 63
- 158:	9c e9       	ldi	r25, 0x9C	; 156
- 15a:	01 97       	sbiw	r24, 0x01	; 1
- 15c:	f1 f7       	brne	.-4      	; 0x15a <lightsFlash+0x60>
- 15e:	00 c0       	rjmp	.+0      	; 0x160 <lightsFlash+0x66>
- 160:	00 00       	nop
- 162:	21 97       	sbiw	r28, 0x01	; 1
-{
-	while (1)
-	{
-		PORTF |= 0x0F;	// Turn on all LEDs
-		
-		for (int j = 0; j < 20; j++)
- 164:	b1 f6       	brne	.-84     	; 0x112 <lightsFlash+0x18>
-				_delay_ms(10);
-			}
-		}
-		
-		
-		PORTF &= ~0x0F;	// Turn off all LEDs
- 166:	81 b3       	in	r24, 0x11	; 17
- 168:	80 7f       	andi	r24, 0xF0	; 240
- 16a:	81 bb       	out	0x11, r24	; 17
- 16c:	c0 2f       	mov	r28, r16
- 16e:	d1 2f       	mov	r29, r17
-		
-		for (int j = 0; j < 100; j++)
+ 194:	2f ef       	ldi	r18, 0xFF	; 255
+ 196:	83 ec       	ldi	r24, 0xC3	; 195
+ 198:	99 e0       	ldi	r25, 0x09	; 9
+ 19a:	21 50       	subi	r18, 0x01	; 1
+ 19c:	80 40       	sbci	r24, 0x00	; 0
+ 19e:	90 40       	sbci	r25, 0x00	; 0
+ 1a0:	e1 f7       	brne	.-8      	; 0x19a <lightsFlash+0x12>
+ 1a2:	00 c0       	rjmp	.+0      	; 0x1a4 <lightsFlash+0x1c>
+ 1a4:	00 00       	nop
+		_delay_ms(200);
+		PORTF &= ~0x0F; //turn off leds
+ 1a6:	81 b3       	in	r24, 0x11	; 17
+ 1a8:	80 7f       	andi	r24, 0xF0	; 240
+ 1aa:	81 bb       	out	0x11, r24	; 17
+ 1ac:	2f ef       	ldi	r18, 0xFF	; 255
+ 1ae:	83 ec       	ldi	r24, 0xC3	; 195
+ 1b0:	99 e0       	ldi	r25, 0x09	; 9
+ 1b2:	21 50       	subi	r18, 0x01	; 1
+ 1b4:	80 40       	sbci	r24, 0x00	; 0
+ 1b6:	90 40       	sbci	r25, 0x00	; 0
+ 1b8:	e1 f7       	brne	.-8      	; 0x1b2 <lightsFlash+0x2a>
+ 1ba:	00 c0       	rjmp	.+0      	; 0x1bc <lightsFlash+0x34>
+ 1bc:	00 00       	nop
+		_delay_ms(200);
+		if (button0Pressed == 1)
+ 1be:	80 91 03 02 	lds	r24, 0x0203	; 0x800203 <button0Pressed>
+ 1c2:	81 30       	cpi	r24, 0x01	; 1
+ 1c4:	21 f4       	brne	.+8      	; 0x1ce <lightsFlash+0x46>
 		{
-			if (FALLING_EDGE_ZERO)
- 170:	7f 99       	sbic	0x0f, 7	; 15
- 172:	0a c0       	rjmp	.+20     	; 0x188 <lightsFlash+0x8e>
- 174:	8f e3       	ldi	r24, 0x3F	; 63
- 176:	9c e9       	ldi	r25, 0x9C	; 156
- 178:	01 97       	sbiw	r24, 0x01	; 1
- 17a:	f1 f7       	brne	.-4      	; 0x178 <lightsFlash+0x7e>
- 17c:	00 c0       	rjmp	.+0      	; 0x17e <lightsFlash+0x84>
- 17e:	00 00       	nop
-			{
-				_delay_ms(10);	// Sample button release
-				if (RISING_EDGE_ZERO)
- 180:	7f 9b       	sbis	0x0f, 7	; 15
- 182:	1e c0       	rjmp	.+60     	; 0x1c0 <lightsFlash+0xc6>
-				{
-					lightsCycle();
- 184:	50 d0       	rcall	.+160    	; 0x226 <lightsCycle>
- 186:	1c c0       	rjmp	.+56     	; 0x1c0 <lightsFlash+0xc6>
-				}
-			}
-			else if (FALLING_EDGE_ONE)
- 188:	8f b1       	in	r24, 0x0f	; 15
- 18a:	82 95       	swap	r24
- 18c:	86 95       	lsr	r24
- 18e:	86 95       	lsr	r24
- 190:	83 70       	andi	r24, 0x03	; 3
- 192:	82 30       	cpi	r24, 0x02	; 2
- 194:	79 f4       	brne	.+30     	; 0x1b4 <lightsFlash+0xba>
- 196:	8f e3       	ldi	r24, 0x3F	; 63
- 198:	9c e9       	ldi	r25, 0x9C	; 156
- 19a:	01 97       	sbiw	r24, 0x01	; 1
- 19c:	f1 f7       	brne	.-4      	; 0x19a <lightsFlash+0xa0>
- 19e:	00 c0       	rjmp	.+0      	; 0x1a0 <lightsFlash+0xa6>
- 1a0:	00 00       	nop
-			{
-				_delay_ms(10);	// Sample button release
-				if (RISING_EDGE_ONE)
- 1a2:	8f b1       	in	r24, 0x0f	; 15
- 1a4:	82 95       	swap	r24
- 1a6:	86 95       	lsr	r24
- 1a8:	86 95       	lsr	r24
- 1aa:	83 70       	andi	r24, 0x03	; 3
- 1ac:	83 30       	cpi	r24, 0x03	; 3
- 1ae:	41 f4       	brne	.+16     	; 0x1c0 <lightsFlash+0xc6>
-				{
-					lightsOff();
- 1b0:	0a d0       	rcall	.+20     	; 0x1c6 <lightsOff>
- 1b2:	06 c0       	rjmp	.+12     	; 0x1c0 <lightsFlash+0xc6>
- 1b4:	8f e3       	ldi	r24, 0x3F	; 63
- 1b6:	9c e9       	ldi	r25, 0x9C	; 156
- 1b8:	01 97       	sbiw	r24, 0x01	; 1
- 1ba:	f1 f7       	brne	.-4      	; 0x1b8 <lightsFlash+0xbe>
- 1bc:	00 c0       	rjmp	.+0      	; 0x1be <lightsFlash+0xc4>
- 1be:	00 00       	nop
- 1c0:	21 97       	sbiw	r28, 0x01	; 1
+			button0Pressed = 0;
+ 1c6:	10 92 03 02 	sts	0x0203, r1	; 0x800203 <button0Pressed>
+			lightsCycle();
+ 1ca:	1b d0       	rcall	.+54     	; 0x202 <lightsCycle>
+ 1cc:	e0 cf       	rjmp	.-64     	; 0x18e <lightsFlash+0x6>
 		}
-		
-		
-		PORTF &= ~0x0F;	// Turn off all LEDs
-		
-		for (int j = 0; j < 100; j++)
- 1c2:	b1 f6       	brne	.-84     	; 0x170 <lightsFlash+0x76>
- 1c4:	a1 cf       	rjmp	.-190    	; 0x108 <lightsFlash+0xe>
+		else if (button1Pressed == 1)
+ 1ce:	80 91 02 02 	lds	r24, 0x0202	; 0x800202 <__data_end>
+ 1d2:	81 30       	cpi	r24, 0x01	; 1
+ 1d4:	e1 f6       	brne	.-72     	; 0x18e <lightsFlash+0x6>
+		{
+			button1Pressed = 0;
+ 1d6:	10 92 02 02 	sts	0x0202, r1	; 0x800202 <__data_end>
+			lightsOff();
+ 1da:	01 d0       	rcall	.+2      	; 0x1de <lightsOff>
+ 1dc:	d8 cf       	rjmp	.-80     	; 0x18e <lightsFlash+0x6>
 
-000001c6 <lightsOff>:
+000001de <lightsOff>:
+}
+
 
 void lightsOff()
 {
+	PORTF &= ~0x0F;	// Turn off all LEDs
+ 1de:	81 b3       	in	r24, 0x11	; 17
+ 1e0:	80 7f       	andi	r24, 0xF0	; 240
+ 1e2:	81 bb       	out	0x11, r24	; 17
 	while (1)
 	{
-		PORTF &= ~0x0F;	// Turn off all LEDs
- 1c6:	81 b3       	in	r24, 0x11	; 17
- 1c8:	80 7f       	andi	r24, 0xF0	; 240
- 1ca:	81 bb       	out	0x11, r24	; 17
- 1cc:	8f e1       	ldi	r24, 0x1F	; 31
- 1ce:	9e e4       	ldi	r25, 0x4E	; 78
- 1d0:	01 97       	sbiw	r24, 0x01	; 1
- 1d2:	f1 f7       	brne	.-4      	; 0x1d0 <lightsOff+0xa>
- 1d4:	00 c0       	rjmp	.+0      	; 0x1d6 <lightsOff+0x10>
- 1d6:	00 00       	nop
-		
-		_delay_ms(5);	// Sample button press
-		if (FALLING_EDGE_ZERO)
- 1d8:	7f 99       	sbic	0x0f, 7	; 15
- 1da:	0d c0       	rjmp	.+26     	; 0x1f6 <lightsOff+0x30>
- 1dc:	9f ef       	ldi	r25, 0xFF	; 255
- 1de:	29 e6       	ldi	r18, 0x69	; 105
- 1e0:	88 e1       	ldi	r24, 0x18	; 24
- 1e2:	91 50       	subi	r25, 0x01	; 1
- 1e4:	20 40       	sbci	r18, 0x00	; 0
- 1e6:	80 40       	sbci	r24, 0x00	; 0
- 1e8:	e1 f7       	brne	.-8      	; 0x1e2 <lightsOff+0x1c>
- 1ea:	00 c0       	rjmp	.+0      	; 0x1ec <lightsOff+0x26>
- 1ec:	00 00       	nop
+
+		if (button0Pressed == 1)
+ 1e4:	80 91 03 02 	lds	r24, 0x0203	; 0x800203 <button0Pressed>
+ 1e8:	81 30       	cpi	r24, 0x01	; 1
+ 1ea:	21 f4       	brne	.+8      	; 0x1f4 <lightsOff+0x16>
 		{
-			_delay_ms(500);	// Sample button release
-			if (RISING_EDGE_ZERO)
- 1ee:	7f 9b       	sbis	0x0f, 7	; 15
- 1f0:	ea cf       	rjmp	.-44     	; 0x1c6 <lightsOff>
-			{
-				lightsCycle();
- 1f2:	19 d0       	rcall	.+50     	; 0x226 <lightsCycle>
- 1f4:	e8 cf       	rjmp	.-48     	; 0x1c6 <lightsOff>
-			}
+			button0Pressed = 0;
+ 1ec:	10 92 03 02 	sts	0x0203, r1	; 0x800203 <button0Pressed>
+			lightsCycle();
+ 1f0:	08 d0       	rcall	.+16     	; 0x202 <lightsCycle>
+ 1f2:	f8 cf       	rjmp	.-16     	; 0x1e4 <lightsOff+0x6>
 		}
-		else if (FALLING_EDGE_ONE)
- 1f6:	8f b1       	in	r24, 0x0f	; 15
- 1f8:	82 95       	swap	r24
- 1fa:	86 95       	lsr	r24
- 1fc:	86 95       	lsr	r24
- 1fe:	83 70       	andi	r24, 0x03	; 3
- 200:	82 30       	cpi	r24, 0x02	; 2
- 202:	09 f7       	brne	.-62     	; 0x1c6 <lightsOff>
- 204:	9f ef       	ldi	r25, 0xFF	; 255
- 206:	29 e6       	ldi	r18, 0x69	; 105
- 208:	88 e1       	ldi	r24, 0x18	; 24
- 20a:	91 50       	subi	r25, 0x01	; 1
- 20c:	20 40       	sbci	r18, 0x00	; 0
- 20e:	80 40       	sbci	r24, 0x00	; 0
- 210:	e1 f7       	brne	.-8      	; 0x20a <lightsOff+0x44>
- 212:	00 c0       	rjmp	.+0      	; 0x214 <lightsOff+0x4e>
- 214:	00 00       	nop
+		else if (button1Pressed == 1)
+ 1f4:	80 91 02 02 	lds	r24, 0x0202	; 0x800202 <__data_end>
+ 1f8:	81 30       	cpi	r24, 0x01	; 1
+ 1fa:	a1 f7       	brne	.-24     	; 0x1e4 <lightsOff+0x6>
 		{
-			_delay_ms(500);	// Sample button release
-			if (RISING_EDGE_ONE)
- 216:	8f b1       	in	r24, 0x0f	; 15
- 218:	82 95       	swap	r24
- 21a:	86 95       	lsr	r24
- 21c:	86 95       	lsr	r24
- 21e:	83 70       	andi	r24, 0x03	; 3
- 220:	83 30       	cpi	r24, 0x03	; 3
- 222:	89 f6       	brne	.-94     	; 0x1c6 <lightsOff>
-			{
-				lightsFlash();
- 224:	6a df       	rcall	.-300    	; 0xfa <lightsFlash>
+			button1Pressed = 0;
+ 1fc:	10 92 02 02 	sts	0x0202, r1	; 0x800202 <__data_end>
+			lightsFlash();
+ 200:	c3 df       	rcall	.-122    	; 0x188 <lightsFlash>
 
-00000226 <lightsCycle>:
+00000202 <lightsCycle>:
+	}
+}
+
+void lightsCycle()
 {
+	PORTF &= ~0x0F;
+ 202:	81 b3       	in	r24, 0x11	; 17
+ 204:	80 7f       	andi	r24, 0xF0	; 240
+ 206:	81 bb       	out	0x11, r24	; 17
 	while (1)
 	{
 		int leds = 1;
 		
 		for (int i = 0; i < 4; i++)
- 226:	10 e0       	ldi	r17, 0x00	; 0
- 228:	b0 e0       	ldi	r27, 0x00	; 0
+ 208:	61 e0       	ldi	r22, 0x01	; 1
+ 20a:	70 e0       	ldi	r23, 0x00	; 0
 		{
 			PORTF |= leds << i;		// LED on
- 22a:	e1 e0       	ldi	r30, 0x01	; 1
- 22c:	f0 e0       	ldi	r31, 0x00	; 0
- 22e:	a4 e6       	ldi	r26, 0x64	; 100
- 230:	30 e0       	ldi	r19, 0x00	; 0
-{
-	while (1)
-	{
-		int leds = 1;
-		
-		for (int i = 0; i < 4; i++)
- 232:	41 2f       	mov	r20, r17
- 234:	5b 2f       	mov	r21, r27
-		{
-			PORTF |= leds << i;		// LED on
- 236:	81 b3       	in	r24, 0x11	; 17
- 238:	bf 01       	movw	r22, r30
- 23a:	04 2e       	mov	r0, r20
- 23c:	02 c0       	rjmp	.+4      	; 0x242 <lightsCycle+0x1c>
- 23e:	66 0f       	add	r22, r22
- 240:	77 1f       	adc	r23, r23
- 242:	0a 94       	dec	r0
- 244:	e2 f7       	brpl	.-8      	; 0x23e <lightsCycle+0x18>
- 246:	86 2b       	or	r24, r22
- 248:	81 bb       	out	0x11, r24	; 17
- 24a:	8a 2f       	mov	r24, r26
- 24c:	93 2f       	mov	r25, r19
+ 20c:	88 9a       	sbi	0x11, 0	; 17
 			
-			for (int j = 0; j < 100; j++)
+			if (button0Pressed == 1)
+ 20e:	80 91 03 02 	lds	r24, 0x0203	; 0x800203 <button0Pressed>
+ 212:	81 30       	cpi	r24, 0x01	; 1
+ 214:	99 f0       	breq	.+38     	; 0x23c <lightsCycle+0x3a>
 			{
-				
-				if (FALLING_EDGE_ZERO)
- 24e:	7f 99       	sbic	0x0f, 7	; 15
- 250:	09 c0       	rjmp	.+18     	; 0x264 <lightsCycle+0x3e>
- 252:	cf e3       	ldi	r28, 0x3F	; 63
- 254:	dc e9       	ldi	r29, 0x9C	; 156
- 256:	21 97       	sbiw	r28, 0x01	; 1
- 258:	f1 f7       	brne	.-4      	; 0x256 <lightsCycle+0x30>
- 25a:	00 c0       	rjmp	.+0      	; 0x25c <lightsCycle+0x36>
- 25c:	00 00       	nop
-				{
-					_delay_ms(10);	// Sample button release
-					if (RISING_EDGE_ZERO)
- 25e:	7f 9b       	sbis	0x0f, 7	; 15
- 260:	1c c0       	rjmp	.+56     	; 0x29a <lightsCycle+0x74>
-					{
-						lightsOff();
- 262:	b1 df       	rcall	.-158    	; 0x1c6 <lightsOff>
-					}
-				}
-				else if (FALLING_EDGE_ONE)
- 264:	2f b1       	in	r18, 0x0f	; 15
- 266:	22 95       	swap	r18
- 268:	26 95       	lsr	r18
- 26a:	26 95       	lsr	r18
- 26c:	23 70       	andi	r18, 0x03	; 3
- 26e:	22 30       	cpi	r18, 0x02	; 2
- 270:	71 f4       	brne	.+28     	; 0x28e <lightsCycle+0x68>
- 272:	cf e3       	ldi	r28, 0x3F	; 63
- 274:	dc e9       	ldi	r29, 0x9C	; 156
- 276:	21 97       	sbiw	r28, 0x01	; 1
- 278:	f1 f7       	brne	.-4      	; 0x276 <lightsCycle+0x50>
- 27a:	00 c0       	rjmp	.+0      	; 0x27c <lightsCycle+0x56>
- 27c:	00 00       	nop
-				{
-					_delay_ms(10);	// Sample button release
-					if (RISING_EDGE_ONE)
- 27e:	2f b1       	in	r18, 0x0f	; 15
- 280:	22 95       	swap	r18
- 282:	26 95       	lsr	r18
- 284:	26 95       	lsr	r18
- 286:	23 70       	andi	r18, 0x03	; 3
- 288:	23 30       	cpi	r18, 0x03	; 3
- 28a:	39 f4       	brne	.+14     	; 0x29a <lightsCycle+0x74>
-					{
-						lightsFlash();
- 28c:	36 df       	rcall	.-404    	; 0xfa <lightsFlash>
- 28e:	cf e3       	ldi	r28, 0x3F	; 63
- 290:	dc e9       	ldi	r29, 0x9C	; 156
- 292:	21 97       	sbiw	r28, 0x01	; 1
- 294:	f1 f7       	brne	.-4      	; 0x292 <lightsCycle+0x6c>
- 296:	00 c0       	rjmp	.+0      	; 0x298 <lightsCycle+0x72>
- 298:	00 00       	nop
- 29a:	01 97       	sbiw	r24, 0x01	; 1
-		
-		for (int i = 0; i < 4; i++)
-		{
-			PORTF |= leds << i;		// LED on
-			
-			for (int j = 0; j < 100; j++)
- 29c:	c1 f6       	brne	.-80     	; 0x24e <lightsCycle+0x28>
-				{
-					_delay_ms(10);
-				}
+				button0Pressed = 0;
+				lightsOff();
 			}
+			else if (button1Pressed == 1)
+ 216:	80 91 02 02 	lds	r24, 0x0202	; 0x800202 <__data_end>
+ 21a:	81 30       	cpi	r24, 0x01	; 1
+ 21c:	61 f5       	brne	.+88     	; 0x276 <lightsCycle+0x74>
+ 21e:	15 c0       	rjmp	.+42     	; 0x24a <lightsCycle+0x48>
+	{
+		int leds = 1;
+		
+		for (int i = 0; i < 4; i++)
+		{
+			PORTF |= leds << i;		// LED on
+ 220:	21 b3       	in	r18, 0x11	; 17
+ 222:	cb 01       	movw	r24, r22
+ 224:	04 2e       	mov	r0, r20
+ 226:	02 c0       	rjmp	.+4      	; 0x22c <lightsCycle+0x2a>
+ 228:	88 0f       	add	r24, r24
+ 22a:	99 1f       	adc	r25, r25
+ 22c:	0a 94       	dec	r0
+ 22e:	e2 f7       	brpl	.-8      	; 0x228 <lightsCycle+0x26>
+ 230:	28 2b       	or	r18, r24
+ 232:	21 bb       	out	0x11, r18	; 17
 			
+			if (button0Pressed == 1)
+ 234:	20 91 03 02 	lds	r18, 0x0203	; 0x800203 <button0Pressed>
+ 238:	21 30       	cpi	r18, 0x01	; 1
+ 23a:	19 f4       	brne	.+6      	; 0x242 <lightsCycle+0x40>
+			{
+				button0Pressed = 0;
+ 23c:	10 92 03 02 	sts	0x0203, r1	; 0x800203 <button0Pressed>
+				lightsOff();
+ 240:	ce df       	rcall	.-100    	; 0x1de <lightsOff>
+			}
+			else if (button1Pressed == 1)
+ 242:	20 91 02 02 	lds	r18, 0x0202	; 0x800202 <__data_end>
+ 246:	21 30       	cpi	r18, 0x01	; 1
+ 248:	19 f4       	brne	.+6      	; 0x250 <lightsCycle+0x4e>
+			{
+				button1Pressed = 0;
+ 24a:	10 92 02 02 	sts	0x0202, r1	; 0x800202 <__data_end>
+				lightsFlash();
+ 24e:	9c df       	rcall	.-200    	; 0x188 <lightsFlash>
+ 250:	2f ef       	ldi	r18, 0xFF	; 255
+ 252:	33 ec       	ldi	r19, 0xC3	; 195
+ 254:	e9 e0       	ldi	r30, 0x09	; 9
+ 256:	21 50       	subi	r18, 0x01	; 1
+ 258:	30 40       	sbci	r19, 0x00	; 0
+ 25a:	e0 40       	sbci	r30, 0x00	; 0
+ 25c:	e1 f7       	brne	.-8      	; 0x256 <lightsCycle+0x54>
+ 25e:	00 c0       	rjmp	.+0      	; 0x260 <lightsCycle+0x5e>
+ 260:	00 00       	nop
+			}
+			_delay_ms(200);
+
 			PORTF &= ~(leds << i);		// LED off
- 29e:	81 b3       	in	r24, 0x11	; 17
- 2a0:	60 95       	com	r22
- 2a2:	68 23       	and	r22, r24
- 2a4:	61 bb       	out	0x11, r22	; 17
-{
+ 262:	91 b3       	in	r25, 0x11	; 17
+ 264:	80 95       	com	r24
+ 266:	89 23       	and	r24, r25
+ 268:	81 bb       	out	0x11, r24	; 17
+	PORTF &= ~0x0F;
 	while (1)
 	{
 		int leds = 1;
 		
 		for (int i = 0; i < 4; i++)
- 2a6:	4f 5f       	subi	r20, 0xFF	; 255
- 2a8:	5f 4f       	sbci	r21, 0xFF	; 255
- 2aa:	44 30       	cpi	r20, 0x04	; 4
- 2ac:	51 05       	cpc	r21, r1
- 2ae:	09 f0       	breq	.+2      	; 0x2b2 <lightsCycle+0x8c>
- 2b0:	c2 cf       	rjmp	.-124    	; 0x236 <lightsCycle+0x10>
- 2b2:	bf cf       	rjmp	.-130    	; 0x232 <lightsCycle+0xc>
+ 26a:	4f 5f       	subi	r20, 0xFF	; 255
+ 26c:	5f 4f       	sbci	r21, 0xFF	; 255
+ 26e:	44 30       	cpi	r20, 0x04	; 4
+ 270:	51 05       	cpc	r21, r1
+ 272:	b1 f6       	brne	.-84     	; 0x220 <lightsCycle+0x1e>
+ 274:	cb cf       	rjmp	.-106    	; 0x20c <lightsCycle+0xa>
+ 276:	2f ef       	ldi	r18, 0xFF	; 255
+ 278:	33 ec       	ldi	r19, 0xC3	; 195
+ 27a:	89 e0       	ldi	r24, 0x09	; 9
+ 27c:	21 50       	subi	r18, 0x01	; 1
+ 27e:	30 40       	sbci	r19, 0x00	; 0
+ 280:	80 40       	sbci	r24, 0x00	; 0
+ 282:	e1 f7       	brne	.-8      	; 0x27c <lightsCycle+0x7a>
+ 284:	00 c0       	rjmp	.+0      	; 0x286 <lightsCycle+0x84>
+ 286:	00 00       	nop
+				button1Pressed = 0;
+				lightsFlash();
+			}
+			_delay_ms(200);
 
-000002b4 <main>:
+			PORTF &= ~(leds << i);		// LED off
+ 288:	88 98       	cbi	0x11, 0	; 17
+	PORTF &= ~0x0F;
+	while (1)
+	{
+		int leds = 1;
+		
+		for (int i = 0; i < 4; i++)
+ 28a:	ab 01       	movw	r20, r22
+ 28c:	c9 cf       	rjmp	.-110    	; 0x220 <lightsCycle+0x1e>
 
-int main(void)
+0000028e <main>:
 {
 	//	INPUT = 0, OUTPUT = 1
+	/*button0Pressed = 0;
+	button1Pressed = 0;
+	prevPins = 0xFF;*/
+	DDRF = 0x0F;	// Set Pins A0-A3 for OUTPOUT 
+ 28e:	8f e0       	ldi	r24, 0x0F	; 15
+ 290:	80 bb       	out	0x10, r24	; 16
+	PORTF = 0x00;	// clear out the portf pins			changed to portk cause the buttons are now shifted up to pin a8 and a9
+ 292:	11 ba       	out	0x11, r1	; 17
 	
-	DDRF = 0x0F;	// Set Pins A0-A3 for OUTPOUT and A6-A7 for INPUT
- 2b4:	8f e0       	ldi	r24, 0x0F	; 15
- 2b6:	80 bb       	out	0x10, r24	; 16
-	PORTF = 0xC0;	// Set Pins A6-A7 for PULL_UP
- 2b8:	80 ec       	ldi	r24, 0xC0	; 192
- 2ba:	81 bb       	out	0x11, r24	; 17
+	PORTK |= ((1 << PORTK0) | (1 << PORTK1)); //setting pullup
+ 294:	e8 e0       	ldi	r30, 0x08	; 8
+ 296:	f1 e0       	ldi	r31, 0x01	; 1
+ 298:	80 81       	ld	r24, Z
+ 29a:	83 60       	ori	r24, 0x03	; 3
+ 29c:	80 83       	st	Z, r24
+	DDRK &= ~((1 << DDK0) | (1 << DDK1));  //set buttons to 0 so it will be input and configured correct for pullup and A8-A9 for INPUT
+ 29e:	e7 e0       	ldi	r30, 0x07	; 7
+ 2a0:	f1 e0       	ldi	r31, 0x01	; 1
+ 2a2:	80 81       	ld	r24, Z
+ 2a4:	8c 7f       	andi	r24, 0xFC	; 252
+ 2a6:	80 83       	st	Z, r24
+	
+	//inturupt vecotor setup
+	PCMSK2 |= (1<<PCINT16);
+ 2a8:	ed e6       	ldi	r30, 0x6D	; 109
+ 2aa:	f0 e0       	ldi	r31, 0x00	; 0
+ 2ac:	80 81       	ld	r24, Z
+ 2ae:	81 60       	ori	r24, 0x01	; 1
+ 2b0:	80 83       	st	Z, r24
+	PCMSK2 |= (1<<PCINT17);
+ 2b2:	80 81       	ld	r24, Z
+ 2b4:	82 60       	ori	r24, 0x02	; 2
+ 2b6:	80 83       	st	Z, r24
+	PCICR |= (1<<PCIE2);
+ 2b8:	e8 e6       	ldi	r30, 0x68	; 104
+ 2ba:	f0 e0       	ldi	r31, 0x00	; 0
+ 2bc:	80 81       	ld	r24, Z
+ 2be:	84 60       	ori	r24, 0x04	; 4
+ 2c0:	80 83       	st	Z, r24
+	sei();
+ 2c2:	78 94       	sei
 	
 	lightsOff();
- 2bc:	84 df       	rcall	.-248    	; 0x1c6 <lightsOff>
+ 2c4:	8c df       	rcall	.-232    	; 0x1de <lightsOff>
 
-000002be <_exit>:
- 2be:	f8 94       	cli
+000002c6 <_exit>:
+ 2c6:	f8 94       	cli
 
-000002c0 <__stop_program>:
- 2c0:	ff cf       	rjmp	.-2      	; 0x2c0 <__stop_program>
+000002c8 <__stop_program>:
+ 2c8:	ff cf       	rjmp	.-2      	; 0x2c8 <__stop_program>
