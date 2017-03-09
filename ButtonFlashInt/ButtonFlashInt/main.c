@@ -119,7 +119,7 @@ void lightsFlash()
 		PORTF |= 0x0F;	// Turn on all LEDs
 		_delay_ms(200);
 		PORTF &= ~0x0F; //turn off leds
-		_delay_ms(200);
+		_delay_ms(1000);
 		if (button0Pressed == 1)
 		{
 			button0Pressed = 0;
