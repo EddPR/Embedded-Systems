@@ -3,29 +3,27 @@ TimerTest3.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  000001e2  2**0
+  0 .data         00000000  00800200  00800200  0000018a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000018e  00000000  00000000  00000054  2**1
+  1 .text         00000136  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  000001e2  2**0
+  2 .comment      00000030  00000000  00000000  0000018a  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000214  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001bc  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000030  00000000  00000000  00000254  2**0
+  4 .debug_aranges 00000020  00000000  00000000  000001fc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000c7a  00000000  00000000  00000284  2**0
+  5 .debug_info   00000c4e  00000000  00000000  0000021c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000b85  00000000  00000000  00000efe  2**0
+  6 .debug_abbrev 00000b6d  00000000  00000000  00000e6a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000031e  00000000  00000000  00001a83  2**0
+  7 .debug_line   000002c8  00000000  00000000  000019d7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000064  00000000  00000000  00001da4  2**2
+  8 .debug_frame  00000024  00000000  00000000  00001ca0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000557  00000000  00000000  00001e08  2**0
+  9 .debug_str    0000053f  00000000  00000000  00001cc4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000078  00000000  00000000  0000235f  2**0
-                  CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000020  00000000  00000000  000023d7  2**0
+ 10 .debug_ranges 00000010  00000000  00000000  00002203  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -63,9 +61,9 @@ Disassembly of section .text:
   3a:	00 00       	nop
   3c:	5d c0       	rjmp	.+186    	; 0xf8 <__bad_interrupt>
   3e:	00 00       	nop
-  40:	95 c0       	rjmp	.+298    	; 0x16c <__vector_16>
+  40:	5b c0       	rjmp	.+182    	; 0xf8 <__bad_interrupt>
   42:	00 00       	nop
-  44:	84 c0       	rjmp	.+264    	; 0x14e <__vector_17>
+  44:	59 c0       	rjmp	.+178    	; 0xf8 <__bad_interrupt>
   46:	00 00       	nop
   48:	57 c0       	rjmp	.+174    	; 0xf8 <__bad_interrupt>
   4a:	00 00       	nop
@@ -156,122 +154,63 @@ Disassembly of section .text:
   f0:	00 e0       	ldi	r16, 0x00	; 0
   f2:	0c bf       	out	0x3c, r16	; 60
   f4:	02 d0       	rcall	.+4      	; 0xfa <main>
-  f6:	49 c0       	rjmp	.+146    	; 0x18a <_exit>
+  f6:	1d c0       	rjmp	.+58     	; 0x132 <_exit>
 
 000000f8 <__bad_interrupt>:
   f8:	83 cf       	rjmp	.-250    	; 0x0 <__vectors>
 
 000000fa <main>:
+#define OTIMEcount 4686/2
 
-//this is timer1 ctc mode
+//this is timer1 pcm mode
 int main(void)
 {
+	DDRB = 0x80;
+  fa:	80 e8       	ldi	r24, 0x80	; 128
+  fc:	84 b9       	out	0x04, r24	; 4
+	ICR1 = FREQcount;
+  fe:	80 eb       	ldi	r24, 0xB0	; 176
+ 100:	98 e2       	ldi	r25, 0x28	; 40
+ 102:	90 93 87 00 	sts	0x0087, r25	; 0x800087 <__TEXT_REGION_LENGTH__+0x700087>
+ 106:	80 93 86 00 	sts	0x0086, r24	; 0x800086 <__TEXT_REGION_LENGTH__+0x700086>
+	OCR1C = OTIMEcount;
+ 10a:	87 e2       	ldi	r24, 0x27	; 39
+ 10c:	99 e0       	ldi	r25, 0x09	; 9
+ 10e:	90 93 8d 00 	sts	0x008D, r25	; 0x80008d <__TEXT_REGION_LENGTH__+0x70008d>
+ 112:	80 93 8c 00 	sts	0x008C, r24	; 0x80008c <__TEXT_REGION_LENGTH__+0x70008c>
+		
 
-	PORTB ^= 0x80;
-  fa:	85 b1       	in	r24, 0x05	; 5
-  fc:	80 58       	subi	r24, 0x80	; 128
-  fe:	85 b9       	out	0x05, r24	; 5
-	TCCR1B |= ((1<<WGM13) | (1 << WGM12)); // Configure timer 1 for CTC mode
- 100:	e1 e8       	ldi	r30, 0x81	; 129
- 102:	f0 e0       	ldi	r31, 0x00	; 0
- 104:	80 81       	ld	r24, Z
- 106:	88 61       	ori	r24, 0x18	; 24
- 108:	80 83       	st	Z, r24
 	TCCR1B |= (1 << CS12);  // Set up timer at Fcpu/256
- 10a:	80 81       	ld	r24, Z
- 10c:	84 60       	ori	r24, 0x04	; 4
- 10e:	80 83       	st	Z, r24
-	TIMSK1 |= (1 << OCIE1A); // Enable CTC interrupt //MAYBE NO IDK
- 110:	ef e6       	ldi	r30, 0x6F	; 111
- 112:	f0 e0       	ldi	r31, 0x00	; 0
- 114:	80 81       	ld	r24, Z
- 116:	82 60       	ori	r24, 0x02	; 2
- 118:	80 83       	st	Z, r24
-	
-	TIMSK1 |= (1 << OCIE1A); //timer compare interrupt
+ 116:	e1 e8       	ldi	r30, 0x81	; 129
+ 118:	f0 e0       	ldi	r31, 0x00	; 0
  11a:	80 81       	ld	r24, Z
- 11c:	82 60       	ori	r24, 0x02	; 2
+ 11c:	84 60       	ori	r24, 0x04	; 4
  11e:	80 83       	st	Z, r24
-	TIMSK1  |= (1<<ICIE1); //input capture interrupt enable
- 120:	80 81       	ld	r24, Z
- 122:	80 62       	ori	r24, 0x20	; 32
- 124:	80 83       	st	Z, r24
-	
-	OCR1A = OTIMEcount; //set compa
- 126:	8e e4       	ldi	r24, 0x4E	; 78
- 128:	92 e1       	ldi	r25, 0x12	; 18
- 12a:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x700089>
- 12e:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x700088>
-	ICR1 = FREQcount; //set capt? top val?
- 132:	80 e6       	ldi	r24, 0x60	; 96
- 134:	91 e5       	ldi	r25, 0x51	; 81
- 136:	90 93 87 00 	sts	0x0087, r25	; 0x800087 <__TEXT_REGION_LENGTH__+0x700087>
- 13a:	80 93 86 00 	sts	0x0086, r24	; 0x800086 <__TEXT_REGION_LENGTH__+0x700086>
-	TCNT1 = 0;
- 13e:	10 92 85 00 	sts	0x0085, r1	; 0x800085 <__TEXT_REGION_LENGTH__+0x700085>
- 142:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <__TEXT_REGION_LENGTH__+0x700084>
-	
-	sei();
- 146:	78 94       	sei
-	
-	DDRB = 0x80; //built in led
- 148:	80 e8       	ldi	r24, 0x80	; 128
- 14a:	84 b9       	out	0x04, r24	; 4
 
-	//loop forever
+	TCCR1B |= (1 << WGM13); // Set OC1A when up counting, Clear when down counting
+ 120:	80 81       	ld	r24, Z
+ 122:	80 61       	ori	r24, 0x10	; 16
+ 124:	80 83       	st	Z, r24
+
+	
+	
+
+	TCCR1A |= (1 << COM1C1); // Enable timer 1 Compare Output channel A in toggle mode
+ 126:	e0 e8       	ldi	r30, 0x80	; 128
+ 128:	f0 e0       	ldi	r31, 0x00	; 0
+ 12a:	80 81       	ld	r24, Z
+ 12c:	88 60       	ori	r24, 0x08	; 8
+ 12e:	80 83       	st	Z, r24
+	
+
 	while(1)
 	{
 
 	}
- 14c:	ff cf       	rjmp	.-2      	; 0x14c <main+0x52>
+ 130:	ff cf       	rjmp	.-2      	; 0x130 <main+0x36>
 
-0000014e <__vector_17>:
-}
+00000132 <_exit>:
+ 132:	f8 94       	cli
 
-ISR(TIMER1_COMPA_vect)          // timer compare interrupt service routine
-{
- 14e:	1f 92       	push	r1
- 150:	0f 92       	push	r0
- 152:	0f b6       	in	r0, 0x3f	; 63
- 154:	0f 92       	push	r0
- 156:	11 24       	eor	r1, r1
- 158:	8f 93       	push	r24
-	PORTB ^= 0x80;
- 15a:	85 b1       	in	r24, 0x05	; 5
- 15c:	80 58       	subi	r24, 0x80	; 128
- 15e:	85 b9       	out	0x05, r24	; 5
-}
- 160:	8f 91       	pop	r24
- 162:	0f 90       	pop	r0
- 164:	0f be       	out	0x3f, r0	; 63
- 166:	0f 90       	pop	r0
- 168:	1f 90       	pop	r1
- 16a:	18 95       	reti
-
-0000016c <__vector_16>:
-//ISR(TIMER1_CAPT_vect, ISR_ALIASOF(PCINT0_vect));
-ISR(TIMER1_CAPT_vect)
-{
- 16c:	1f 92       	push	r1
- 16e:	0f 92       	push	r0
- 170:	0f b6       	in	r0, 0x3f	; 63
- 172:	0f 92       	push	r0
- 174:	11 24       	eor	r1, r1
- 176:	8f 93       	push	r24
-	PORTB ^= 0x80;
- 178:	85 b1       	in	r24, 0x05	; 5
- 17a:	80 58       	subi	r24, 0x80	; 128
- 17c:	85 b9       	out	0x05, r24	; 5
-}
- 17e:	8f 91       	pop	r24
- 180:	0f 90       	pop	r0
- 182:	0f be       	out	0x3f, r0	; 63
- 184:	0f 90       	pop	r0
- 186:	1f 90       	pop	r1
- 188:	18 95       	reti
-
-0000018a <_exit>:
- 18a:	f8 94       	cli
-
-0000018c <__stop_program>:
- 18c:	ff cf       	rjmp	.-2      	; 0x18c <__stop_program>
+00000134 <__stop_program>:
+ 134:	ff cf       	rjmp	.-2      	; 0x134 <__stop_program>

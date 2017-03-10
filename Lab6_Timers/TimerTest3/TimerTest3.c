@@ -2,48 +2,35 @@
  * TimerTest3.c
  *
  * Created: 2/23/2017 2:58:08 PM
- * Author : fenim
+ * Author : Sam Fenimore [fenimoress]
+ * member2: Eduardo Padilla [padillae]
  */ 
-
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#define FREQcount 20832
-#define OTIMEcount 4686
+#define FREQcount 20832/2
+#define OTIMEcount 4686/2
 
-//this is timer1 ctc mode
+//this is timer1 pcm mode
 int main(void)
 {
+	DDRB = 0x80;
+	ICR1 = FREQcount;
+	OCR1C = OTIMEcount;
+		
 
-	PORTB ^= 0x80;
-	TCCR1B |= ((1<<WGM13) | (1 << WGM12)); // Configure timer 1 for CTC mode
 	TCCR1B |= (1 << CS12);  // Set up timer at Fcpu/256
-	TIMSK1 |= (1 << OCIE1A); // Enable CTC interrupt //MAYBE NO IDK
-	
-	TIMSK1 |= (1 << OCIE1A); //timer compare interrupt
-	TIMSK1  |= (1<<ICIE1); //input capture interrupt enable
-	
-	OCR1A = OTIMEcount; //set compa
-	ICR1 = FREQcount; //set capt? top val?
-	TCNT1 = 0;
-	
-	sei();
-	
-	DDRB = 0x80; //built in led
 
-	//loop forever
+	TCCR1B |= (1 << WGM13); // Set OC1A when up counting, Clear when down counting
+
+	
+	
+
+	TCCR1A |= (1 << COM1C1); // Enable timer 1 Compare Output channel A in toggle mode
+	
+
 	while(1)
 	{
 
 	}
-}
-
-ISR(TIMER1_COMPA_vect)          // timer compare interrupt service routine
-{
-	PORTB ^= 0x80;
-}
-//ISR(TIMER1_CAPT_vect, ISR_ALIASOF(PCINT0_vect));
-ISR(TIMER1_CAPT_vect)
-{
-	PORTB ^= 0x80;
 }

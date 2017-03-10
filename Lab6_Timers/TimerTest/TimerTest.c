@@ -2,7 +2,8 @@
  * TimerTest.c
  *
  * Created: 2/23/2017 2:58:08 PM
- * Author : fenim
+ * Author : Sam Fenimore [fenimoress]
+ * member2: Eduardo Padilla [padillae]
  */ 
 
 #include <avr/io.h>
@@ -21,7 +22,6 @@ int main(void)
 	TCNT1 = 0;
 
 	sei();
-	
 	
 	DDRB = 0x80; //built in led
 
