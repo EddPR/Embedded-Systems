@@ -19,7 +19,9 @@ int main(void)
 	TIMSK1 |= (1 << OCIE1A); //timer compare interrupt
 	TCCR1B |= (1 << CS12);  // Set up timer at Fcpu/256
 	TCNT1 = 0;
+
 	sei();
+	
 	
 	DDRB = 0x80; //built in led
 
@@ -42,3 +44,4 @@ ISR(TIMER1_COMPA_vect)          // timer compare interrupt service routine
 		OCR1A += (FREQcount-OTIMEcount);
 	}
 }
+

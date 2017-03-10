@@ -1,5 +1,5 @@
 
-TimerTest.elf:     file format elf32-avr
+TimerTest3.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
@@ -11,21 +11,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000214  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000028  00000000  00000000  00000254  2**0
+  4 .debug_aranges 00000030  00000000  00000000  00000254  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000c64  00000000  00000000  0000027c  2**0
+  5 .debug_info   00000c7a  00000000  00000000  00000284  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000b85  00000000  00000000  00000ee0  2**0
+  6 .debug_abbrev 00000b85  00000000  00000000  00000efe  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002fb  00000000  00000000  00001a65  2**0
+  7 .debug_line   0000031e  00000000  00000000  00001a83  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000054  00000000  00000000  00001d60  2**2
+  8 .debug_frame  00000064  00000000  00000000  00001da4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000549  00000000  00000000  00001db4  2**0
+  9 .debug_str    00000557  00000000  00000000  00001e08  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000063  00000000  00000000  000022fd  2**0
+ 10 .debug_loc    00000078  00000000  00000000  0000235f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000018  00000000  00000000  00002360  2**0
+ 11 .debug_ranges 00000020  00000000  00000000  000023d7  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -63,9 +63,9 @@ Disassembly of section .text:
   3a:	00 00       	nop
   3c:	5d c0       	rjmp	.+186    	; 0xf8 <__bad_interrupt>
   3e:	00 00       	nop
-  40:	5b c0       	rjmp	.+182    	; 0xf8 <__bad_interrupt>
+  40:	95 c0       	rjmp	.+298    	; 0x16c <__vector_16>
   42:	00 00       	nop
-  44:	72 c0       	rjmp	.+228    	; 0x12a <__vector_17>
+  44:	84 c0       	rjmp	.+264    	; 0x14e <__vector_17>
   46:	00 00       	nop
   48:	57 c0       	rjmp	.+174    	; 0xf8 <__bad_interrupt>
   4a:	00 00       	nop
@@ -163,104 +163,107 @@ Disassembly of section .text:
 
 000000fa <main>:
 
-//this is timer1 normal mode leapfrog
+//this is timer1 ctc mode
 int main(void)
 {
 
-	OCR1A = FREQcount; //that is for the 3hz val //for the 75ms or 13.33333 val its 4686.500011718750 so we will start count at 16145.833 for the ontime toggle vs starting at 0
-  fa:	80 e6       	ldi	r24, 0x60	; 96
-  fc:	91 e5       	ldi	r25, 0x51	; 81
-  fe:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x700089>
- 102:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x700088>
-	TIMSK1 |= (1 << OCIE1A); //timer compare interrupt
- 106:	ef e6       	ldi	r30, 0x6F	; 111
- 108:	f0 e0       	ldi	r31, 0x00	; 0
- 10a:	80 81       	ld	r24, Z
- 10c:	82 60       	ori	r24, 0x02	; 2
- 10e:	80 83       	st	Z, r24
+	PORTB ^= 0x80;
+  fa:	85 b1       	in	r24, 0x05	; 5
+  fc:	80 58       	subi	r24, 0x80	; 128
+  fe:	85 b9       	out	0x05, r24	; 5
+	TCCR1B |= ((1<<WGM13) | (1 << WGM12)); // Configure timer 1 for CTC mode
+ 100:	e1 e8       	ldi	r30, 0x81	; 129
+ 102:	f0 e0       	ldi	r31, 0x00	; 0
+ 104:	80 81       	ld	r24, Z
+ 106:	88 61       	ori	r24, 0x18	; 24
+ 108:	80 83       	st	Z, r24
 	TCCR1B |= (1 << CS12);  // Set up timer at Fcpu/256
- 110:	e1 e8       	ldi	r30, 0x81	; 129
+ 10a:	80 81       	ld	r24, Z
+ 10c:	84 60       	ori	r24, 0x04	; 4
+ 10e:	80 83       	st	Z, r24
+	TIMSK1 |= (1 << OCIE1A); // Enable CTC interrupt //MAYBE NO IDK
+ 110:	ef e6       	ldi	r30, 0x6F	; 111
  112:	f0 e0       	ldi	r31, 0x00	; 0
  114:	80 81       	ld	r24, Z
- 116:	84 60       	ori	r24, 0x04	; 4
+ 116:	82 60       	ori	r24, 0x02	; 2
  118:	80 83       	st	Z, r24
-	TCNT1 = 0;
- 11a:	10 92 85 00 	sts	0x0085, r1	; 0x800085 <__TEXT_REGION_LENGTH__+0x700085>
- 11e:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <__TEXT_REGION_LENGTH__+0x700084>
-
-	sei();
- 122:	78 94       	sei
 	
+	TIMSK1 |= (1 << OCIE1A); //timer compare interrupt
+ 11a:	80 81       	ld	r24, Z
+ 11c:	82 60       	ori	r24, 0x02	; 2
+ 11e:	80 83       	st	Z, r24
+	TIMSK1  |= (1<<ICIE1); //input capture interrupt enable
+ 120:	80 81       	ld	r24, Z
+ 122:	80 62       	ori	r24, 0x20	; 32
+ 124:	80 83       	st	Z, r24
+	
+	OCR1A = OTIMEcount; //set compa
+ 126:	8e e4       	ldi	r24, 0x4E	; 78
+ 128:	92 e1       	ldi	r25, 0x12	; 18
+ 12a:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x700089>
+ 12e:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x700088>
+	ICR1 = FREQcount; //set capt? top val?
+ 132:	80 e6       	ldi	r24, 0x60	; 96
+ 134:	91 e5       	ldi	r25, 0x51	; 81
+ 136:	90 93 87 00 	sts	0x0087, r25	; 0x800087 <__TEXT_REGION_LENGTH__+0x700087>
+ 13a:	80 93 86 00 	sts	0x0086, r24	; 0x800086 <__TEXT_REGION_LENGTH__+0x700086>
+	TCNT1 = 0;
+ 13e:	10 92 85 00 	sts	0x0085, r1	; 0x800085 <__TEXT_REGION_LENGTH__+0x700085>
+ 142:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <__TEXT_REGION_LENGTH__+0x700084>
+	
+	sei();
+ 146:	78 94       	sei
 	
 	DDRB = 0x80; //built in led
- 124:	80 e8       	ldi	r24, 0x80	; 128
- 126:	84 b9       	out	0x04, r24	; 4
+ 148:	80 e8       	ldi	r24, 0x80	; 128
+ 14a:	84 b9       	out	0x04, r24	; 4
 
 	//loop forever
 	while(1)
 	{
 
 	}
- 128:	ff cf       	rjmp	.-2      	; 0x128 <main+0x2e>
+ 14c:	ff cf       	rjmp	.-2      	; 0x14c <main+0x52>
 
-0000012a <__vector_17>:
+0000014e <__vector_17>:
 }
 
 ISR(TIMER1_COMPA_vect)          // timer compare interrupt service routine
 {
- 12a:	1f 92       	push	r1
- 12c:	0f 92       	push	r0
- 12e:	0f b6       	in	r0, 0x3f	; 63
- 130:	0f 92       	push	r0
- 132:	11 24       	eor	r1, r1
- 134:	0b b6       	in	r0, 0x3b	; 59
- 136:	0f 92       	push	r0
- 138:	8f 93       	push	r24
- 13a:	9f 93       	push	r25
- 13c:	ef 93       	push	r30
- 13e:	ff 93       	push	r31
+ 14e:	1f 92       	push	r1
+ 150:	0f 92       	push	r0
+ 152:	0f b6       	in	r0, 0x3f	; 63
+ 154:	0f 92       	push	r0
+ 156:	11 24       	eor	r1, r1
+ 158:	8f 93       	push	r24
 	PORTB ^= 0x80;
- 140:	85 b1       	in	r24, 0x05	; 5
- 142:	80 58       	subi	r24, 0x80	; 128
- 144:	85 b9       	out	0x05, r24	; 5
-	if(PORTB == 0x80) //ontime
- 146:	85 b1       	in	r24, 0x05	; 5
- 148:	80 38       	cpi	r24, 0x80	; 128
- 14a:	49 f4       	brne	.+18     	; 0x15e <__vector_17+0x34>
-	{
-		OCR1A += OTIMEcount;
- 14c:	e8 e8       	ldi	r30, 0x88	; 136
- 14e:	f0 e0       	ldi	r31, 0x00	; 0
- 150:	80 81       	ld	r24, Z
- 152:	91 81       	ldd	r25, Z+1	; 0x01
- 154:	82 5b       	subi	r24, 0xB2	; 178
- 156:	9d 4e       	sbci	r25, 0xED	; 237
- 158:	91 83       	std	Z+1, r25	; 0x01
- 15a:	80 83       	st	Z, r24
- 15c:	0b c0       	rjmp	.+22     	; 0x174 <__vector_17+0x4a>
-	}
-	else if(PORTB != 0x80)//period
- 15e:	85 b1       	in	r24, 0x05	; 5
- 160:	80 38       	cpi	r24, 0x80	; 128
- 162:	41 f0       	breq	.+16     	; 0x174 <__vector_17+0x4a>
-	{
-		OCR1A += (FREQcount-OTIMEcount);
- 164:	e8 e8       	ldi	r30, 0x88	; 136
- 166:	f0 e0       	ldi	r31, 0x00	; 0
- 168:	80 81       	ld	r24, Z
- 16a:	91 81       	ldd	r25, Z+1	; 0x01
- 16c:	8e 5e       	subi	r24, 0xEE	; 238
- 16e:	90 4c       	sbci	r25, 0xC0	; 192
- 170:	91 83       	std	Z+1, r25	; 0x01
- 172:	80 83       	st	Z, r24
-	}
+ 15a:	85 b1       	in	r24, 0x05	; 5
+ 15c:	80 58       	subi	r24, 0x80	; 128
+ 15e:	85 b9       	out	0x05, r24	; 5
 }
- 174:	ff 91       	pop	r31
- 176:	ef 91       	pop	r30
- 178:	9f 91       	pop	r25
- 17a:	8f 91       	pop	r24
- 17c:	0f 90       	pop	r0
- 17e:	0b be       	out	0x3b, r0	; 59
+ 160:	8f 91       	pop	r24
+ 162:	0f 90       	pop	r0
+ 164:	0f be       	out	0x3f, r0	; 63
+ 166:	0f 90       	pop	r0
+ 168:	1f 90       	pop	r1
+ 16a:	18 95       	reti
+
+0000016c <__vector_16>:
+//ISR(TIMER1_CAPT_vect, ISR_ALIASOF(PCINT0_vect));
+ISR(TIMER1_CAPT_vect)
+{
+ 16c:	1f 92       	push	r1
+ 16e:	0f 92       	push	r0
+ 170:	0f b6       	in	r0, 0x3f	; 63
+ 172:	0f 92       	push	r0
+ 174:	11 24       	eor	r1, r1
+ 176:	8f 93       	push	r24
+	PORTB ^= 0x80;
+ 178:	85 b1       	in	r24, 0x05	; 5
+ 17a:	80 58       	subi	r24, 0x80	; 128
+ 17c:	85 b9       	out	0x05, r24	; 5
+}
+ 17e:	8f 91       	pop	r24
  180:	0f 90       	pop	r0
  182:	0f be       	out	0x3f, r0	; 63
  184:	0f 90       	pop	r0
