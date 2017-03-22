@@ -15,7 +15,7 @@
     <Name>ChangeStack_ASM</Name>
     <RootNamespace>ChangeStack_ASM</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
-    <EntryFile>$(MSBuildProjectDirectory)\changeStack_ASM.asm</EntryFile>
+    <EntryFile>$(MSBuildProjectDirectory)\changeStack.c</EntryFile>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
