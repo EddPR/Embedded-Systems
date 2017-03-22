@@ -4,5 +4,3 @@
 
 changeStack.c
 
-x_stack.s
-

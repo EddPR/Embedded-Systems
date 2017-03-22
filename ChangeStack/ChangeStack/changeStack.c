@@ -14,13 +14,13 @@
 //#include <stdint.h>
 
 // Prototypes
-extern uint8_t * changeStack(uint8_t *pNewStack);
+//extern uint8_t * changeStack(uint8_t *pNewStack);
 
 int main(void)
 {
 	uint8_t oldSREG = SREG;
-	oldSREG += 1;
-	//changeStack(50);
+	//oldSREG += 1;
+//	changeStack(0);
 	/* Replace with your application code */
 	while (1)
 	{
