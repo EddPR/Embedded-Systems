@@ -3,6 +3,7 @@
  *
  * Created: 3/21/2017 8:42:52 PM
  *  Author: Eduardo
+ *  Author2: Sam Fenimore
  */ 
 
 //#include <inttypes.h>
@@ -23,20 +24,13 @@
 
 // Prototypes
 extern uint8_t * changeStack(uint8_t *pNewStack);
-int sum(int, int);
-
 
 int main(void)
 {
 	//changeStack(50);
-	sum(3,2);
 	while (1)
 	{
 		
 	}
-}
-
-int sum(int x, int y){
-	return x+y;
 }
 
