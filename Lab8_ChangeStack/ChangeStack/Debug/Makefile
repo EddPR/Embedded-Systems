@@ -37,7 +37,7 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../ChangeStack.c
+../changeStack.c
 
 
 PREPROCESSING_SRCS += 
@@ -47,16 +47,16 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-ChangeStack.o
+changeStack.o
 
 OBJS_AS_ARGS +=  \
-ChangeStack.o
+changeStack.o
 
 C_DEPS +=  \
-ChangeStack.d
+changeStack.d
 
 C_DEPS_AS_ARGS +=  \
-ChangeStack.d
+changeStack.d
 
 OUTPUT_FILE_PATH +=ChangeStack.elf
 
