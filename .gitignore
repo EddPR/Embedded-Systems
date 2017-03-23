@@ -31,3 +31,8 @@
 # Debug files
 *.dSYM/
 *.su
+Lab8_ChangeStack/ChangeStack/Debug/ChangeStack.d
+Lab8_ChangeStack/ChangeStack/Debug/ChangeStack.lss.orig
+Lab8_ChangeStack/ChangeStack/Debug/ChangeStack.map.orig
+Lab8_ChangeStack/ChangeStack/Debug/makedep.mk.orig
+Lab8_ChangeStack/ChangeStack/Debug/Makefile.orig

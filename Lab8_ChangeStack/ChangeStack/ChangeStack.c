@@ -7,12 +7,18 @@
 
 #include <avr/io.h>
 
+uint8_t * changeStack(uint8_t *pNewStack);
 
 int main(void)
 {
     /* Replace with your application code */
     while (1) 
     {
+		
     }
 }
 
+uint8_t * changeStack(uint8_t *pNewStack)
+{
+	//stuff
+}
