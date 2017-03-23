@@ -24,20 +24,13 @@
 
 // Prototypes
 extern uint8_t * changeStack(uint8_t *pNewStack);
-int sum(int, int);
-
 
 int main(void)
 {
 	//changeStack(50);
-	sum(3,2);
 	while (1)
 	{
 		
 	}
-}
-
-int sum(int x, int y){
-	return x+y;
 }
 
