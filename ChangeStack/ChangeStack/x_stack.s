@@ -19,7 +19,7 @@
 
  		.section .text
 		.global changeStack
-changeStack:
+//changeStack:
 							;first paramter is in r24
 							;SP value is in SREG
 begin:

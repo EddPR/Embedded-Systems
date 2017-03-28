@@ -23,14 +23,28 @@
 // SPL	|	SP7		|	SP6		|	SP5		|	SP4		|	SP3		|	SP2		|	SP1		|	SP0		|
 
 // Prototypes
-extern uint8_t * changeStack(uint8_t *pNewStack);
+uint8_t * changeStack(uint8_t *pNewStack);
 
 int main(void)
 {
-	//changeStack(50);
+	char * thing;
+	changeStack(thing);
 	while (1)
 	{
 		
 	}
 }
 
+uint8_t * changeStack(uint8_t *pNewStack)
+{
+	char *p = (char *) SP;
+	for(int i = 0;;i++)
+	{
+		if(p[i] == 0x90)
+		{
+			break;
+			
+		}
+		pNewStack[i] = p[i];
+	}
+}
