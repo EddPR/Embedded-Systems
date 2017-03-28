@@ -27,8 +27,8 @@ uint8_t * changeStack(uint8_t *pNewStack);
 
 int main(void)
 {
-	char * thing;
-	changeStack(thing);
+	char buffer[128];
+	changeStack(buffer);
 	while (1)
 	{
 		
