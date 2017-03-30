@@ -43,41 +43,51 @@ int main(void)
 	
 	serial_open(0, 19200, SERIAL_8N1);
 	_delay_ms(500);
-	serial_print("HEY, terminal is set up correctly. \r");
-	serial_print("\r");
+	/*serial_print("HEY, terminal is set up correctly. \r");
+	serial_print("\r");*/
 	
 	while (1)
 	{
-		char buf[8];
+		char stackPointerBuffer[8];
+		char stackPointerBuffer2[8];
+		int temp, temp2;
+		char *newAddress;
+		
+		char buf[8];	
+		char buf2[stackFrameSize];
+		char *stackPointer = (char *) SP;
+		temp = (int) stackPointer;
+			
+		newAddress = (char *) changeStack((uint8_t *) (buffer + 127));
+		temp2 = (int) newAddress;
+		
 		serial_print("We are in the loop testing stackFrameSize: ");
 		itoa(stackFrameSize, buf, 10);
 		serial_print(buf);
 		serial_print("\r");
 		_delay_ms(100);
-			
-		char stackPointerBuffer[8];
-		char stackPointerBuffer2[8];
-		int temp, temp2;
-		char *newAddress;
-			
-		char *stackPointer = (char *) SP;
-		temp = (int) stackPointer;
+		
 		serial_print("The value of the old SP is: 0x");
 		itoa(temp, stackPointerBuffer, 16);
 		serial_print(stackPointerBuffer);
 		serial_print(".\r");
 		_delay_ms(100);
 		
-		//SP = (int) changeStack((uint8_t *) buffer);
-		//temp2 = (int) &SP;
-			
-		newAddress = (char *) changeStack((uint8_t *) buffer[127]);
-		temp2 = (int) newAddress;
 		serial_print("The value of the new SP is: 0x");
 		itoa(temp2, stackPointerBuffer2, 16);
 		serial_print(stackPointerBuffer2);
 		serial_print(".\r");
 		_delay_ms(100);
+		serial_print("\r");
+		
+		serial_print("The values on the stack are:\r");
+		for (int i = 0; i < stackFrameSize; i++)
+		{
+			itoa(newAddress[-i], buf2, 16);
+			serial_print(buf2);
+			serial_print("\r");
+			_delay_ms(100);
+		}
 		serial_print("\r");
 	}
 }

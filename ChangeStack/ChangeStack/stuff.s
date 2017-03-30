@@ -23,3 +23,4 @@ stuff:
 		ldi r29, 72
 		ldi r30, 72
 		ldi r31, 72
+		ret
