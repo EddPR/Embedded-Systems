@@ -27,14 +27,14 @@
     <BootSegment>2</BootSegment>
     <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfFrameworkConfig>
-      <framework-data xmlns="">
+      <framework-data>
         <options />
         <configurations />
         <files />
         <documentation help="" />
         <offline-documentation help="" />
         <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.32.0" />
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.28.1" />
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
@@ -137,7 +137,16 @@
     <Compile Include="changeStack.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Serial.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="stuff.s">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="x_stack.s">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="x_yield.s">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

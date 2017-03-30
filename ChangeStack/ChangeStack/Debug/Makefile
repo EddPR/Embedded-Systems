@@ -41,7 +41,9 @@ C_SRCS +=  \
 
 
 PREPROCESSING_SRCS +=  \
-../x_stack.s
+../stuff.s \
+../x_stack.s \
+../x_yield.s
 
 
 ASM_SRCS += 
@@ -49,19 +51,27 @@ ASM_SRCS +=
 
 OBJS +=  \
 changeStack.o \
-x_stack.o
+stuff.o \
+x_stack.o \
+x_yield.o
 
 OBJS_AS_ARGS +=  \
 changeStack.o \
-x_stack.o
+stuff.o \
+x_stack.o \
+x_yield.o
 
 C_DEPS +=  \
 changeStack.d \
-x_stack.d
+stuff.d \
+x_stack.d \
+x_yield.d
 
 C_DEPS_AS_ARGS +=  \
 changeStack.d \
-x_stack.d
+stuff.d \
+x_stack.d \
+x_yield.d
 
 OUTPUT_FILE_PATH +=ChangeStack.elf
 
@@ -94,7 +104,21 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU Assembler
+./stuff.o: .././stuff.s
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU Assembler : 4.9.2
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -Wa,-gdwarf2 -x assembler-with-cpp -c -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.1.130\gcc\dev\atmega2560" -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.1.130\include"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -mrelax -Wa,-g   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 ./x_stack.o: .././x_stack.s
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU Assembler : 4.9.2
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -Wa,-gdwarf2 -x assembler-with-cpp -c -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.1.130\gcc\dev\atmega2560" -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.1.130\include"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -mrelax -Wa,-g   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./x_yield.o: .././x_yield.s
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU Assembler : 4.9.2
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -Wa,-gdwarf2 -x assembler-with-cpp -c -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.1.130\gcc\dev\atmega2560" -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.1.130\include"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -mrelax -Wa,-g   -o "$@" "$<" 
