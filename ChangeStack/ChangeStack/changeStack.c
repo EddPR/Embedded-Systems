@@ -6,13 +6,13 @@
  *  Author2: Sam Fenimore
  */ 
 
-//#include <inttypes.h>
+#include <inttypes.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/common.h>
-//#include <util/atomic.h>
-//#include <stdlib.h>
-//#include <stdint.h>
+#include <util/atomic.h>
+#include <stdlib.h>
+#include <stdint.h>
 
 // Stack is implemented as growing from higher to lower memory locations
 // The Stack Pointer must be set to point above 0x200,
@@ -27,7 +27,11 @@ uint8_t * changeStack(uint8_t *pNewStack);
 
 int main(void)
 {
-	char buffer[128];
+	uint8_t buffer[128];
+	for(int i = 0; i < 128; i++)
+	{
+		buffer[i] = i;
+	}
 	changeStack(buffer);
 	while (1)
 	{
@@ -35,16 +39,18 @@ int main(void)
 	}
 }
 
-uint8_t * changeStack(uint8_t *pNewStack)
+uint8_t * changeStack(uint8_t * pNewStack)
 {
-	char *p = (char *) SP;
-	for(int i = 0;;i++)
+	cli();
+	uint8_t * p = (uint8_t *) SP;
+	int temp = ((int) SP - 0x21FF- 30);
+	uint8_t * dp = (uint8_t *) &pNewStack[temp];
+
+	for(int i = 1; ((int)&p[i])<0x21FF;i++)
 	{
-		if(p[i] == 0x90)
-		{
-			break;
-			
-		}
-		pNewStack[i] = p[i];
+		dp[i] = p[i];
 	}
+	SP = *pNewStack;
+	sei();
+	return (uint8_t *) SP;
 }

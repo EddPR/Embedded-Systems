@@ -13,19 +13,19 @@
 // THREE when the return address is pushed onto the stack.
 // SPH	|	SP15	|	SP14	|	SP13	|	SP12	|	SP11	|	SP10	|	SP9		|	SP8		|
 // SPL	|	SP7		|	SP6		|	SP5		|	SP4		|	SP3		|	SP2		|	SP1		|	SP0		|
-#define __SFR_OFFSET 0
-#include <avr/common.h>
+//#define __SFR_OFFSET 0
+//#include <avr/common.h>
 
 
- 		.section .text
-		.global changeStack
+//		.section .text
+//		.global changeStack
 //changeStack:
 							;first paramter is in r24
 							;SP value is in SREG
-begin:
-		sbiw	r24, 1
-		ldi		r26, SREG
-		sbiw	r26, 1
+//begin:
+//		sbiw	r24, 1
+//		ldi		r26, SREG
+//		sbiw	r26, 1
 		
-end:
-		ret					;finish
+//end:
+//		ret					;finish
