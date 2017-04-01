@@ -4,9 +4,3 @@
 
 changeStack.c
 
-stuff.s
-
-x_stack.s
-
-x_yield.s
-

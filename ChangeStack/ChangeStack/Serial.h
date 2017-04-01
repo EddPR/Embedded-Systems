@@ -2,7 +2,8 @@
  * Serial.h
  *
  * Created: 3/28/2017 5:14:51 PM
- *  Author: Eduardo
+ * Author : Eduardo Padilla [padille]
+ * Member2: Sam Fenimore	[fenimoress]
  */ 
 
 

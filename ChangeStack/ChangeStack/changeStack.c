@@ -2,7 +2,8 @@
  * changeStack.c
  *
  * Created: 3/21/2017 8:42:52 PM
- *  Author: Eduardo
+ * Author : Eduardo Padilla [padille]
+ * Member2: Sam Fenimore	[fenimoress]
  */ 
 
 #include <avr/io.h>
@@ -10,6 +11,14 @@
 #include <avr/common.h>
 #include <util/delay.h>
 #include "Serial.h"
+
+#define PORT			0
+#define BAUD_RATE		19200
+#define STACK_BOTTOM	0x21FF
+#define BUFFER_SIZE		128
+#define BINARY			2
+#define DECIMAL			10
+#define HEX				16
 
 // Stack is implemented as growing from higher to lower memory locations
 // The Stack Pointer must be set to point above 0x200,
@@ -26,7 +35,7 @@ SERIAL_REGS *serial_port[] = {
 	(SERIAL_REGS *)(0x130)	// serial port 3
 };
 
-char * buffer[128];
+char * buffer[BUFFER_SIZE];
 int stackFrameSize;
 
 // Prototypes
@@ -34,70 +43,30 @@ uint8_t * changeStack(uint8_t *pNewStack);
 extern char * itoa(int, char *, int);
 extern void x_yield(void);
 extern void stuff(void);
-void test(void);
 void testStack(void);
 
 int main(void)
 {
 	
 	
-	serial_open(0, 19200, SERIAL_8N1);
+	serial_open(PORT, BAUD_RATE, SERIAL_8N1);
 	_delay_ms(500);
-	/*serial_print("HEY, terminal is set up correctly. \r");
-	serial_print("\r");*/
 	
 	while (1)
 	{
-		char stackPointerBuffer[8];
-		char stackPointerBuffer2[8];
-		int temp, temp2;
-		char *newAddress;
-		
-		char buf[8];	
-		char buf2[stackFrameSize];
-		char *stackPointer = (char *) SP;
-		temp = (int) stackPointer;
-			
-		newAddress = (char *) changeStack((uint8_t *) (buffer + 127));
-		temp2 = (int) newAddress;
-		
-		serial_print("We are in the loop testing stackFrameSize: ");
-		itoa(stackFrameSize, buf, 10);
-		serial_print(buf);
-		serial_print("\r");
-		_delay_ms(100);
-		
-		serial_print("The value of the old SP is: 0x");
-		itoa(temp, stackPointerBuffer, 16);
-		serial_print(stackPointerBuffer);
-		serial_print(".\r");
-		_delay_ms(100);
-		
-		serial_print("The value of the new SP is: 0x");
-		itoa(temp2, stackPointerBuffer2, 16);
-		serial_print(stackPointerBuffer2);
-		serial_print(".\r");
-		_delay_ms(100);
-		serial_print("\r");
-		
-		serial_print("The values on the stack are:\r");
-		for (int i = 0; i < stackFrameSize; i++)
-		{
-			itoa(newAddress[-i], buf2, 16);
-			serial_print(buf2);
-			serial_print("\r");
-			_delay_ms(100);
-		}
-		serial_print("\r");
+		testStack();
 	}
 }
 
+/***********************************************************************
+* Function changes the stack pointer to the base address specified by 
+* pNewStack, copy the return address onto the new stack and return to 
+* the caller with the new stack address as the return value.
+***********************************************************************/
 uint8_t * changeStack(uint8_t *pNewStack)
 {	
-	int stackBottom = 0x21FF;	// Base of stack
 	char *stackTop = (char *) SP;	// The stack pointer is the top of the stack
-	int addressStackTop = (int) stackTop; // Address of the top of the stack
-	stackFrameSize = stackBottom - addressStackTop + 1; // Range between the top and bottom of stack
+	stackFrameSize = STACK_BOTTOM - (int) stackTop + 1; // Range between the top and bottom of stack
 	uint8_t *newStackTop = pNewStack - stackFrameSize;	// The new stack top is based on the offset of old stack size.
 	SP = (int) newStackTop;	// Set stack pointer to new stack
 	
@@ -110,52 +79,52 @@ uint8_t * changeStack(uint8_t *pNewStack)
 }
 
 /***********************************************************************
-* Function is supposed to call changeStack to relocate the SP to the 
-* address of the passed buffer, and then call another function that prints 
-* SP values. Doesn't really work when called in main.
-***********************************************************************/
-void test()
-{
-	changeStack((uint8_t *) buffer);	// Relocate SP to point into a 128 byte char buffer
-	testStack();
-}
-
-/***********************************************************************
-* Function is supposed to print the old Sp and the new SP. Code only
-* works when pasted in main, but it doesn't behave as expected.
-* You have to comment out the SP assingment in changeStack() along with
-* the for loop.
+* Function is supposed to call changeStack to relocate the SP to the
+* address of the passed buffer and print the old SP and the new SP. 
 ***********************************************************************/
 void testStack()
 {
-	serial_print("We are in the loop.\r");
-	_delay_ms(100);
 	char stackPointerBuffer[8];
 	char stackPointerBuffer2[8];
 	int temp, temp2;
 	char *newAddress;
 	
+	char buf[8];
+	char buf2[stackFrameSize];
 	char *stackPointer = (char *) SP;
-	temp = (int) &stackPointer;
+	temp = (int) stackPointer;
+	
+	newAddress = (char *) changeStack((uint8_t *) (buffer + (BUFFER_SIZE - 1)));
+	temp2 = (int) newAddress;
+	
+	serial_print("We are in the loop testing stackFrameSize: ");
+	itoa(stackFrameSize, buf, DECIMAL);
+	serial_print(buf);
+	serial_print("\r");
+	_delay_ms(100);
+	
 	serial_print("The value of the old SP is: 0x");
-	itoa(temp, stackPointerBuffer, 16);
+	itoa(temp, stackPointerBuffer, HEX);
 	serial_print(stackPointerBuffer);
 	serial_print(".\r");
 	_delay_ms(100);
 	
-	newAddress = (char *) (int) changeStack((uint8_t *) buffer);
-	temp2 = (int) &newAddress;
 	serial_print("The value of the new SP is: 0x");
-	itoa(temp2, stackPointerBuffer2, 16);
+	itoa(temp2, stackPointerBuffer2, HEX);
 	serial_print(stackPointerBuffer2);
 	serial_print(".\r");
 	_delay_ms(100);
-		
-	/*char * sp = (char *) SP;
+	serial_print("\r");
+	
+	serial_print("The values on the stack are:\r");
 	for (int i = 0; i < stackFrameSize; i++)
 	{
-		serial_write(0, sp[i]);
-	}*/
+		itoa(newAddress[-i], buf2, HEX);
+		serial_print(buf2);
+		serial_print("\r");
+		_delay_ms(100);
+	}
+	serial_print("\r");
 }
 
 /***********************************************************************
