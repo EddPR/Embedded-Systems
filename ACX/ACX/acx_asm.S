@@ -19,7 +19,7 @@
 		.global x_yield
 x_yield:
 ;------------------------------------------------------------------------
-; Save thread context
+; Save thread context	; x -> r27:26   y -> r29:28   z -> r31:r30
 ;-------------------------------------------------------------------------
 ; perserve all callee-saved registers
 		push	r2
@@ -42,13 +42,16 @@ x_yield:
 		push	r29
 
 getThread:
-		lds		r18, x_thread_id
-		lds		r19, x_thread_mask
+		lds		r18, x_thread_id	; save thread ID
+		lds		r19, x_thread_mask	; save thread mask
+loadStack:
+		ldi		r26, lo8(stack)		; load lower byte address of stack array (X)
+		ldi 	r27, hi8(stack)		; load higher byte address of stack array (X+1)
 storeSP:
-		ldi		r20, lo8(RAMEND)	; save SPL in temporary register
-		out		SPL, r20			; save SPL
-		ldi		r16, hi8(RAMEND)	; save SPH in temporary register
-		out		SPH, r20			; save SPH
+		cli							; disable global interrupts
+		ldi		r30, SPL			; save SPL in temporary register (Z) (5D?)
+		ldi		r31, SPH			; save SPH in temporary register (Z+1) (5E?)
+		sei							; enable global interrupts
 
 
 ;------------------------------------------------------------------------
@@ -58,10 +61,45 @@ storeSP:
 ;-------------------------------------------------------------------------
 		.global	x_schedule
 x_schedule:
-
-; your code here
-
-
+		lds		r18, disable_status	; load disable status
+		lds		r19, suspend_status	; load suspend status
+		lds		r20, delay_status	; load delay status
+		or		r18, r19			; compute available thread based on status
+		or		r18, r20			; compute available thread based on status
+calcThreadMask:
+		; Test for bit2mask8 is working
+		; Possibly rework code in isThreadReady, if x_thread_mask isn't already calculated
+		lds		r24, x_thread_id	; load parameter for bit2mask8
+		call	bit2mask8			; relative call subroutine
+		;sts		x_thread_mask, r24	; x_thread_mask is set to bit2mask8 returned mask
+loadThread:
+		lds		r21, x_thread_id	; save thread ID
+		;lds		r22, x_thread_mask	; save thread mask
+		mov		r22, r24			; save thread mask calculated in bit2mask8
+checkThread:
+		cpi		r21, 7				; check if x_thread_id is 7
+		brne	nextAvailable		; if x_thread_id != 7, continue on
+clear:
+		clr		r21					; if x_thread_id == 7, set to 0 and
+		ldi		r22, 1				; set x_thread_mask to 1
+nextAvailable:
+		lsl		r22					; left shift x_thread_mask (next thread)
+		inc		r21					; increment x_thread_id
+		cp		r22, r18			; check if next thread is equal to thread status
+		breq	checkThread			; if so, check the next thread, otherwise
+saveThread:
+		sts		x_thread_id, r21	; store new x_thread_id
+		sts		x_thread_mask, r22	; store new x_thread_mask
+		ldi		r26, lo8(stack)		; load lower byte address of stack array (X)
+		ldi 	r27, hi8(stack)		; load higher byte address of stack array (X+1)
+charOffset:
+		lsl		r21					; working towards multiplying x_thread_id by 4...
+		lsl		r21					; to create a 4 bit offset (x_thread_id * 4)
+		add		r26, r21			; increment stack by ofset
+		adc		r27, 0				; pull in the carry
+updateSP:
+		sts		SPL, r27			; update SPL to new thread context
+		sts		SPH, r26			; update SPH to new thread context
 
 ;---------------------------------------------------
 ; Restore context of next READY thread
@@ -101,6 +139,14 @@ restore:
 		.global bit2mask8
 bit2mask8:
 		;r24 containts thread ID input
-		
-		
+		mov		r18, r24				; copy paraqmeter, now is count	
+		ldi		r24, 1					; mask beggins with a 1
+		cpi		r18, 0					; if param is 0, return
+		breq	finish
+loop:	
+		lsl		r24						; shift mask left
+		dec		r18						; decrement count
+		breq	finish					; if count is zero, return
+		brne	loop					; if count > 0, loop
+finish:
 		ret

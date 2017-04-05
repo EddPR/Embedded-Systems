@@ -3,31 +3,31 @@ ACX.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  000002c8  2**0
+  0 .data         00000000  00800200  00800200  00000382  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000254  00000000  00000000  00000074  2**1
+  1 .text         0000030e  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000037  00800200  00800200  000002c8  2**0
+  2 .bss          00000037  00800200  00800200  00000382  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000002c8  2**0
+  3 .comment      00000030  00000000  00000000  00000382  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002f8  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000003b4  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000068  00000000  00000000  00000338  2**0
+  5 .debug_aranges 00000088  00000000  00000000  000003f8  2**3
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000eff  00000000  00000000  000003a0  2**0
+  6 .debug_info   00000f69  00000000  00000000  00000480  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000c5c  00000000  00000000  0000129f  2**0
+  7 .debug_abbrev 00000c81  00000000  00000000  000013e9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000048a  00000000  00000000  00001efb  2**0
+  8 .debug_line   000006b0  00000000  00000000  0000206a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000000cc  00000000  00000000  00002388  2**2
+  9 .debug_frame  000000cc  00000000  00000000  0000271c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000062f  00000000  00000000  00002454  2**0
+ 10 .debug_str    00000637  00000000  00000000  000027e8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000009f  00000000  00000000  00002a83  2**0
+ 11 .debug_loc    0000009f  00000000  00000000  00002e1f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000058  00000000  00000000  00002b22  2**0
+ 12 .debug_ranges 00000058  00000000  00000000  00002ebe  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -75,7 +75,7 @@ Disassembly of section .text:
   4e:	00 00       	nop
   50:	5b c0       	rjmp	.+182    	; 0x108 <__bad_interrupt>
   52:	00 00       	nop
-  54:	f3 c0       	rjmp	.+486    	; 0x23c <__vector_21>
+  54:	50 c1       	rjmp	.+672    	; 0x2f6 <__vector_21>
   56:	00 00       	nop
   58:	57 c0       	rjmp	.+174    	; 0x108 <__bad_interrupt>
   5a:	00 00       	nop
@@ -171,181 +171,417 @@ Disassembly of section .text:
   fe:	a7 33       	cpi	r26, 0x37	; 55
  100:	b2 07       	cpc	r27, r18
  102:	e1 f7       	brne	.-8      	; 0xfc <.do_clear_bss_loop>
- 104:	99 d0       	rcall	.+306    	; 0x238 <main>
- 106:	a4 c0       	rjmp	.+328    	; 0x250 <_exit>
+ 104:	f5 d0       	rcall	.+490    	; 0x2f0 <main>
+ 106:	01 c1       	rjmp	.+514    	; 0x30a <_exit>
 
 00000108 <__bad_interrupt>:
  108:	7b cf       	rjmp	.-266    	; 0x0 <__vectors>
 
-0000010a <x_init>:
+0000010a <x_yield>:
+x_yield:
+;------------------------------------------------------------------------
+; Save thread context	; x -> r27:26   y -> r29:28   z -> r31:r30
+;-------------------------------------------------------------------------
+; perserve all callee-saved registers
+		push	r2
+ 10a:	2f 92       	push	r2
+		push	r3
+ 10c:	3f 92       	push	r3
+		push	r4
+ 10e:	4f 92       	push	r4
+		push	r5
+ 110:	5f 92       	push	r5
+		push	r6
+ 112:	6f 92       	push	r6
+		push	r7
+ 114:	7f 92       	push	r7
+		push	r8
+ 116:	8f 92       	push	r8
+		push	r9
+ 118:	9f 92       	push	r9
+		push	r10
+ 11a:	af 92       	push	r10
+		push	r11
+ 11c:	bf 92       	push	r11
+		push	r12
+ 11e:	cf 92       	push	r12
+		push	r13
+ 120:	df 92       	push	r13
+		push	r14
+ 122:	ef 92       	push	r14
+		push	r15
+ 124:	ff 92       	push	r15
+		push	r16
+ 126:	0f 93       	push	r16
+		push	r17
+ 128:	1f 93       	push	r17
+		push	r28
+ 12a:	cf 93       	push	r28
+		push	r29
+ 12c:	df 93       	push	r29
+
+0000012e <getThread>:
+
+getThread:
+		lds		r18, x_thread_id	; save thread ID
+ 12e:	20 91 02 02 	lds	r18, 0x0202	; 0x800202 <x_thread_id>
+		lds		r19, x_thread_mask	; save thread mask
+ 132:	30 91 36 02 	lds	r19, 0x0236	; 0x800236 <x_thread_mask>
+
+00000136 <loadStack>:
+loadStack:
+		ldi		r26, lo8(stack)		; load lower byte address of stack array (X)
+ 136:	a4 e1       	ldi	r26, 0x14	; 20
+		ldi 	r27, hi8(stack)		; load higher byte address of stack array (X+1)
+ 138:	b2 e0       	ldi	r27, 0x02	; 2
+
+0000013a <storeSP>:
+storeSP:
+		cli							; disable global interrupts
+ 13a:	f8 94       	cli
+		ldi		r30, SPL			; save SPL in temporary register (Z) (5D?)
+ 13c:	ed e3       	ldi	r30, 0x3D	; 61
+		ldi		r31, SPH			; save SPH in temporary register (Z+1) (5E?)
+ 13e:	fe e3       	ldi	r31, 0x3E	; 62
+		sei							; enable global interrupts
+ 140:	78 94       	sei
+
+00000142 <x_schedule>:
+;                         because we can reach this without saving regs
+;                         if reached from k_new() function
+;-------------------------------------------------------------------------
+		.global	x_schedule
+x_schedule:
+		lds		r18, disable_status	; load disable status
+ 142:	20 91 13 02 	lds	r18, 0x0213	; 0x800213 <disable_status>
+		lds		r19, suspend_status	; load suspend status
+ 146:	30 91 35 02 	lds	r19, 0x0235	; 0x800235 <suspend_status>
+		lds		r20, delay_status	; load delay status
+ 14a:	40 91 34 02 	lds	r20, 0x0234	; 0x800234 <delay_status>
+		or		r18, r19			; compute available thread based on status
+ 14e:	23 2b       	or	r18, r19
+		or		r18, r20			; compute available thread based on status
+ 150:	24 2b       	or	r18, r20
+
+00000152 <calcThreadMask>:
+calcThreadMask:
+		; Test for bit2mask8 is working
+		; Possibly rework code in isThreadReady, if x_thread_mask isn't already calculated
+		lds		r24, x_thread_id	; load parameter for bit2mask8
+ 152:	80 91 02 02 	lds	r24, 0x0202	; 0x800202 <x_thread_id>
+		call	bit2mask8			; relative call subroutine
+ 156:	2c d0       	rcall	.+88     	; 0x1b0 <bit2mask8>
+
+00000158 <loadThread>:
+		;sts		x_thread_mask, r24	; x_thread_mask is set to bit2mask8 returned mask
+loadThread:
+		lds		r21, x_thread_id	; save thread ID
+ 158:	50 91 02 02 	lds	r21, 0x0202	; 0x800202 <x_thread_id>
+		;lds		r22, x_thread_mask	; save thread mask
+		mov		r22, r24			; save thread mask calculated in bit2mask8
+ 15c:	68 2f       	mov	r22, r24
+
+0000015e <checkThread>:
+checkThread:
+		cpi		r21, 7				; check if x_thread_id is 7
+ 15e:	57 30       	cpi	r21, 0x07	; 7
+		brne	nextAvailable		; if x_thread_id != 7, continue on
+ 160:	11 f4       	brne	.+4      	; 0x166 <nextAvailable>
+
+00000162 <clear>:
+clear:
+		clr		r21					; if x_thread_id == 7, set to 0 and
+ 162:	55 27       	eor	r21, r21
+		ldi		r22, 1				; set x_thread_mask to 1
+ 164:	61 e0       	ldi	r22, 0x01	; 1
+
+00000166 <nextAvailable>:
+nextAvailable:
+		lsl		r22					; left shift x_thread_mask (next thread)
+ 166:	66 0f       	add	r22, r22
+		inc		r21					; increment x_thread_id
+ 168:	53 95       	inc	r21
+		cp		r22, r18			; check if next thread is equal to thread status
+ 16a:	62 17       	cp	r22, r18
+		breq	checkThread			; if so, check the next thread, otherwise
+ 16c:	c1 f3       	breq	.-16     	; 0x15e <checkThread>
+
+0000016e <saveThread>:
+saveThread:
+		sts		x_thread_id, r21	; store new x_thread_id
+ 16e:	50 93 02 02 	sts	0x0202, r21	; 0x800202 <x_thread_id>
+		sts		x_thread_mask, r22	; store new x_thread_mask
+ 172:	60 93 36 02 	sts	0x0236, r22	; 0x800236 <x_thread_mask>
+		ldi		r26, lo8(stack)		; load lower byte address of stack array (X)
+ 176:	a4 e1       	ldi	r26, 0x14	; 20
+		ldi 	r27, hi8(stack)		; load higher byte address of stack array (X+1)
+ 178:	b2 e0       	ldi	r27, 0x02	; 2
+
+0000017a <charOffset>:
+charOffset:
+		lsl		r21					; working towards multiplying x_thread_id by 4...
+ 17a:	55 0f       	add	r21, r21
+		lsl		r21					; to create a 4 bit offset (x_thread_id * 4)
+ 17c:	55 0f       	add	r21, r21
+		add		r26, r21			; increment stack by ofset
+ 17e:	a5 0f       	add	r26, r21
+		adc		r27, 0				; pull in the carry
+ 180:	b0 1d       	adc	r27, r0
+
+00000182 <updateSP>:
+updateSP:
+		sts		SPL, r27			; update SPL to new thread context
+ 182:	b0 93 3d 00 	sts	0x003D, r27	; 0x80003d <__TEXT_REGION_LENGTH__+0x70003d>
+		sts		SPH, r26			; update SPH to new thread context
+ 186:	a0 93 3e 00 	sts	0x003E, r26	; 0x80003e <__TEXT_REGION_LENGTH__+0x70003e>
+
+0000018a <restore>:
+
+;---------------------------------------------------
+; Restore context of next READY thread
+;---------------------------------------------------
+restore:
+		pop		r29
+ 18a:	df 91       	pop	r29
+		pop		r28
+ 18c:	cf 91       	pop	r28
+		pop		r17
+ 18e:	1f 91       	pop	r17
+		pop		r16
+ 190:	0f 91       	pop	r16
+		pop		r15
+ 192:	ff 90       	pop	r15
+		pop		r14
+ 194:	ef 90       	pop	r14
+		pop		r13
+ 196:	df 90       	pop	r13
+		pop		r12
+ 198:	cf 90       	pop	r12
+		pop		r11
+ 19a:	bf 90       	pop	r11
+		pop		r10
+ 19c:	af 90       	pop	r10
+		pop		r9
+ 19e:	9f 90       	pop	r9
+		pop		r8
+ 1a0:	8f 90       	pop	r8
+		pop		r7
+ 1a2:	7f 90       	pop	r7
+		pop		r6
+ 1a4:	6f 90       	pop	r6
+		pop		r5
+ 1a6:	5f 90       	pop	r5
+		pop		r4
+ 1a8:	4f 90       	pop	r4
+		pop		r3
+ 1aa:	3f 90       	pop	r3
+		pop		r2
+ 1ac:	2f 90       	pop	r2
+
+	// Return to next thread
+		ret
+ 1ae:	08 95       	ret
+
+000001b0 <bit2mask8>:
+//						  (interpreted as bit number)
+//-----------------------------------------------------------------------------------------------
+		.global bit2mask8
+bit2mask8:
+		;r24 containts thread ID input
+		mov		r18, r24				; copy paraqmeter, now is count	
+ 1b0:	28 2f       	mov	r18, r24
+		ldi		r24, 1					; mask beggins with a 1
+ 1b2:	81 e0       	ldi	r24, 0x01	; 1
+		cpi		r18, 0					; if param is 0, return
+ 1b4:	20 30       	cpi	r18, 0x00	; 0
+		breq	finish
+ 1b6:	21 f0       	breq	.+8      	; 0x1c0 <finish>
+
+000001b8 <loop>:
+loop:	
+		lsl		r24						; shift mask left
+ 1b8:	88 0f       	add	r24, r24
+		dec		r18						; decrement count
+ 1ba:	2a 95       	dec	r18
+		breq	finish					; if count is zero, return
+ 1bc:	09 f0       	breq	.+2      	; 0x1c0 <finish>
+		brne	loop					; if count > 0, loop
+ 1be:	e1 f7       	brne	.-8      	; 0x1b8 <loop>
+
+000001c0 <finish>:
+finish:
+ 1c0:	08 95       	ret
+
+000001c2 <x_init>:
 
 /************************************************************************
 *
 ************************************************************************/
 void x_enable(uint8_t thread_id)
 {
- 10a:	cf 93       	push	r28
- 10c:	df 93       	push	r29
- 10e:	f8 94       	cli
- 110:	82 e0       	ldi	r24, 0x02	; 2
- 112:	84 bd       	out	0x24, r24	; 36
- 114:	9a ef       	ldi	r25, 0xFA	; 250
- 116:	97 bd       	out	0x27, r25	; 39
- 118:	80 93 6e 00 	sts	0x006E, r24	; 0x80006e <__TEXT_REGION_LENGTH__+0x70006e>
- 11c:	83 e0       	ldi	r24, 0x03	; 3
- 11e:	85 bd       	out	0x25, r24	; 37
- 120:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <_edata+0x1>
- 124:	10 92 00 02 	sts	0x0200, r1	; 0x800200 <_edata>
- 128:	8e ef       	ldi	r24, 0xFE	; 254
- 12a:	80 93 13 02 	sts	0x0213, r24	; 0x800213 <disable_status>
- 12e:	10 92 35 02 	sts	0x0235, r1	; 0x800235 <suspend_status>
- 132:	10 92 34 02 	sts	0x0234, r1	; 0x800234 <delay_status>
- 136:	e3 e0       	ldi	r30, 0x03	; 3
- 138:	f2 e0       	ldi	r31, 0x02	; 2
- 13a:	11 82       	std	Z+1, r1	; 0x01
- 13c:	10 82       	st	Z, r1
- 13e:	13 82       	std	Z+3, r1	; 0x03
- 140:	12 82       	std	Z+2, r1	; 0x02
- 142:	15 82       	std	Z+5, r1	; 0x05
- 144:	14 82       	std	Z+4, r1	; 0x04
- 146:	17 82       	std	Z+7, r1	; 0x07
- 148:	16 82       	std	Z+6, r1	; 0x06
- 14a:	11 86       	std	Z+9, r1	; 0x09
- 14c:	10 86       	std	Z+8, r1	; 0x08
- 14e:	13 86       	std	Z+11, r1	; 0x0b
- 150:	12 86       	std	Z+10, r1	; 0x0a
- 152:	15 86       	std	Z+13, r1	; 0x0d
- 154:	14 86       	std	Z+12, r1	; 0x0c
- 156:	17 86       	std	Z+15, r1	; 0x0f
- 158:	16 86       	std	Z+14, r1	; 0x0e
- 15a:	10 92 02 02 	sts	0x0202, r1	; 0x800202 <x_thread_id>
- 15e:	81 e0       	ldi	r24, 0x01	; 1
- 160:	80 93 36 02 	sts	0x0236, r24	; 0x800236 <x_thread_mask>
- 164:	e4 e1       	ldi	r30, 0x14	; 20
- 166:	f2 e0       	ldi	r31, 0x02	; 2
- 168:	8f ef       	ldi	r24, 0xFF	; 255
- 16a:	90 e2       	ldi	r25, 0x20	; 32
- 16c:	91 83       	std	Z+1, r25	; 0x01
- 16e:	80 83       	st	Z, r24
- 170:	93 83       	std	Z+3, r25	; 0x03
- 172:	82 83       	std	Z+2, r24	; 0x02
- 174:	8f ef       	ldi	r24, 0xFF	; 255
- 176:	9f e1       	ldi	r25, 0x1F	; 31
- 178:	95 83       	std	Z+5, r25	; 0x05
- 17a:	84 83       	std	Z+4, r24	; 0x04
- 17c:	97 83       	std	Z+7, r25	; 0x07
- 17e:	86 83       	std	Z+6, r24	; 0x06
- 180:	8f ef       	ldi	r24, 0xFF	; 255
- 182:	9e e1       	ldi	r25, 0x1E	; 30
- 184:	91 87       	std	Z+9, r25	; 0x09
- 186:	80 87       	std	Z+8, r24	; 0x08
- 188:	93 87       	std	Z+11, r25	; 0x0b
- 18a:	82 87       	std	Z+10, r24	; 0x0a
- 18c:	8f ef       	ldi	r24, 0xFF	; 255
- 18e:	9d e1       	ldi	r25, 0x1D	; 29
- 190:	95 87       	std	Z+13, r25	; 0x0d
- 192:	84 87       	std	Z+12, r24	; 0x0c
- 194:	97 87       	std	Z+15, r25	; 0x0f
- 196:	86 87       	std	Z+14, r24	; 0x0e
- 198:	8f ef       	ldi	r24, 0xFF	; 255
- 19a:	9c e1       	ldi	r25, 0x1C	; 28
- 19c:	91 8b       	std	Z+17, r25	; 0x11
- 19e:	80 8b       	std	Z+16, r24	; 0x10
- 1a0:	93 8b       	std	Z+19, r25	; 0x13
- 1a2:	82 8b       	std	Z+18, r24	; 0x12
- 1a4:	8f ef       	ldi	r24, 0xFF	; 255
- 1a6:	9b e1       	ldi	r25, 0x1B	; 27
- 1a8:	95 8b       	std	Z+21, r25	; 0x15
- 1aa:	84 8b       	std	Z+20, r24	; 0x14
- 1ac:	97 8b       	std	Z+23, r25	; 0x17
- 1ae:	86 8b       	std	Z+22, r24	; 0x16
- 1b0:	8f ef       	ldi	r24, 0xFF	; 255
- 1b2:	9a e1       	ldi	r25, 0x1A	; 26
- 1b4:	91 8f       	std	Z+25, r25	; 0x19
- 1b6:	80 8f       	std	Z+24, r24	; 0x18
- 1b8:	93 8f       	std	Z+27, r25	; 0x1b
- 1ba:	82 8f       	std	Z+26, r24	; 0x1a
- 1bc:	8f ef       	ldi	r24, 0xFF	; 255
- 1be:	99 e1       	ldi	r25, 0x19	; 25
- 1c0:	95 8f       	std	Z+29, r25	; 0x1d
- 1c2:	84 8f       	std	Z+28, r24	; 0x1c
- 1c4:	97 8f       	std	Z+31, r25	; 0x1f
- 1c6:	86 8f       	std	Z+30, r24	; 0x1e
- 1c8:	8a ea       	ldi	r24, 0xAA	; 170
- 1ca:	80 93 00 20 	sts	0x2000, r24	; 0x802000 <__bss_end+0x1dc9>
- 1ce:	80 93 00 1f 	sts	0x1F00, r24	; 0x801f00 <__bss_end+0x1cc9>
- 1d2:	80 93 00 1e 	sts	0x1E00, r24	; 0x801e00 <__bss_end+0x1bc9>
- 1d6:	80 93 00 1d 	sts	0x1D00, r24	; 0x801d00 <__bss_end+0x1ac9>
- 1da:	80 93 00 1c 	sts	0x1C00, r24	; 0x801c00 <__bss_end+0x19c9>
- 1de:	80 93 00 1b 	sts	0x1B00, r24	; 0x801b00 <__bss_end+0x18c9>
- 1e2:	80 93 00 1a 	sts	0x1A00, r24	; 0x801a00 <__bss_end+0x17c9>
- 1e6:	80 93 00 19 	sts	0x1900, r24	; 0x801900 <__bss_end+0x16c9>
- 1ea:	8d b7       	in	r24, 0x3d	; 61
- 1ec:	9e b7       	in	r25, 0x3e	; 62
- 1ee:	81 15       	cp	r24, r1
- 1f0:	92 42       	sbci	r25, 0x22	; 34
- 1f2:	b0 f4       	brcc	.+44     	; 0x220 <x_init+0x116>
- 1f4:	a0 e0       	ldi	r26, 0x00	; 0
- 1f6:	b1 e2       	ldi	r27, 0x21	; 33
- 1f8:	80 e0       	ldi	r24, 0x00	; 0
- 1fa:	92 e2       	ldi	r25, 0x22	; 34
- 1fc:	c1 e0       	ldi	r28, 0x01	; 1
- 1fe:	d2 e2       	ldi	r29, 0x22	; 34
- 200:	fc 01       	movw	r30, r24
- 202:	22 91       	ld	r18, -Z
- 204:	2e 93       	st	-X, r18
- 206:	be 01       	movw	r22, r28
- 208:	68 1b       	sub	r22, r24
- 20a:	79 0b       	sbc	r23, r25
- 20c:	9c 01       	movw	r18, r24
- 20e:	22 50       	subi	r18, 0x02	; 2
- 210:	31 09       	sbc	r19, r1
- 212:	4d b7       	in	r20, 0x3d	; 61
- 214:	5e b7       	in	r21, 0x3e	; 62
- 216:	cf 01       	movw	r24, r30
- 218:	24 17       	cp	r18, r20
- 21a:	35 07       	cpc	r19, r21
- 21c:	88 f7       	brcc	.-30     	; 0x200 <x_init+0xf6>
- 21e:	02 c0       	rjmp	.+4      	; 0x224 <x_init+0x11a>
- 220:	60 e0       	ldi	r22, 0x00	; 0
- 222:	70 e0       	ldi	r23, 0x00	; 0
- 224:	80 e0       	ldi	r24, 0x00	; 0
- 226:	91 e2       	ldi	r25, 0x21	; 33
- 228:	86 1b       	sub	r24, r22
- 22a:	97 0b       	sbc	r25, r23
- 22c:	9e bf       	out	0x3e, r25	; 62
- 22e:	8d bf       	out	0x3d, r24	; 61
- 230:	78 94       	sei
- 232:	df 91       	pop	r29
- 234:	cf 91       	pop	r28
- 236:	08 95       	ret
+ 1c2:	cf 93       	push	r28
+ 1c4:	df 93       	push	r29
+ 1c6:	f8 94       	cli
+ 1c8:	82 e0       	ldi	r24, 0x02	; 2
+ 1ca:	84 bd       	out	0x24, r24	; 36
+ 1cc:	9a ef       	ldi	r25, 0xFA	; 250
+ 1ce:	97 bd       	out	0x27, r25	; 39
+ 1d0:	80 93 6e 00 	sts	0x006E, r24	; 0x80006e <__TEXT_REGION_LENGTH__+0x70006e>
+ 1d4:	83 e0       	ldi	r24, 0x03	; 3
+ 1d6:	85 bd       	out	0x25, r24	; 37
+ 1d8:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <_edata+0x1>
+ 1dc:	10 92 00 02 	sts	0x0200, r1	; 0x800200 <_edata>
+ 1e0:	8e ef       	ldi	r24, 0xFE	; 254
+ 1e2:	80 93 13 02 	sts	0x0213, r24	; 0x800213 <disable_status>
+ 1e6:	10 92 35 02 	sts	0x0235, r1	; 0x800235 <suspend_status>
+ 1ea:	10 92 34 02 	sts	0x0234, r1	; 0x800234 <delay_status>
+ 1ee:	e3 e0       	ldi	r30, 0x03	; 3
+ 1f0:	f2 e0       	ldi	r31, 0x02	; 2
+ 1f2:	11 82       	std	Z+1, r1	; 0x01
+ 1f4:	10 82       	st	Z, r1
+ 1f6:	13 82       	std	Z+3, r1	; 0x03
+ 1f8:	12 82       	std	Z+2, r1	; 0x02
+ 1fa:	15 82       	std	Z+5, r1	; 0x05
+ 1fc:	14 82       	std	Z+4, r1	; 0x04
+ 1fe:	17 82       	std	Z+7, r1	; 0x07
+ 200:	16 82       	std	Z+6, r1	; 0x06
+ 202:	11 86       	std	Z+9, r1	; 0x09
+ 204:	10 86       	std	Z+8, r1	; 0x08
+ 206:	13 86       	std	Z+11, r1	; 0x0b
+ 208:	12 86       	std	Z+10, r1	; 0x0a
+ 20a:	15 86       	std	Z+13, r1	; 0x0d
+ 20c:	14 86       	std	Z+12, r1	; 0x0c
+ 20e:	17 86       	std	Z+15, r1	; 0x0f
+ 210:	16 86       	std	Z+14, r1	; 0x0e
+ 212:	10 92 02 02 	sts	0x0202, r1	; 0x800202 <x_thread_id>
+ 216:	81 e0       	ldi	r24, 0x01	; 1
+ 218:	80 93 36 02 	sts	0x0236, r24	; 0x800236 <x_thread_mask>
+ 21c:	e4 e1       	ldi	r30, 0x14	; 20
+ 21e:	f2 e0       	ldi	r31, 0x02	; 2
+ 220:	8f ef       	ldi	r24, 0xFF	; 255
+ 222:	90 e2       	ldi	r25, 0x20	; 32
+ 224:	91 83       	std	Z+1, r25	; 0x01
+ 226:	80 83       	st	Z, r24
+ 228:	93 83       	std	Z+3, r25	; 0x03
+ 22a:	82 83       	std	Z+2, r24	; 0x02
+ 22c:	8f ef       	ldi	r24, 0xFF	; 255
+ 22e:	9f e1       	ldi	r25, 0x1F	; 31
+ 230:	95 83       	std	Z+5, r25	; 0x05
+ 232:	84 83       	std	Z+4, r24	; 0x04
+ 234:	97 83       	std	Z+7, r25	; 0x07
+ 236:	86 83       	std	Z+6, r24	; 0x06
+ 238:	8f ef       	ldi	r24, 0xFF	; 255
+ 23a:	9e e1       	ldi	r25, 0x1E	; 30
+ 23c:	91 87       	std	Z+9, r25	; 0x09
+ 23e:	80 87       	std	Z+8, r24	; 0x08
+ 240:	93 87       	std	Z+11, r25	; 0x0b
+ 242:	82 87       	std	Z+10, r24	; 0x0a
+ 244:	8f ef       	ldi	r24, 0xFF	; 255
+ 246:	9d e1       	ldi	r25, 0x1D	; 29
+ 248:	95 87       	std	Z+13, r25	; 0x0d
+ 24a:	84 87       	std	Z+12, r24	; 0x0c
+ 24c:	97 87       	std	Z+15, r25	; 0x0f
+ 24e:	86 87       	std	Z+14, r24	; 0x0e
+ 250:	8f ef       	ldi	r24, 0xFF	; 255
+ 252:	9c e1       	ldi	r25, 0x1C	; 28
+ 254:	91 8b       	std	Z+17, r25	; 0x11
+ 256:	80 8b       	std	Z+16, r24	; 0x10
+ 258:	93 8b       	std	Z+19, r25	; 0x13
+ 25a:	82 8b       	std	Z+18, r24	; 0x12
+ 25c:	8f ef       	ldi	r24, 0xFF	; 255
+ 25e:	9b e1       	ldi	r25, 0x1B	; 27
+ 260:	95 8b       	std	Z+21, r25	; 0x15
+ 262:	84 8b       	std	Z+20, r24	; 0x14
+ 264:	97 8b       	std	Z+23, r25	; 0x17
+ 266:	86 8b       	std	Z+22, r24	; 0x16
+ 268:	8f ef       	ldi	r24, 0xFF	; 255
+ 26a:	9a e1       	ldi	r25, 0x1A	; 26
+ 26c:	91 8f       	std	Z+25, r25	; 0x19
+ 26e:	80 8f       	std	Z+24, r24	; 0x18
+ 270:	93 8f       	std	Z+27, r25	; 0x1b
+ 272:	82 8f       	std	Z+26, r24	; 0x1a
+ 274:	8f ef       	ldi	r24, 0xFF	; 255
+ 276:	99 e1       	ldi	r25, 0x19	; 25
+ 278:	95 8f       	std	Z+29, r25	; 0x1d
+ 27a:	84 8f       	std	Z+28, r24	; 0x1c
+ 27c:	97 8f       	std	Z+31, r25	; 0x1f
+ 27e:	86 8f       	std	Z+30, r24	; 0x1e
+ 280:	8a ea       	ldi	r24, 0xAA	; 170
+ 282:	80 93 00 20 	sts	0x2000, r24	; 0x802000 <__bss_end+0x1dc9>
+ 286:	80 93 00 1f 	sts	0x1F00, r24	; 0x801f00 <__bss_end+0x1cc9>
+ 28a:	80 93 00 1e 	sts	0x1E00, r24	; 0x801e00 <__bss_end+0x1bc9>
+ 28e:	80 93 00 1d 	sts	0x1D00, r24	; 0x801d00 <__bss_end+0x1ac9>
+ 292:	80 93 00 1c 	sts	0x1C00, r24	; 0x801c00 <__bss_end+0x19c9>
+ 296:	80 93 00 1b 	sts	0x1B00, r24	; 0x801b00 <__bss_end+0x18c9>
+ 29a:	80 93 00 1a 	sts	0x1A00, r24	; 0x801a00 <__bss_end+0x17c9>
+ 29e:	80 93 00 19 	sts	0x1900, r24	; 0x801900 <__bss_end+0x16c9>
+ 2a2:	8d b7       	in	r24, 0x3d	; 61
+ 2a4:	9e b7       	in	r25, 0x3e	; 62
+ 2a6:	81 15       	cp	r24, r1
+ 2a8:	92 42       	sbci	r25, 0x22	; 34
+ 2aa:	b0 f4       	brcc	.+44     	; 0x2d8 <x_init+0x116>
+ 2ac:	a0 e0       	ldi	r26, 0x00	; 0
+ 2ae:	b1 e2       	ldi	r27, 0x21	; 33
+ 2b0:	80 e0       	ldi	r24, 0x00	; 0
+ 2b2:	92 e2       	ldi	r25, 0x22	; 34
+ 2b4:	c1 e0       	ldi	r28, 0x01	; 1
+ 2b6:	d2 e2       	ldi	r29, 0x22	; 34
+ 2b8:	fc 01       	movw	r30, r24
+ 2ba:	22 91       	ld	r18, -Z
+ 2bc:	2e 93       	st	-X, r18
+ 2be:	be 01       	movw	r22, r28
+ 2c0:	68 1b       	sub	r22, r24
+ 2c2:	79 0b       	sbc	r23, r25
+ 2c4:	9c 01       	movw	r18, r24
+ 2c6:	22 50       	subi	r18, 0x02	; 2
+ 2c8:	31 09       	sbc	r19, r1
+ 2ca:	4d b7       	in	r20, 0x3d	; 61
+ 2cc:	5e b7       	in	r21, 0x3e	; 62
+ 2ce:	cf 01       	movw	r24, r30
+ 2d0:	24 17       	cp	r18, r20
+ 2d2:	35 07       	cpc	r19, r21
+ 2d4:	88 f7       	brcc	.-30     	; 0x2b8 <x_init+0xf6>
+ 2d6:	02 c0       	rjmp	.+4      	; 0x2dc <x_init+0x11a>
+ 2d8:	60 e0       	ldi	r22, 0x00	; 0
+ 2da:	70 e0       	ldi	r23, 0x00	; 0
+ 2dc:	80 e0       	ldi	r24, 0x00	; 0
+ 2de:	91 e2       	ldi	r25, 0x21	; 33
+ 2e0:	86 1b       	sub	r24, r22
+ 2e2:	97 0b       	sbc	r25, r23
+ 2e4:	9e bf       	out	0x3e, r25	; 62
+ 2e6:	8d bf       	out	0x3d, r24	; 61
+ 2e8:	78 94       	sei
+ 2ea:	df 91       	pop	r29
+ 2ec:	cf 91       	pop	r28
+ 2ee:	08 95       	ret
 
-00000238 <main>:
- 238:	68 df       	rcall	.-304    	; 0x10a <x_init>
- 23a:	ff cf       	rjmp	.-2      	; 0x23a <main+0x2>
+000002f0 <main>:
+ 2f0:	68 df       	rcall	.-304    	; 0x1c2 <x_init>
+ 2f2:	0b df       	rcall	.-490    	; 0x10a <x_yield>
+ 2f4:	fe cf       	rjmp	.-4      	; 0x2f2 <main+0x2>
 
-0000023c <__vector_21>:
+000002f6 <__vector_21>:
 
 /************************************************************************
 * TIMER0 ISR for compare match, that for now does nothing.
 ************************************************************************/
 ISR (TIMER0_COMPA_vect)
 {
- 23c:	1f 92       	push	r1
- 23e:	0f 92       	push	r0
- 240:	0f b6       	in	r0, 0x3f	; 63
- 242:	0f 92       	push	r0
- 244:	11 24       	eor	r1, r1
+ 2f6:	1f 92       	push	r1
+ 2f8:	0f 92       	push	r0
+ 2fa:	0f b6       	in	r0, 0x3f	; 63
+ 2fc:	0f 92       	push	r0
+ 2fe:	11 24       	eor	r1, r1
 	
 }
- 246:	0f 90       	pop	r0
- 248:	0f be       	out	0x3f, r0	; 63
- 24a:	0f 90       	pop	r0
- 24c:	1f 90       	pop	r1
- 24e:	18 95       	reti
+ 300:	0f 90       	pop	r0
+ 302:	0f be       	out	0x3f, r0	; 63
+ 304:	0f 90       	pop	r0
+ 306:	1f 90       	pop	r1
+ 308:	18 95       	reti
 
-00000250 <_exit>:
- 250:	f8 94       	cli
+0000030a <_exit>:
+ 30a:	f8 94       	cli
 
-00000252 <__stop_program>:
- 252:	ff cf       	rjmp	.-2      	; 0x252 <__stop_program>
+0000030c <__stop_program>:
+ 30c:	ff cf       	rjmp	.-2      	; 0x30c <__stop_program>

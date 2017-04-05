@@ -108,10 +108,15 @@ typedef void			(*PTHREAD)(void);
 //---------------------------------------------------------------------------
 // This union is used to provide access to individual bytes of a thread address
 //---------------------------------------------------------------------------
-union ThreadAddress {
-		byte thread;
-	};
-
+typedef union {
+		PTHREAD thread;
+		byte address[3];
+	} PTU; 
+	// PTU u;
+	// u.thread = newThread;
+	// u.add[0] = L
+	//      [1] = M
+	//      [2] = H
 
 //---------------------------------------------------------------------------
 // This type is used for entries in the stack control table

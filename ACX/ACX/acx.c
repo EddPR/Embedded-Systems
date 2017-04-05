@@ -51,7 +51,7 @@ int main(void)
 	x_init();
 	while (1)
 	{
-		// Nothing for now
+		x_yield();
 	}
 }
 
@@ -63,6 +63,10 @@ int main(void)
 void x_init(void)
 {
 	cli();	// Disable interrupts
+	
+	// Save return address
+	/*byte * returnAddress;
+	returnAddress = (byte *) SP;*/
 	
 	// Setup for 8-bit Timer0
 	TCCR0A = CTC_MODE;
@@ -129,6 +133,13 @@ void x_init(void)
 	
 	// Set SP to point to this stack area
 	SP = (int) (THREAD0_BASE - i + 1);
+	
+	/*byte * thread0_stackTop = ((byte *) THREAD0_BASE);
+	*(thread0_stackTop) = returnAddress[1];
+	*(thread0_stackTop - 1) = returnAddress[2];
+	*(thread0_stackTop - 2) = returnAddress[3];
+	
+	SP = (int) (THREAD0_BASE - 3);*/
 
 	sei();	// Re-enable interrupts
 
