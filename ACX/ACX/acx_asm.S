@@ -66,6 +66,7 @@ x_schedule:
 		lds		r20, delay_status	; load delay status
 		or		r18, r19			; compute available thread based on status
 		or		r18, r20			; compute available thread based on status
+		com		r18					; invert status mask
 calcThreadMask:
 		; Test for bit2mask8 is working
 		; Possibly rework code in isThreadReady, if x_thread_mask isn't already calculated
@@ -77,17 +78,20 @@ loadThread:
 		;lds		r22, x_thread_mask	; save thread mask
 		mov		r22, r24			; save thread mask calculated in bit2mask8
 checkThread:
-		cpi		r21, 7				; check if x_thread_id is 7
-		brne	nextAvailable		; if x_thread_id != 7, continue on
+		inc		r21					; increment x_thread_id
+		cpi		r21, 8				; check if x_thread_id is 8
+		brne	nextAvailable		; if x_thread_id != 8, continue on, otherwise clear
 clear:
-		clr		r21					; if x_thread_id == 7, set to 0 and
-		ldi		r22, 1				; set x_thread_mask to 1
+		clr		r21					; if x_thread_id == 8, set to 0 and
+		ldi		r22, 1 				; set x_thread_mask to 1
+		jmp		specialCase			; you shouldn't shift the pre-set mask in this case
 nextAvailable:
 		lsl		r22					; left shift x_thread_mask (next thread)
-		inc		r21					; increment x_thread_id
+specialCase:
 		cp		r22, r18			; check if next thread is equal to thread status
-		breq	checkThread			; if so, check the next thread, otherwise
+		brne	checkThread			; if not, check the next thread, otherwise
 saveThread:
+		cli							; disable global interrupts
 		sts		x_thread_id, r21	; store new x_thread_id
 		sts		x_thread_mask, r22	; store new x_thread_mask
 		ldi		r26, lo8(stack)		; load lower byte address of stack array (X)
@@ -100,6 +104,7 @@ charOffset:
 updateSP:
 		sts		SPL, r27			; update SPL to new thread context
 		sts		SPH, r26			; update SPH to new thread context
+		sei							; enable global interrupts
 
 ;---------------------------------------------------
 ; Restore context of next READY thread
@@ -139,13 +144,13 @@ restore:
 		.global bit2mask8
 bit2mask8:
 		;r24 containts thread ID input
-		mov		r18, r24				; copy paraqmeter, now is count	
+		mov		r23, r24				; copy paraqmeter, now is count	
 		ldi		r24, 1					; mask beggins with a 1
-		cpi		r18, 0					; if param is 0, return
+		cpi		r23, 0					; if param is 0, return
 		breq	finish
 loop:	
 		lsl		r24						; shift mask left
-		dec		r18						; decrement count
+		dec		r23						; decrement count
 		breq	finish					; if count is zero, return
 		brne	loop					; if count > 0, loop
 finish:
