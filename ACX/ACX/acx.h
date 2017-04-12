@@ -76,6 +76,7 @@
 
 // macro to access the current thread id
 #define x_getTID()		(x_thread_id)
+#define x_gtime()		(timer)
 
 // macros for stack
 #define CALLEE_REGISTER_SPACE	18
@@ -91,17 +92,7 @@
 // Data type for a byte
 typedef uint8_t			byte;
 
-// global timer field
-int timer;
 
-// thread fields
-byte x_thread_id;
-byte x_thread_mask;
-
-// status fields
-byte delay_status;
-byte suspend_status;
-byte disable_status;
 
 //---------------------------------------------------------------------------
 // PTHREAD is a type that represents how threads are called--
@@ -142,7 +133,7 @@ typedef	uint16_t		Delay;
 //----------------------------------------------------------------------------
 void			x_init(void);
 void			x_delay(unsigned int);
-unsigned long	x_gtime(void);
+//unsigned long	x_gtime(void);
 extern void		x_schedule(void);
 void			x_new(uint8_t, PTHREAD , bool);
 extern void		x_yield(void);

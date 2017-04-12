@@ -11,6 +11,7 @@
 #include <avr/interrupt.h>
 #include <avr/common.h>
 #include <util/atomic.h>
+#include <util/delay.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "acx.h"
@@ -24,18 +25,21 @@ Stack stack[NUM_THREADS];
 //---------------------------------------------------
 // Stack Memory
 //---------------------------------------------------
-
+byte x_thread_id;
+byte x_thread_mask;
 
 //---------------------------------------------------
 // Thread Delay Counters
 //---------------------------------------------------
 volatile Delay x_thread_delay[NUM_THREADS];
+unsigned long timer;
 
 //---------------------------------------------------
 // Exec State Variables
 //---------------------------------------------------
-
-
+byte delay_status;
+byte suspend_status;
+byte disable_status;
 
 //---------------------------------------------------
 // Local Functions
@@ -66,6 +70,10 @@ int main(void)
 	}
 }
 
+/************************************************************************
+* Function is meant to test x_new(). It creates a local variable 'i'
+* for every thread created using x_new().
+************************************************************************/
 void testThread(void)
 {
 	volatile int i = 0;
@@ -76,32 +84,44 @@ void testThread(void)
 	}
 }
 
+/************************************************************************
+* Function sets up an LED on Digital Pin 37, then toggles it at a given
+* rate
+************************************************************************/
 void thread0()
 {
-	DDRC |= 0x01;
+	DDRC |= 0x01;	// PORTC.0 -> DP37
 	while(1) 
 	{
-		PORTC ^= 0x01;
+		PORTC ^= 0x01;	// Toggle LED
 		x_delay(250);
 	}
 }
 
+/************************************************************************
+* Function sets up an LED on Digital Pin 36, then toggles it at a given
+* rate
+************************************************************************/
 void thread1()
 {
-	DDRC |= 0x02;
+	DDRC |= 0x02;	// PORTC.1 -> DP36
 	while(1)
 	{
-		PORTC ^= 0x02;
+		PORTC ^= 0x02;	// Toggle LED
 		x_delay(900);
 	}
 }
 
+/************************************************************************
+* Function sets up an LED on Digital Pin 37, then toggles it at a given
+* rate
+************************************************************************/
 void thread2()
 {
-	DDRC |= 0x04;
+	DDRC |= 0x04;	// PORTC.2 -> DP35
 	while(1)
 	{
-		PORTC ^= 0x04;
+		PORTC ^= 0x04;	// Toggle LED
 		x_delay(65);
 	}
 }
@@ -188,7 +208,11 @@ void x_init(void)
 }
 
 /************************************************************************
-* 
+* Function causes a thread to place itself in a "blocked" condition for 
+* a specified number of "system ticks". If there are other READY threads, 
+* then one of them will be selected by the scheduler to be placed into 
+* execution
+* ticks:	delay value
 ************************************************************************/
 void x_delay(unsigned int ticks)
 {
@@ -201,18 +225,11 @@ void x_delay(unsigned int ticks)
 }
 
 /************************************************************************
-*
-************************************************************************/
-unsigned long x_gtime()
-{
-	return 0;
-}
-
-/************************************************************************
-*
-* threadId: ID of the thread to which "newthread' will be assigned (0-7)
-* newthread: function pointer that takes no params and return nothing.
-* isEnabled: initial status of thread - 1 -> enabled | 0 -> disabled
+* Function is used to assign a code (function) pointer to a particular 
+* thread ID. 
+* threadId:		ID of the thread to which "newthread' will be assigned (0-7)
+* newthread:	function pointer that takes no params and return nothing.
+* isEnabled:	initial status of thread - 1 -> enabled | 0 -> disabled
 ************************************************************************/
 void x_new(byte threadID, PTHREAD newthread, bool isEnabled)
 {
@@ -226,56 +243,76 @@ void x_new(byte threadID, PTHREAD newthread, bool isEnabled)
 	stack[threadID].head = (byte *) ((int) (stack[threadID].head - (RESERVED_SPACE)));	// Reserve Register Space
 	//*(stack[threadID].head) = 1;			// Simple marker in stack
 	
-	x_thread_mask = bit2mask8(threadID);	// Mask with 1 << threadID
-	
 	if (isEnabled) 
 	{
-		disable_status &= ~(x_thread_mask);	// Enable thread
+		disable_status &= ~(1 << threadID);	// Enable thread
 	}
 	else 
 	{
-		disable_status |= x_thread_mask;			// Disable thread
+		disable_status |= (1 << threadID);			// Disable thread
 	}
 }
 
 /************************************************************************
-*
+* Function suspends the specified thread by setting its suspend status bit
+* tid:	thread ID
 ************************************************************************/
-void x_suspend(uint8_t thread_id)
+void x_suspend(uint8_t tid)
 {
-	
+	/*uint8_t temp = SREG;   // save SREG --holds global interrupt enable bit
+	cli();  // disable interrupts
+	do the atomic access
+	SREG = temp;   // restore interrupt state*/
+	ATOMIC_BLOCK(ATOMIC_RESTORESTATE) 
+	{
+		suspend_status |= (1 << tid);
+	}
 }
 
 /************************************************************************
-*
+* Function resumes specified thread by clearing its suspend status bit
+* tid:	thread ID
 ************************************************************************/
-void x_resume(uint8_t thread_id)
+void x_resume(uint8_t tid)
 {
-	
+	ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+	{
+		suspend_status &= ~(1 << tid);
+	}
 }
 
 /************************************************************************
-*
+* Function disables specified thread by setting its disable status bit
+* tid:	thread ID
 ************************************************************************/
-void x_disable(uint8_t thread_id)
+void x_disable(uint8_t tid)
 {
-	
+	ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+	{
+		disable_status |= (1 << tid);
+	}
 }
 
 /************************************************************************
-*
+* Function enables specified thread by clearing its disable status bit
+* tid:	thread ID
 ************************************************************************/
-void x_enable(uint8_t thread_id)
+void x_enable(uint8_t tid)
 {
-	
+	ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+	{
+		disable_status &= ~(1 << tid);
+	}
 }
 
 /************************************************************************
-* TIMER0 ISR for compare match, that for now does nothing.
+* TIMER0 ISR for compare match, that decrements delays for all threads
+* and enables threads whose delay value reaches 0.
 ************************************************************************/
 ISR (TIMER0_COMPA_vect)
 {
 	cli();	// Disable interrupts
+	timer++;	// Increment global timer
 	for (int i = 0; i < NUM_THREADS; i++)
 	{
 		if (x_thread_delay[i] > 0)	// If count is non-zero
