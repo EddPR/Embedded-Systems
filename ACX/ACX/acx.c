@@ -29,7 +29,7 @@ Stack stack[NUM_THREADS];
 //---------------------------------------------------
 // Thread Delay Counters
 //---------------------------------------------------
-Delay delay_counter[NUM_THREADS];
+volatile Delay x_thread_delay[NUM_THREADS];
 
 //---------------------------------------------------
 // Exec State Variables
@@ -40,7 +40,10 @@ Delay delay_counter[NUM_THREADS];
 //---------------------------------------------------
 // Local Functions
 //---------------------------------------------------
-
+void testThread(void);
+void thread0(void);
+void thread1(void);
+void thread2(void);
 
 //---------------------------------------------------
 // ACX Functions
@@ -48,10 +51,58 @@ Delay delay_counter[NUM_THREADS];
 
 int main(void)
 {
+	/*volatile int j = 0;
 	x_init();
+	x_new(1, testThread, true);
+	x_new(0, testThread, true);*/
+	x_init();
+	x_new(2, (PTHREAD)thread2, 1);
+	x_new(1, (PTHREAD)thread1, 1);
+	x_new(0, (PTHREAD)thread0, 1);
 	while (1)
 	{
+		/*j++;
+		x_yield();*/
+	}
+}
+
+void testThread(void)
+{
+	volatile int i = 0;
+	while (1)
+	{
+		i++;
 		x_yield();
+	}
+}
+
+void thread0()
+{
+	DDRC |= 0x01;
+	while(1) 
+	{
+		PORTC ^= 0x01;
+		x_delay(250);
+	}
+}
+
+void thread1()
+{
+	DDRC |= 0x02;
+	while(1)
+	{
+		PORTC ^= 0x02;
+		x_delay(900);
+	}
+}
+
+void thread2()
+{
+	DDRC |= 0x04;
+	while(1)
+	{
+		PORTC ^= 0x04;
+		x_delay(65);
 	}
 }
 
@@ -63,10 +114,6 @@ int main(void)
 void x_init(void)
 {
 	cli();	// Disable interrupts
-	
-	// Save return address
-	/*byte * returnAddress;
-	returnAddress = (byte *) SP;*/
 	
 	// Setup for 8-bit Timer0
 	TCCR0A = CTC_MODE;
@@ -82,35 +129,35 @@ void x_init(void)
 	delay_status = 0x00;
 	
 	// Clear counter
-	delay_counter[0] = 0;
-	delay_counter[1] = 0;
-	delay_counter[2] = 0;
-	delay_counter[3] = 0;
-	delay_counter[4] = 0;
-	delay_counter[5] = 0;
-	delay_counter[6] = 0;
-	delay_counter[7] = 0;
+	x_thread_delay[0] = 0;
+	x_thread_delay[1] = 0;
+	x_thread_delay[2] = 0;
+	x_thread_delay[3] = 0;
+	x_thread_delay[4] = 0;
+	x_thread_delay[5] = 0;
+	x_thread_delay[6] = 0;
+	x_thread_delay[7] = 0;
 	
 	x_thread_id = 0;		// Current thread
 	x_thread_mask = 0x01;	// Bit 0 set corresponds to Thread 0
 	
 	// Initialize stack control table
-	stack[0].stack_head = (byte *) THREAD0_BASE;
-	stack[0].stack_base = (byte *) THREAD0_BASE;
-	stack[1].stack_head = (byte *) THREAD1_BASE;
-	stack[1].stack_base = (byte *) THREAD1_BASE;
-	stack[2].stack_head = (byte *) THREAD2_BASE;
-	stack[2].stack_base = (byte *) THREAD2_BASE;
-	stack[3].stack_head = (byte *) THREAD3_BASE;
-	stack[3].stack_base = (byte *) THREAD3_BASE;
-	stack[4].stack_head = (byte *) THREAD4_BASE;
-	stack[4].stack_base = (byte *) THREAD4_BASE;
-	stack[5].stack_head = (byte *) THREAD5_BASE;
-	stack[5].stack_base = (byte *) THREAD5_BASE;
-	stack[6].stack_head = (byte *) THREAD6_BASE;
-	stack[6].stack_base = (byte *) THREAD6_BASE;
-	stack[7].stack_head = (byte *) THREAD7_BASE;
-	stack[7].stack_base = (byte *) THREAD7_BASE;
+	stack[0].head = (byte *) THREAD0_BASE;
+	stack[0].base = (byte *) THREAD0_BASE;
+	stack[1].head = (byte *) THREAD1_BASE;
+	stack[1].base = (byte *) THREAD1_BASE;
+	stack[2].head = (byte *) THREAD2_BASE;
+	stack[2].base = (byte *) THREAD2_BASE;
+	stack[3].head = (byte *) THREAD3_BASE;
+	stack[3].base = (byte *) THREAD3_BASE;
+	stack[4].head = (byte *) THREAD4_BASE;
+	stack[4].base = (byte *) THREAD4_BASE;
+	stack[5].head = (byte *) THREAD5_BASE;
+	stack[5].base = (byte *) THREAD5_BASE;
+	stack[6].head = (byte *) THREAD6_BASE;
+	stack[6].base = (byte *) THREAD6_BASE;
+	stack[7].head = (byte *) THREAD7_BASE;
+	stack[7].base = (byte *) THREAD7_BASE;
 	
 	// Initialize stack canaries
 	*((byte *) THREAD0_CANARY) = CANARY_VALUE;
@@ -133,13 +180,6 @@ void x_init(void)
 	
 	// Set SP to point to this stack area
 	SP = (int) (THREAD0_BASE - i + 1);
-	
-	/*byte * thread0_stackTop = ((byte *) THREAD0_BASE);
-	*(thread0_stackTop) = returnAddress[1];
-	*(thread0_stackTop - 1) = returnAddress[2];
-	*(thread0_stackTop - 2) = returnAddress[3];
-	
-	SP = (int) (THREAD0_BASE - 3);*/
 
 	sei();	// Re-enable interrupts
 
@@ -150,9 +190,14 @@ void x_init(void)
 /************************************************************************
 * 
 ************************************************************************/
-void x_delay(unsigned int interval)
+void x_delay(unsigned int ticks)
 {
-	
+	ATOMIC_BLOCK(ATOMIC_RESTORESTATE)	// Disable Interrupts
+	{
+		x_thread_delay[x_thread_id] = ticks;	// Copies ticks to calling thread's delay counter
+		disable_status |= x_thread_mask;		// Sets x_delay_status bit corresponding to calling thread's ID
+	}
+	x_yield();		// Reschedule 
 }
 
 /************************************************************************
@@ -165,10 +210,32 @@ unsigned long x_gtime()
 
 /************************************************************************
 *
+* threadId: ID of the thread to which "newthread' will be assigned (0-7)
+* newthread: function pointer that takes no params and return nothing.
+* isEnabled: initial status of thread - 1 -> enabled | 0 -> disabled
 ************************************************************************/
-void x_new(uint8_t thread_id, PTHREAD pthread, bool isEnabled)
+void x_new(byte threadID, PTHREAD newthread, bool isEnabled)
 {
+	PTU u;
+	u.thread = newthread;
 	
+	*(stack[threadID].head) = u.address[0]; // LOW
+	*(stack[threadID].head - 1) = u.address[1]; // MID
+	*(stack[threadID].head - 2) = u.address[2]; // HIGH
+	
+	stack[threadID].head = (byte *) ((int) (stack[threadID].head - (RESERVED_SPACE)));	// Reserve Register Space
+	//*(stack[threadID].head) = 1;			// Simple marker in stack
+	
+	x_thread_mask = bit2mask8(threadID);	// Mask with 1 << threadID
+	
+	if (isEnabled) 
+	{
+		disable_status &= ~(x_thread_mask);	// Enable thread
+	}
+	else 
+	{
+		disable_status |= x_thread_mask;			// Disable thread
+	}
 }
 
 /************************************************************************
@@ -208,6 +275,20 @@ void x_enable(uint8_t thread_id)
 ************************************************************************/
 ISR (TIMER0_COMPA_vect)
 {
-	
+	cli();	// Disable interrupts
+	for (int i = 0; i < NUM_THREADS; i++)
+	{
+		if (x_thread_delay[i] > 0)	// If count is non-zero
+		{
+			x_thread_delay[i]--;	// Decrement count
+			
+			if (x_thread_delay[i] == 0)	// If current x_thread_id isn't disabled
+			{
+				disable_status &= ~(1 << i);	// Enable thread
+			}
+		}
+		
+	}
+	sei();	// Enable interrupts
 }
 

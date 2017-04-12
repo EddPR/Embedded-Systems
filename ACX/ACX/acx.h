@@ -21,7 +21,7 @@
 #define NUM_THREADS				8
 
 // define stack sizes for each thread
-#define DEFAULT_STACK_SIZE		256
+#define DEFAULT_STACK_SIZE		128
 #define THREAD0_STACK_SIZE		DEFAULT_STACK_SIZE
 #define THREAD1_STACK_SIZE		DEFAULT_STACK_SIZE
 #define THREAD2_STACK_SIZE		DEFAULT_STACK_SIZE
@@ -77,6 +77,11 @@
 // macro to access the current thread id
 #define x_getTID()		(x_thread_id)
 
+// macros for stack
+#define CALLEE_REGISTER_SPACE	18
+#define RETURN_ADDRESS_SPACE	3
+#define RESERVED_SPACE			CALLEE_REGISTER_SPACE + RETURN_ADDRESS_SPACE - 1
+
 // macros for Timer
 #define CTC_MODE		0x02
 #define TOP				250		// Representative of 1 msec
@@ -114,16 +119,16 @@ typedef union {
 	} PTU; 
 	// PTU u;
 	// u.thread = newThread;
-	// u.add[0] = L
-	//      [1] = M
-	//      [2] = H
+	// u.add[0] -> L
+	//      [1] -> M
+	//      [2] -> H
 
 //---------------------------------------------------------------------------
 // This type is used for entries in the stack control table
 //---------------------------------------------------------------------------
 typedef struct {
-		byte * stack_head;
-		byte * stack_base;
+		byte * head;
+		byte * base;
 	} Stack;
 
 //---------------------------------------------------------------------------

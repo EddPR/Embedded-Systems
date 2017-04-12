@@ -45,13 +45,23 @@ getThread:
 		lds		r18, x_thread_id	; save thread ID
 		lds		r19, x_thread_mask	; save thread mask
 loadStack:
-		ldi		r26, lo8(stack)		; load lower byte address of stack array (X)
-		ldi 	r27, hi8(stack)		; load higher byte address of stack array (X+1)
+		ldi		r30, lo8(stack)		; load lower byte address of stack array (Z)
+		ldi 	r31, hi8(stack)		; load higher byte address of stack array (Z+1)
 storeSP:
 		cli							; disable global interrupts
-		ldi		r30, SPL			; save SPL in temporary register (Z) (5D?)
-		ldi		r31, SPH			; save SPH in temporary register (Z+1) (5E?)
+		ldi		r26, SPL			; save SPL in temporary register (X)
+		ldi		r27, SPH			; save SPH in temporary register (X+1) (5E?)
 		sei							; enable global interrupts
+/*loadCanary:
+		ldi		r20, 4				; offset amount
+		inc		r18					; increment x_thread_id
+		add		r18, r20			; create correct offset
+		add		r30, r18			; stack[offset]
+		adc		r31, r1				; add 0 to propagate the carry
+		ld		r28, Z
+		ldd		r29, Z+1
+		ld		r24, Y
+		ldd		r25, Y+1*/
 
 
 ;------------------------------------------------------------------------
@@ -68,14 +78,10 @@ x_schedule:
 		or		r18, r20			; compute available thread based on status
 		com		r18					; invert status mask
 calcThreadMask:
-		; Test for bit2mask8 is working
-		; Possibly rework code in isThreadReady, if x_thread_mask isn't already calculated
 		lds		r24, x_thread_id	; load parameter for bit2mask8
 		call	bit2mask8			; relative call subroutine
-		;sts		x_thread_mask, r24	; x_thread_mask is set to bit2mask8 returned mask
 loadThread:
 		lds		r21, x_thread_id	; save thread ID
-		;lds		r22, x_thread_mask	; save thread mask
 		mov		r22, r24			; save thread mask calculated in bit2mask8
 checkThread:
 		inc		r21					; increment x_thread_id
@@ -100,7 +106,7 @@ charOffset:
 		lsl		r21					; working towards multiplying x_thread_id by 4...
 		lsl		r21					; to create a 4 bit offset (x_thread_id * 4)
 		add		r26, r21			; increment stack by ofset
-		adc		r27, 0				; pull in the carry
+		adc		r27, r1				; add 0 to propagate the carry
 updateSP:
 		sts		SPL, r27			; update SPL to new thread context
 		sts		SPH, r26			; update SPH to new thread context
