@@ -1,0 +1,571 @@
+
+PSerial.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000008  00800200  0000030e  000003a2  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000030e  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000002  00800208  00800208  000003aa  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000003aa  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000003dc  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000060  00000000  00000000  0000041c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   0000101d  00000000  00000000  0000047c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000d5b  00000000  00000000  00001499  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000043b  00000000  00000000  000021f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000000cc  00000000  00000000  00002630  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000005f0  00000000  00000000  000026fc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000002d2  00000000  00000000  00002cec  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000040  00000000  00000000  00002fbe  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	71 c0       	rjmp	.+226    	; 0xe4 <__ctors_end>
+   2:	00 00       	nop
+   4:	8e c0       	rjmp	.+284    	; 0x122 <__bad_interrupt>
+   6:	00 00       	nop
+   8:	8c c0       	rjmp	.+280    	; 0x122 <__bad_interrupt>
+   a:	00 00       	nop
+   c:	8a c0       	rjmp	.+276    	; 0x122 <__bad_interrupt>
+   e:	00 00       	nop
+  10:	88 c0       	rjmp	.+272    	; 0x122 <__bad_interrupt>
+  12:	00 00       	nop
+  14:	86 c0       	rjmp	.+268    	; 0x122 <__bad_interrupt>
+  16:	00 00       	nop
+  18:	84 c0       	rjmp	.+264    	; 0x122 <__bad_interrupt>
+  1a:	00 00       	nop
+  1c:	82 c0       	rjmp	.+260    	; 0x122 <__bad_interrupt>
+  1e:	00 00       	nop
+  20:	80 c0       	rjmp	.+256    	; 0x122 <__bad_interrupt>
+  22:	00 00       	nop
+  24:	7e c0       	rjmp	.+252    	; 0x122 <__bad_interrupt>
+  26:	00 00       	nop
+  28:	7c c0       	rjmp	.+248    	; 0x122 <__bad_interrupt>
+  2a:	00 00       	nop
+  2c:	7a c0       	rjmp	.+244    	; 0x122 <__bad_interrupt>
+  2e:	00 00       	nop
+  30:	78 c0       	rjmp	.+240    	; 0x122 <__bad_interrupt>
+  32:	00 00       	nop
+  34:	76 c0       	rjmp	.+236    	; 0x122 <__bad_interrupt>
+  36:	00 00       	nop
+  38:	74 c0       	rjmp	.+232    	; 0x122 <__bad_interrupt>
+  3a:	00 00       	nop
+  3c:	72 c0       	rjmp	.+228    	; 0x122 <__bad_interrupt>
+  3e:	00 00       	nop
+  40:	70 c0       	rjmp	.+224    	; 0x122 <__bad_interrupt>
+  42:	00 00       	nop
+  44:	6e c0       	rjmp	.+220    	; 0x122 <__bad_interrupt>
+  46:	00 00       	nop
+  48:	6c c0       	rjmp	.+216    	; 0x122 <__bad_interrupt>
+  4a:	00 00       	nop
+  4c:	6a c0       	rjmp	.+212    	; 0x122 <__bad_interrupt>
+  4e:	00 00       	nop
+  50:	68 c0       	rjmp	.+208    	; 0x122 <__bad_interrupt>
+  52:	00 00       	nop
+  54:	66 c0       	rjmp	.+204    	; 0x122 <__bad_interrupt>
+  56:	00 00       	nop
+  58:	64 c0       	rjmp	.+200    	; 0x122 <__bad_interrupt>
+  5a:	00 00       	nop
+  5c:	62 c0       	rjmp	.+196    	; 0x122 <__bad_interrupt>
+  5e:	00 00       	nop
+  60:	60 c0       	rjmp	.+192    	; 0x122 <__bad_interrupt>
+  62:	00 00       	nop
+  64:	5e c0       	rjmp	.+188    	; 0x122 <__bad_interrupt>
+  66:	00 00       	nop
+  68:	5c c0       	rjmp	.+184    	; 0x122 <__bad_interrupt>
+  6a:	00 00       	nop
+  6c:	5a c0       	rjmp	.+180    	; 0x122 <__bad_interrupt>
+  6e:	00 00       	nop
+  70:	58 c0       	rjmp	.+176    	; 0x122 <__bad_interrupt>
+  72:	00 00       	nop
+  74:	56 c0       	rjmp	.+172    	; 0x122 <__bad_interrupt>
+  76:	00 00       	nop
+  78:	54 c0       	rjmp	.+168    	; 0x122 <__bad_interrupt>
+  7a:	00 00       	nop
+  7c:	52 c0       	rjmp	.+164    	; 0x122 <__bad_interrupt>
+  7e:	00 00       	nop
+  80:	50 c0       	rjmp	.+160    	; 0x122 <__bad_interrupt>
+  82:	00 00       	nop
+  84:	4e c0       	rjmp	.+156    	; 0x122 <__bad_interrupt>
+  86:	00 00       	nop
+  88:	4c c0       	rjmp	.+152    	; 0x122 <__bad_interrupt>
+  8a:	00 00       	nop
+  8c:	4a c0       	rjmp	.+148    	; 0x122 <__bad_interrupt>
+  8e:	00 00       	nop
+  90:	48 c0       	rjmp	.+144    	; 0x122 <__bad_interrupt>
+  92:	00 00       	nop
+  94:	46 c0       	rjmp	.+140    	; 0x122 <__bad_interrupt>
+  96:	00 00       	nop
+  98:	44 c0       	rjmp	.+136    	; 0x122 <__bad_interrupt>
+  9a:	00 00       	nop
+  9c:	42 c0       	rjmp	.+132    	; 0x122 <__bad_interrupt>
+  9e:	00 00       	nop
+  a0:	40 c0       	rjmp	.+128    	; 0x122 <__bad_interrupt>
+  a2:	00 00       	nop
+  a4:	3e c0       	rjmp	.+124    	; 0x122 <__bad_interrupt>
+  a6:	00 00       	nop
+  a8:	3c c0       	rjmp	.+120    	; 0x122 <__bad_interrupt>
+  aa:	00 00       	nop
+  ac:	3a c0       	rjmp	.+116    	; 0x122 <__bad_interrupt>
+  ae:	00 00       	nop
+  b0:	38 c0       	rjmp	.+112    	; 0x122 <__bad_interrupt>
+  b2:	00 00       	nop
+  b4:	36 c0       	rjmp	.+108    	; 0x122 <__bad_interrupt>
+  b6:	00 00       	nop
+  b8:	34 c0       	rjmp	.+104    	; 0x122 <__bad_interrupt>
+  ba:	00 00       	nop
+  bc:	32 c0       	rjmp	.+100    	; 0x122 <__bad_interrupt>
+  be:	00 00       	nop
+  c0:	30 c0       	rjmp	.+96     	; 0x122 <__bad_interrupt>
+  c2:	00 00       	nop
+  c4:	2e c0       	rjmp	.+92     	; 0x122 <__bad_interrupt>
+  c6:	00 00       	nop
+  c8:	2c c0       	rjmp	.+88     	; 0x122 <__bad_interrupt>
+  ca:	00 00       	nop
+  cc:	2a c0       	rjmp	.+84     	; 0x122 <__bad_interrupt>
+  ce:	00 00       	nop
+  d0:	28 c0       	rjmp	.+80     	; 0x122 <__bad_interrupt>
+  d2:	00 00       	nop
+  d4:	26 c0       	rjmp	.+76     	; 0x122 <__bad_interrupt>
+  d6:	00 00       	nop
+  d8:	24 c0       	rjmp	.+72     	; 0x122 <__bad_interrupt>
+  da:	00 00       	nop
+  dc:	22 c0       	rjmp	.+68     	; 0x122 <__bad_interrupt>
+  de:	00 00       	nop
+  e0:	20 c0       	rjmp	.+64     	; 0x122 <__bad_interrupt>
+	...
+
+000000e4 <__ctors_end>:
+  e4:	11 24       	eor	r1, r1
+  e6:	1f be       	out	0x3f, r1	; 63
+  e8:	cf ef       	ldi	r28, 0xFF	; 255
+  ea:	d1 e2       	ldi	r29, 0x21	; 33
+  ec:	de bf       	out	0x3e, r29	; 62
+  ee:	cd bf       	out	0x3d, r28	; 61
+  f0:	00 e0       	ldi	r16, 0x00	; 0
+  f2:	0c bf       	out	0x3c, r16	; 60
+
+000000f4 <__do_copy_data>:
+  f4:	12 e0       	ldi	r17, 0x02	; 2
+  f6:	a0 e0       	ldi	r26, 0x00	; 0
+  f8:	b2 e0       	ldi	r27, 0x02	; 2
+  fa:	ee e0       	ldi	r30, 0x0E	; 14
+  fc:	f3 e0       	ldi	r31, 0x03	; 3
+  fe:	00 e0       	ldi	r16, 0x00	; 0
+ 100:	0b bf       	out	0x3b, r16	; 59
+ 102:	02 c0       	rjmp	.+4      	; 0x108 <__do_copy_data+0x14>
+ 104:	07 90       	elpm	r0, Z+
+ 106:	0d 92       	st	X+, r0
+ 108:	a8 30       	cpi	r26, 0x08	; 8
+ 10a:	b1 07       	cpc	r27, r17
+ 10c:	d9 f7       	brne	.-10     	; 0x104 <__do_copy_data+0x10>
+
+0000010e <__do_clear_bss>:
+ 10e:	22 e0       	ldi	r18, 0x02	; 2
+ 110:	a8 e0       	ldi	r26, 0x08	; 8
+ 112:	b2 e0       	ldi	r27, 0x02	; 2
+ 114:	01 c0       	rjmp	.+2      	; 0x118 <.do_clear_bss_start>
+
+00000116 <.do_clear_bss_loop>:
+ 116:	1d 92       	st	X+, r1
+
+00000118 <.do_clear_bss_start>:
+ 118:	aa 30       	cpi	r26, 0x0A	; 10
+ 11a:	b2 07       	cpc	r27, r18
+ 11c:	e1 f7       	brne	.-8      	; 0x116 <.do_clear_bss_loop>
+ 11e:	02 d0       	rcall	.+4      	; 0x124 <main>
+ 120:	f4 c0       	rjmp	.+488    	; 0x30a <_exit>
+
+00000122 <__bad_interrupt>:
+ 122:	6e cf       	rjmp	.-292    	; 0x0 <__vectors>
+
+00000124 <main>:
+#include "EmSys.h"
+
+int main(void)
+{
+    /* Replace with your application code */
+	init_ports(600, SERIAL_8N1);
+ 124:	46 e0       	ldi	r20, 0x06	; 6
+ 126:	50 e0       	ldi	r21, 0x00	; 0
+ 128:	68 e5       	ldi	r22, 0x58	; 88
+ 12a:	72 e0       	ldi	r23, 0x02	; 2
+ 12c:	80 e0       	ldi	r24, 0x00	; 0
+ 12e:	90 e0       	ldi	r25, 0x00	; 0
+ 130:	93 d0       	rcall	.+294    	; 0x258 <init_ports>
+	
+    while (1) 
+    {
+			//char label[] = "Single";
+			//PSerial_write(1, PSerial_read(0));
+			PSerial_write(0, PSerial_read(1));
+ 132:	81 e0       	ldi	r24, 0x01	; 1
+ 134:	39 d0       	rcall	.+114    	; 0x1a8 <PSerial_read>
+ 136:	68 2f       	mov	r22, r24
+ 138:	80 e0       	ldi	r24, 0x00	; 0
+ 13a:	59 d0       	rcall	.+178    	; 0x1ee <PSerial_write>
+			if(test==':')
+			{
+				test = '1';
+			}
+			_delay_ms(500);*/
+    }
+ 13c:	fa cf       	rjmp	.-12     	; 0x132 <main+0xe>
+
+0000013e <PSerial_open>:
+	(SERIAL_REGS *)(0xd0),	// serial port 2
+	(SERIAL_REGS *)(0x130)	// serial port 3
+};
+
+void PSerial_open(unsigned char port, long speed, int config)
+{	
+ 13e:	cf 92       	push	r12
+ 140:	df 92       	push	r13
+ 142:	ef 92       	push	r14
+ 144:	ff 92       	push	r15
+ 146:	cf 93       	push	r28
+ 148:	df 93       	push	r29
+ 14a:	6a 01       	movw	r12, r20
+ 14c:	7b 01       	movw	r14, r22
+			enableT = (1 << TXEN0);
+			break;
+	}
+	
+	//ucsrna = 0x20; //initilize with data reg empty
+	serial_port[port]->ucsrb = enableR | enableT;
+ 14e:	c8 2f       	mov	r28, r24
+ 150:	d0 e0       	ldi	r29, 0x00	; 0
+ 152:	cc 0f       	add	r28, r28
+ 154:	dd 1f       	adc	r29, r29
+ 156:	c0 50       	subi	r28, 0x00	; 0
+ 158:	de 4f       	sbci	r29, 0xFE	; 254
+ 15a:	e8 81       	ld	r30, Y
+ 15c:	f9 81       	ldd	r31, Y+1	; 0x01
+ 15e:	88 e1       	ldi	r24, 0x18	; 24
+ 160:	81 83       	std	Z+1, r24	; 0x01
+	serial_port[port]->ucsrc = config;
+ 162:	e8 81       	ld	r30, Y
+ 164:	f9 81       	ldd	r31, Y+1	; 0x01
+ 166:	22 83       	std	Z+2, r18	; 0x02
+	speed = (F_CPU / 16 / speed - 1);
+ 168:	60 e4       	ldi	r22, 0x40	; 64
+ 16a:	72 e4       	ldi	r23, 0x42	; 66
+ 16c:	8f e0       	ldi	r24, 0x0F	; 15
+ 16e:	90 e0       	ldi	r25, 0x00	; 0
+ 170:	a7 01       	movw	r20, r14
+ 172:	96 01       	movw	r18, r12
+ 174:	8c d0       	rcall	.+280    	; 0x28e <__divmodsi4>
+ 176:	ba 01       	movw	r22, r20
+ 178:	a9 01       	movw	r20, r18
+ 17a:	41 50       	subi	r20, 0x01	; 1
+ 17c:	51 09       	sbc	r21, r1
+ 17e:	61 09       	sbc	r22, r1
+ 180:	71 09       	sbc	r23, r1
+	serial_port[port]->ubrrH = (unsigned char) (speed >> 8);
+ 182:	e8 81       	ld	r30, Y
+ 184:	f9 81       	ldd	r31, Y+1	; 0x01
+ 186:	bb 27       	eor	r27, r27
+ 188:	77 fd       	sbrc	r23, 7
+ 18a:	ba 95       	dec	r27
+ 18c:	a7 2f       	mov	r26, r23
+ 18e:	96 2f       	mov	r25, r22
+ 190:	85 2f       	mov	r24, r21
+ 192:	85 83       	std	Z+5, r24	; 0x05
+	serial_port[port]->ubrrL = (unsigned char) speed;
+ 194:	e8 81       	ld	r30, Y
+ 196:	f9 81       	ldd	r31, Y+1	; 0x01
+ 198:	44 83       	std	Z+4, r20	; 0x04
+}
+ 19a:	df 91       	pop	r29
+ 19c:	cf 91       	pop	r28
+ 19e:	ff 90       	pop	r15
+ 1a0:	ef 90       	pop	r14
+ 1a2:	df 90       	pop	r13
+ 1a4:	cf 90       	pop	r12
+ 1a6:	08 95       	ret
+
+000001a8 <PSerial_read>:
+
+
+char PSerial_read(unsigned char port)
+{
+ 1a8:	e8 2f       	mov	r30, r24
+	char data;
+	uint8_t rxcn;
+	
+	switch (port) {
+ 1aa:	81 30       	cpi	r24, 0x01	; 1
+ 1ac:	49 f0       	breq	.+18     	; 0x1c0 <PSerial_read+0x18>
+ 1ae:	28 f0       	brcs	.+10     	; 0x1ba <PSerial_read+0x12>
+ 1b0:	82 30       	cpi	r24, 0x02	; 2
+ 1b2:	49 f0       	breq	.+18     	; 0x1c6 <PSerial_read+0x1e>
+ 1b4:	83 30       	cpi	r24, 0x03	; 3
+ 1b6:	51 f0       	breq	.+20     	; 0x1cc <PSerial_read+0x24>
+ 1b8:	0c c0       	rjmp	.+24     	; 0x1d2 <PSerial_read+0x2a>
+		case 0:
+			//ucsrna = UCSR0A;
+			rxcn = (1 << RXC0);
+			data = UDR0;
+ 1ba:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7000c6>
+			break;
+ 1be:	0b c0       	rjmp	.+22     	; 0x1d6 <PSerial_read+0x2e>
+		case 1:
+			//ucsrna = UCSR1A;
+			rxcn = (1 << RXC1);
+			data = UDR1;
+ 1c0:	80 91 ce 00 	lds	r24, 0x00CE	; 0x8000ce <__TEXT_REGION_LENGTH__+0x7000ce>
+			break;
+ 1c4:	08 c0       	rjmp	.+16     	; 0x1d6 <PSerial_read+0x2e>
+		case 2:
+			//ucsrna = UCSR2A;
+			rxcn = (1 << RXC2);
+			data = UDR2;
+ 1c6:	80 91 d6 00 	lds	r24, 0x00D6	; 0x8000d6 <__TEXT_REGION_LENGTH__+0x7000d6>
+			break;
+ 1ca:	05 c0       	rjmp	.+10     	; 0x1d6 <PSerial_read+0x2e>
+		case 3:
+			//ucsrna = UCSR3A;
+			rxcn = (1 << RXC3);
+			data = UDR3;
+ 1cc:	80 91 36 01 	lds	r24, 0x0136	; 0x800136 <__TEXT_REGION_LENGTH__+0x700136>
+			break;
+ 1d0:	02 c0       	rjmp	.+4      	; 0x1d6 <PSerial_read+0x2e>
+		default:
+			//ucsrna = UCSR0A;
+			rxcn = (1 << RXC0);
+			data = UDR0;
+ 1d2:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7000c6>
+			break;
+	}
+	
+	while (!(serial_port[port]->ucsra & rxcn)) {
+ 1d6:	f0 e0       	ldi	r31, 0x00	; 0
+ 1d8:	ee 0f       	add	r30, r30
+ 1da:	ff 1f       	adc	r31, r31
+ 1dc:	e0 50       	subi	r30, 0x00	; 0
+ 1de:	fe 4f       	sbci	r31, 0xFE	; 254
+ 1e0:	01 90       	ld	r0, Z+
+ 1e2:	f0 81       	ld	r31, Z
+ 1e4:	e0 2d       	mov	r30, r0
+ 1e6:	90 81       	ld	r25, Z
+ 1e8:	99 23       	and	r25, r25
+ 1ea:	ec f7       	brge	.-6      	; 0x1e6 <PSerial_read+0x3e>
+		// wait for RXC
+	}
+	return data;
+}
+ 1ec:	08 95       	ret
+
+000001ee <PSerial_write>:
+
+void PSerial_write(unsigned char port, char data)
+{
+	static int udren;
+	switch (port) {
+ 1ee:	81 30       	cpi	r24, 0x01	; 1
+ 1f0:	69 f0       	breq	.+26     	; 0x20c <PSerial_write+0x1e>
+ 1f2:	28 f0       	brcs	.+10     	; 0x1fe <PSerial_write+0x10>
+ 1f4:	82 30       	cpi	r24, 0x02	; 2
+ 1f6:	89 f0       	breq	.+34     	; 0x21a <PSerial_write+0x2c>
+ 1f8:	83 30       	cpi	r24, 0x03	; 3
+ 1fa:	b1 f0       	breq	.+44     	; 0x228 <PSerial_write+0x3a>
+ 1fc:	1c c0       	rjmp	.+56     	; 0x236 <PSerial_write+0x48>
+		case 0:
+			udren = (1 << UDRE0);
+ 1fe:	20 e2       	ldi	r18, 0x20	; 32
+ 200:	30 e0       	ldi	r19, 0x00	; 0
+ 202:	30 93 09 02 	sts	0x0209, r19	; 0x800209 <__data_end+0x1>
+ 206:	20 93 08 02 	sts	0x0208, r18	; 0x800208 <__data_end>
+			break;
+ 20a:	1b c0       	rjmp	.+54     	; 0x242 <PSerial_write+0x54>
+		case 1:
+			udren = (1 << UDRE1);
+ 20c:	20 e2       	ldi	r18, 0x20	; 32
+ 20e:	30 e0       	ldi	r19, 0x00	; 0
+ 210:	30 93 09 02 	sts	0x0209, r19	; 0x800209 <__data_end+0x1>
+ 214:	20 93 08 02 	sts	0x0208, r18	; 0x800208 <__data_end>
+			break;
+ 218:	14 c0       	rjmp	.+40     	; 0x242 <PSerial_write+0x54>
+		case 2:
+			udren = (1 << UDRE2);
+ 21a:	20 e2       	ldi	r18, 0x20	; 32
+ 21c:	30 e0       	ldi	r19, 0x00	; 0
+ 21e:	30 93 09 02 	sts	0x0209, r19	; 0x800209 <__data_end+0x1>
+ 222:	20 93 08 02 	sts	0x0208, r18	; 0x800208 <__data_end>
+			break;
+ 226:	0d c0       	rjmp	.+26     	; 0x242 <PSerial_write+0x54>
+		case 3:
+			udren = (1 << UDRE3);
+ 228:	20 e2       	ldi	r18, 0x20	; 32
+ 22a:	30 e0       	ldi	r19, 0x00	; 0
+ 22c:	30 93 09 02 	sts	0x0209, r19	; 0x800209 <__data_end+0x1>
+ 230:	20 93 08 02 	sts	0x0208, r18	; 0x800208 <__data_end>
+			break;
+ 234:	06 c0       	rjmp	.+12     	; 0x242 <PSerial_write+0x54>
+		default:
+			udren = (1 << UDRE0);
+ 236:	20 e2       	ldi	r18, 0x20	; 32
+ 238:	30 e0       	ldi	r19, 0x00	; 0
+ 23a:	30 93 09 02 	sts	0x0209, r19	; 0x800209 <__data_end+0x1>
+ 23e:	20 93 08 02 	sts	0x0208, r18	; 0x800208 <__data_end>
+	
+	/*while (!(serial_port[port]->ucsra & udren))
+	{
+		//wait for RXC
+	}*/
+	serial_port[port]->udr = data;
+ 242:	e8 2f       	mov	r30, r24
+ 244:	f0 e0       	ldi	r31, 0x00	; 0
+ 246:	ee 0f       	add	r30, r30
+ 248:	ff 1f       	adc	r31, r31
+ 24a:	e0 50       	subi	r30, 0x00	; 0
+ 24c:	fe 4f       	sbci	r31, 0xFE	; 254
+ 24e:	01 90       	ld	r0, Z+
+ 250:	f0 81       	ld	r31, Z
+ 252:	e0 2d       	mov	r30, r0
+ 254:	66 83       	std	Z+6, r22	; 0x06
+ 256:	08 95       	ret
+
+00000258 <init_ports>:
+}
+
+void init_ports(long baud, int framing) 
+{ 
+ 258:	cf 92       	push	r12
+ 25a:	df 92       	push	r13
+ 25c:	ef 92       	push	r14
+ 25e:	ff 92       	push	r15
+ 260:	0f 93       	push	r16
+ 262:	1f 93       	push	r17
+ 264:	cf 93       	push	r28
+ 266:	6b 01       	movw	r12, r22
+ 268:	7c 01       	movw	r14, r24
+ 26a:	8a 01       	movw	r16, r20
+	unsigned char port = 0;
+ 26c:	c0 e0       	ldi	r28, 0x00	; 0
+	for (int i = 0; i < 4; i++)
+	{
+		PSerial_open(port, baud, framing);
+ 26e:	98 01       	movw	r18, r16
+ 270:	b7 01       	movw	r22, r14
+ 272:	a6 01       	movw	r20, r12
+ 274:	8c 2f       	mov	r24, r28
+ 276:	63 df       	rcall	.-314    	; 0x13e <PSerial_open>
+		port++;
+ 278:	cf 5f       	subi	r28, 0xFF	; 255
+}
+
+void init_ports(long baud, int framing) 
+{ 
+	unsigned char port = 0;
+	for (int i = 0; i < 4; i++)
+ 27a:	c4 30       	cpi	r28, 0x04	; 4
+ 27c:	c1 f7       	brne	.-16     	; 0x26e <init_ports+0x16>
+	{
+		PSerial_open(port, baud, framing);
+		port++;
+	}
+}
+ 27e:	cf 91       	pop	r28
+ 280:	1f 91       	pop	r17
+ 282:	0f 91       	pop	r16
+ 284:	ff 90       	pop	r15
+ 286:	ef 90       	pop	r14
+ 288:	df 90       	pop	r13
+ 28a:	cf 90       	pop	r12
+ 28c:	08 95       	ret
+
+0000028e <__divmodsi4>:
+ 28e:	05 2e       	mov	r0, r21
+ 290:	97 fb       	bst	r25, 7
+ 292:	16 f4       	brtc	.+4      	; 0x298 <__divmodsi4+0xa>
+ 294:	00 94       	com	r0
+ 296:	0f d0       	rcall	.+30     	; 0x2b6 <__negsi2>
+ 298:	57 fd       	sbrc	r21, 7
+ 29a:	05 d0       	rcall	.+10     	; 0x2a6 <__divmodsi4_neg2>
+ 29c:	14 d0       	rcall	.+40     	; 0x2c6 <__udivmodsi4>
+ 29e:	07 fc       	sbrc	r0, 7
+ 2a0:	02 d0       	rcall	.+4      	; 0x2a6 <__divmodsi4_neg2>
+ 2a2:	46 f4       	brtc	.+16     	; 0x2b4 <__divmodsi4_exit>
+ 2a4:	08 c0       	rjmp	.+16     	; 0x2b6 <__negsi2>
+
+000002a6 <__divmodsi4_neg2>:
+ 2a6:	50 95       	com	r21
+ 2a8:	40 95       	com	r20
+ 2aa:	30 95       	com	r19
+ 2ac:	21 95       	neg	r18
+ 2ae:	3f 4f       	sbci	r19, 0xFF	; 255
+ 2b0:	4f 4f       	sbci	r20, 0xFF	; 255
+ 2b2:	5f 4f       	sbci	r21, 0xFF	; 255
+
+000002b4 <__divmodsi4_exit>:
+ 2b4:	08 95       	ret
+
+000002b6 <__negsi2>:
+ 2b6:	90 95       	com	r25
+ 2b8:	80 95       	com	r24
+ 2ba:	70 95       	com	r23
+ 2bc:	61 95       	neg	r22
+ 2be:	7f 4f       	sbci	r23, 0xFF	; 255
+ 2c0:	8f 4f       	sbci	r24, 0xFF	; 255
+ 2c2:	9f 4f       	sbci	r25, 0xFF	; 255
+ 2c4:	08 95       	ret
+
+000002c6 <__udivmodsi4>:
+ 2c6:	a1 e2       	ldi	r26, 0x21	; 33
+ 2c8:	1a 2e       	mov	r1, r26
+ 2ca:	aa 1b       	sub	r26, r26
+ 2cc:	bb 1b       	sub	r27, r27
+ 2ce:	fd 01       	movw	r30, r26
+ 2d0:	0d c0       	rjmp	.+26     	; 0x2ec <__udivmodsi4_ep>
+
+000002d2 <__udivmodsi4_loop>:
+ 2d2:	aa 1f       	adc	r26, r26
+ 2d4:	bb 1f       	adc	r27, r27
+ 2d6:	ee 1f       	adc	r30, r30
+ 2d8:	ff 1f       	adc	r31, r31
+ 2da:	a2 17       	cp	r26, r18
+ 2dc:	b3 07       	cpc	r27, r19
+ 2de:	e4 07       	cpc	r30, r20
+ 2e0:	f5 07       	cpc	r31, r21
+ 2e2:	20 f0       	brcs	.+8      	; 0x2ec <__udivmodsi4_ep>
+ 2e4:	a2 1b       	sub	r26, r18
+ 2e6:	b3 0b       	sbc	r27, r19
+ 2e8:	e4 0b       	sbc	r30, r20
+ 2ea:	f5 0b       	sbc	r31, r21
+
+000002ec <__udivmodsi4_ep>:
+ 2ec:	66 1f       	adc	r22, r22
+ 2ee:	77 1f       	adc	r23, r23
+ 2f0:	88 1f       	adc	r24, r24
+ 2f2:	99 1f       	adc	r25, r25
+ 2f4:	1a 94       	dec	r1
+ 2f6:	69 f7       	brne	.-38     	; 0x2d2 <__udivmodsi4_loop>
+ 2f8:	60 95       	com	r22
+ 2fa:	70 95       	com	r23
+ 2fc:	80 95       	com	r24
+ 2fe:	90 95       	com	r25
+ 300:	9b 01       	movw	r18, r22
+ 302:	ac 01       	movw	r20, r24
+ 304:	bd 01       	movw	r22, r26
+ 306:	cf 01       	movw	r24, r30
+ 308:	08 95       	ret
+
+0000030a <_exit>:
+ 30a:	f8 94       	cli
+
+0000030c <__stop_program>:
+ 30c:	ff cf       	rjmp	.-2      	; 0x30c <__stop_program>

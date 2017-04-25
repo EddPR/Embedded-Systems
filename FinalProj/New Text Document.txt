@@ -1,0 +1,65 @@
+/*#include <avr/io.h>
+#include <util/delay.h>
+//-C"C:\Program Files (x86)\Arduino\hardware/tools/avr/etc/avrdude.conf" -v -patmega2560 -cwiring -PCOM3 -b115200 -D -Uflash:w:"$(ProjectDir)Debug\$(TargetName).hex":i
+//-patmega328p
+//C:\Program Files (x86)\Arduino\hardware\tools\avr/bin/avrdude -CC:\Program Files (x86)\Arduino\hardware\tools\avr/etc/avrdude.conf -v -patmega328p -carduino -PCOM4 -b115200 -D -Uflash:w:C:\Users\fenim\AppData\Local\Temp\arduino_build_274099/Arduino_ButtonFLash.ino.hex:i 
+
+#define MAX_USEC_DELAY 0
+//B5 is built in led
+//D7 is going to be input
+
+
+int main(void)
+{
+	//DDRB = 0X80;	// Set PORTB.5 for OUTPUT
+	DDRB |= 0x20;//(1 << DDB5); //this one is for output
+	DDRD &= ~(0x10);//(1 << DDD7); //pin 4 for input
+	//_delay_ms(500);
+
+	int temp;
+	while (1)	{
+		temp = PIND & 0x10;
+		if(temp == 0x10) //check if pind7 is high which is just digital pin 4
+		{
+			PORTB &= 0x00;
+			
+		}
+		else
+		{
+		//	_delay_ms(500);
+			PORTB |= 0x20; //should turn on B5 which is builtin led
+		}
+		//_delay_ms(500);
+	}
+}*/
+
+
+
+#include <avr/io.h>
+#include <util/delay.h>
+#include <stdlib.h>
+#define MAX_USEC_DELAY 0
+//use pb6 for output
+int main(void)
+{
+	/*DDRB |= 0x80;	// Set PORTB.7 for OUTPUT which is the led one and pin 13
+	DDRB |= 0x40;	//setup this one for output to other arduino pin 12 portB.6
+	//DDRB |= 0x10;
+	while (1)
+	{
+		//PORTB = 0xC0;
+		PORTB |= 0x80; //pin 13 which does led
+		PORTB |= 0x40; //pin 12
+		//PORTB |= 0x10; //pin 10
+		// Delay for a while
+		_delay_ms(500);
+		PORTB = 0x00;		//should toggle this output pin 12 on and off which should toggle other boards led
+		//PORTB &= ~0x80;		//will toggle boards led	
+		//PORTB &= ~0xC0;		//will toggle boards led	
+		_delay_ms(500);
+		if(0x10 == (PORTB & 0x10))
+		{
+			wTime();
+		}*/
+	//}
+}
