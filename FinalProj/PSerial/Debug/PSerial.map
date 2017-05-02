@@ -135,7 +135,7 @@ LOAD main.o
 LOAD PSerial.o
 START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr6\libm.a
-LOAD C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\Lab3_SerialComm\Problem2\libEmSysLib.a
+LOAD C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\FinalProjReciveUNO\PSerial\libEmSysLib.a
 END GROUP
 START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a

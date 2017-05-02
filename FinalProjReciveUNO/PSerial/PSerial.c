@@ -44,10 +44,10 @@ void PSerial_write(unsigned char port, char data)
 	static int udren;
 	udren = (1 << UDRE0);
 	
-	/*while (!(serial_port[port]->ucsra & udren))
+	while (!(serial_port[port]->ucsra & udren))
 	{
 		//wait for RXC
-	}*/
+	}
 	serial_port[port]->udr = data;
 }
 
