@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000060  00000000  00000000  0000041c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000101d  00000000  00000000  0000047c  2**0
+  6 .debug_info   00001037  00000000  00000000  0000047c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000d5b  00000000  00000000  00001499  2**0
+  7 .debug_abbrev 00000d75  00000000  00000000  000014b3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000043b  00000000  00000000  000021f4  2**0
+  8 .debug_line   00000445  00000000  00000000  00002228  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000000cc  00000000  00000000  00002630  2**2
+  9 .debug_frame  000000cc  00000000  00000000  00002670  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000005f0  00000000  00000000  000026fc  2**0
+ 10 .debug_str    000005f0  00000000  00000000  0000273c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000002d2  00000000  00000000  00002cec  2**0
+ 11 .debug_loc    000002f0  00000000  00000000  00002d2c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000040  00000000  00000000  00002fbe  2**0
+ 12 .debug_ranges 00000040  00000000  00000000  0000301c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -198,30 +198,29 @@ Disassembly of section .text:
 int main(void)
 {
     /* Replace with your application code */
-	init_ports(600, SERIAL_8N1);
- 124:	46 e0       	ldi	r20, 0x06	; 6
+	init_ports(2400, SERIAL_8E1);
+ 124:	46 e2       	ldi	r20, 0x26	; 38
  126:	50 e0       	ldi	r21, 0x00	; 0
- 128:	68 e5       	ldi	r22, 0x58	; 88
- 12a:	72 e0       	ldi	r23, 0x02	; 2
+ 128:	60 e6       	ldi	r22, 0x60	; 96
+ 12a:	79 e0       	ldi	r23, 0x09	; 9
  12c:	80 e0       	ldi	r24, 0x00	; 0
  12e:	90 e0       	ldi	r25, 0x00	; 0
  130:	93 d0       	rcall	.+294    	; 0x258 <init_ports>
-	
+	//char test = '1';
     while (1) 
     {
-			//char label[] = "Single";
-			//PSerial_write(1, PSerial_read(0));
-			PSerial_write(0, PSerial_read(1));
+			char data = PSerial_read(1);
  132:	81 e0       	ldi	r24, 0x01	; 1
  134:	39 d0       	rcall	.+114    	; 0x1a8 <PSerial_read>
+			PSerial_write(0, data);
  136:	68 2f       	mov	r22, r24
  138:	80 e0       	ldi	r24, 0x00	; 0
  13a:	59 d0       	rcall	.+178    	; 0x1ee <PSerial_write>
-			if(test==':')
-			{
-				test = '1';
 			}
-			_delay_ms(500);*/
+			if(checksum == label2[14])
+			{
+				PSerial_write(0, checksum);
+			}*/
     }
  13c:	fa cf       	rjmp	.-12     	; 0x132 <main+0xe>
 

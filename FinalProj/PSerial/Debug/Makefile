@@ -72,7 +72,7 @@ ADDITIONAL_DEPENDENCIES:=
 OUTPUT_FILE_DEP:= ./makedep.mk
 
 LIB_DEP+=  \
-C:/Users/fenim/Desktop/GitRepo/Embedded-Systems/FinalProjReciveUNO/PSerial/libEmSysLib.a
+C:/Users/fenim/Desktop/GitRepo/Embedded-Systems/Lab3_SerialComm/Problem2/libEmSysLib.a
 
 LINKER_SCRIPT_DEP+= 
 

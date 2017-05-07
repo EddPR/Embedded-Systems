@@ -14,22 +14,46 @@
 int main(void)
 {
     /* Replace with your application code */
-	init_ports(600, SERIAL_8N1);
+	init_ports(2400, SERIAL_8E1);
 	//char test = '1';
-	
     while (1) 
     {
-			//char label[] = "Single";
-			//PSerial_write(1, PSerial_read(0));
-			PSerial_write(0, PSerial_read(1));
-			//test();
-
-			/*test = test + 1;
-			if(test==':')
+			char data = PSerial_read(1);
+			PSerial_write(0, data);
+			/*char data[16];
+			char data2[16];
+			for(int i = 0; i<16; i++)
 			{
-				test = '1';
+				data[i] = PSerial_read(1);
+				data2[i] = PSerial_read(2);
 			}
-			_delay_ms(500);*/
+
+			for(int i = 15; i>=0; i--)
+			{
+				if(data[i] != data2[i])
+				{
+					PSerial_write(0, '\r');
+					PSerial_write(0, '\n');
+					PSerial_write(0, '\r');
+					PSerial_write(0, '\n');
+					break;
+				}
+				PSerial_write(0, data[i]);
+			}*/
+			//char label[] = "Single";
+			/*//PSerial_write(0, PSerial_read(1));
+			char label2[];
+			char checksum = 0;
+
+			for(int i = 0; i<14; i++)
+			{
+				label2[i] = PSerial_read(1);
+				PSerial_write(0, label2[i]);
+				checksum ^= label2[i];
+			}
+			if(checksum == label2[14])
+			{
+				PSerial_write(0, checksum);
+			}*/
     }
 }
-

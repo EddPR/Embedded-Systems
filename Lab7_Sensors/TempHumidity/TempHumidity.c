@@ -25,6 +25,7 @@ int main(void)
 		storeDataBytes();
 		checkSum();		
 		resetState();
+		
 	}
 }
 

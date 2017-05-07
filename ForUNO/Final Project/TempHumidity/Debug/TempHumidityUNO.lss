@@ -1,0 +1,992 @@
+
+TempHumidityUNO.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000172  00800200  0000057e  00000612  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000057e  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          0000000e  00800372  00800372  00000784  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000784  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000007b4  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000088  00000000  00000000  000007f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000016be  00000000  00000000  0000087c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000dca  00000000  00000000  00001f3a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000006e3  00000000  00000000  00002d04  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000001d8  00000000  00000000  000033e8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    0000070b  00000000  00000000  000035c0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000089d  00000000  00000000  00003ccb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000078  00000000  00000000  00004568  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	71 c0       	rjmp	.+226    	; 0xe4 <__ctors_end>
+   2:	00 00       	nop
+   4:	8e c0       	rjmp	.+284    	; 0x122 <__bad_interrupt>
+   6:	00 00       	nop
+   8:	8c c0       	rjmp	.+280    	; 0x122 <__bad_interrupt>
+   a:	00 00       	nop
+   c:	8a c0       	rjmp	.+276    	; 0x122 <__bad_interrupt>
+   e:	00 00       	nop
+  10:	88 c0       	rjmp	.+272    	; 0x122 <__bad_interrupt>
+  12:	00 00       	nop
+  14:	86 c0       	rjmp	.+268    	; 0x122 <__bad_interrupt>
+  16:	00 00       	nop
+  18:	84 c0       	rjmp	.+264    	; 0x122 <__bad_interrupt>
+  1a:	00 00       	nop
+  1c:	82 c0       	rjmp	.+260    	; 0x122 <__bad_interrupt>
+  1e:	00 00       	nop
+  20:	80 c0       	rjmp	.+256    	; 0x122 <__bad_interrupt>
+  22:	00 00       	nop
+  24:	7e c0       	rjmp	.+252    	; 0x122 <__bad_interrupt>
+  26:	00 00       	nop
+  28:	7c c0       	rjmp	.+248    	; 0x122 <__bad_interrupt>
+  2a:	00 00       	nop
+  2c:	7a c0       	rjmp	.+244    	; 0x122 <__bad_interrupt>
+  2e:	00 00       	nop
+  30:	78 c0       	rjmp	.+240    	; 0x122 <__bad_interrupt>
+  32:	00 00       	nop
+  34:	76 c0       	rjmp	.+236    	; 0x122 <__bad_interrupt>
+  36:	00 00       	nop
+  38:	74 c0       	rjmp	.+232    	; 0x122 <__bad_interrupt>
+  3a:	00 00       	nop
+  3c:	72 c0       	rjmp	.+228    	; 0x122 <__bad_interrupt>
+  3e:	00 00       	nop
+  40:	70 c0       	rjmp	.+224    	; 0x122 <__bad_interrupt>
+  42:	00 00       	nop
+  44:	6e c0       	rjmp	.+220    	; 0x122 <__bad_interrupt>
+  46:	00 00       	nop
+  48:	6c c0       	rjmp	.+216    	; 0x122 <__bad_interrupt>
+  4a:	00 00       	nop
+  4c:	6a c0       	rjmp	.+212    	; 0x122 <__bad_interrupt>
+  4e:	00 00       	nop
+  50:	68 c0       	rjmp	.+208    	; 0x122 <__bad_interrupt>
+  52:	00 00       	nop
+  54:	66 c0       	rjmp	.+204    	; 0x122 <__bad_interrupt>
+  56:	00 00       	nop
+  58:	64 c0       	rjmp	.+200    	; 0x122 <__bad_interrupt>
+  5a:	00 00       	nop
+  5c:	62 c0       	rjmp	.+196    	; 0x122 <__bad_interrupt>
+  5e:	00 00       	nop
+  60:	60 c0       	rjmp	.+192    	; 0x122 <__bad_interrupt>
+  62:	00 00       	nop
+  64:	5e c0       	rjmp	.+188    	; 0x122 <__bad_interrupt>
+  66:	00 00       	nop
+  68:	5c c0       	rjmp	.+184    	; 0x122 <__bad_interrupt>
+  6a:	00 00       	nop
+  6c:	5a c0       	rjmp	.+180    	; 0x122 <__bad_interrupt>
+  6e:	00 00       	nop
+  70:	58 c0       	rjmp	.+176    	; 0x122 <__bad_interrupt>
+  72:	00 00       	nop
+  74:	56 c0       	rjmp	.+172    	; 0x122 <__bad_interrupt>
+  76:	00 00       	nop
+  78:	54 c0       	rjmp	.+168    	; 0x122 <__bad_interrupt>
+  7a:	00 00       	nop
+  7c:	52 c0       	rjmp	.+164    	; 0x122 <__bad_interrupt>
+  7e:	00 00       	nop
+  80:	50 c0       	rjmp	.+160    	; 0x122 <__bad_interrupt>
+  82:	00 00       	nop
+  84:	4e c0       	rjmp	.+156    	; 0x122 <__bad_interrupt>
+  86:	00 00       	nop
+  88:	4c c0       	rjmp	.+152    	; 0x122 <__bad_interrupt>
+  8a:	00 00       	nop
+  8c:	4a c0       	rjmp	.+148    	; 0x122 <__bad_interrupt>
+  8e:	00 00       	nop
+  90:	48 c0       	rjmp	.+144    	; 0x122 <__bad_interrupt>
+  92:	00 00       	nop
+  94:	46 c0       	rjmp	.+140    	; 0x122 <__bad_interrupt>
+  96:	00 00       	nop
+  98:	44 c0       	rjmp	.+136    	; 0x122 <__bad_interrupt>
+  9a:	00 00       	nop
+  9c:	42 c0       	rjmp	.+132    	; 0x122 <__bad_interrupt>
+  9e:	00 00       	nop
+  a0:	40 c0       	rjmp	.+128    	; 0x122 <__bad_interrupt>
+  a2:	00 00       	nop
+  a4:	3e c0       	rjmp	.+124    	; 0x122 <__bad_interrupt>
+  a6:	00 00       	nop
+  a8:	3c c0       	rjmp	.+120    	; 0x122 <__bad_interrupt>
+  aa:	00 00       	nop
+  ac:	3a c0       	rjmp	.+116    	; 0x122 <__bad_interrupt>
+  ae:	00 00       	nop
+  b0:	38 c0       	rjmp	.+112    	; 0x122 <__bad_interrupt>
+  b2:	00 00       	nop
+  b4:	36 c0       	rjmp	.+108    	; 0x122 <__bad_interrupt>
+  b6:	00 00       	nop
+  b8:	34 c0       	rjmp	.+104    	; 0x122 <__bad_interrupt>
+  ba:	00 00       	nop
+  bc:	32 c0       	rjmp	.+100    	; 0x122 <__bad_interrupt>
+  be:	00 00       	nop
+  c0:	30 c0       	rjmp	.+96     	; 0x122 <__bad_interrupt>
+  c2:	00 00       	nop
+  c4:	2e c0       	rjmp	.+92     	; 0x122 <__bad_interrupt>
+  c6:	00 00       	nop
+  c8:	2c c0       	rjmp	.+88     	; 0x122 <__bad_interrupt>
+  ca:	00 00       	nop
+  cc:	2a c0       	rjmp	.+84     	; 0x122 <__bad_interrupt>
+  ce:	00 00       	nop
+  d0:	28 c0       	rjmp	.+80     	; 0x122 <__bad_interrupt>
+  d2:	00 00       	nop
+  d4:	26 c0       	rjmp	.+76     	; 0x122 <__bad_interrupt>
+  d6:	00 00       	nop
+  d8:	24 c0       	rjmp	.+72     	; 0x122 <__bad_interrupt>
+  da:	00 00       	nop
+  dc:	22 c0       	rjmp	.+68     	; 0x122 <__bad_interrupt>
+  de:	00 00       	nop
+  e0:	20 c0       	rjmp	.+64     	; 0x122 <__bad_interrupt>
+	...
+
+000000e4 <__ctors_end>:
+  e4:	11 24       	eor	r1, r1
+  e6:	1f be       	out	0x3f, r1	; 63
+  e8:	cf ef       	ldi	r28, 0xFF	; 255
+  ea:	d1 e2       	ldi	r29, 0x21	; 33
+  ec:	de bf       	out	0x3e, r29	; 62
+  ee:	cd bf       	out	0x3d, r28	; 61
+  f0:	00 e0       	ldi	r16, 0x00	; 0
+  f2:	0c bf       	out	0x3c, r16	; 60
+
+000000f4 <__do_copy_data>:
+  f4:	13 e0       	ldi	r17, 0x03	; 3
+  f6:	a0 e0       	ldi	r26, 0x00	; 0
+  f8:	b2 e0       	ldi	r27, 0x02	; 2
+  fa:	ee e7       	ldi	r30, 0x7E	; 126
+  fc:	f5 e0       	ldi	r31, 0x05	; 5
+  fe:	00 e0       	ldi	r16, 0x00	; 0
+ 100:	0b bf       	out	0x3b, r16	; 59
+ 102:	02 c0       	rjmp	.+4      	; 0x108 <__do_copy_data+0x14>
+ 104:	07 90       	elpm	r0, Z+
+ 106:	0d 92       	st	X+, r0
+ 108:	a2 37       	cpi	r26, 0x72	; 114
+ 10a:	b1 07       	cpc	r27, r17
+ 10c:	d9 f7       	brne	.-10     	; 0x104 <__do_copy_data+0x10>
+
+0000010e <__do_clear_bss>:
+ 10e:	23 e0       	ldi	r18, 0x03	; 3
+ 110:	a2 e7       	ldi	r26, 0x72	; 114
+ 112:	b3 e0       	ldi	r27, 0x03	; 3
+ 114:	01 c0       	rjmp	.+2      	; 0x118 <.do_clear_bss_start>
+
+00000116 <.do_clear_bss_loop>:
+ 116:	1d 92       	st	X+, r1
+
+00000118 <.do_clear_bss_start>:
+ 118:	a0 38       	cpi	r26, 0x80	; 128
+ 11a:	b2 07       	cpc	r27, r18
+ 11c:	e1 f7       	brne	.-8      	; 0x116 <.do_clear_bss_loop>
+ 11e:	d9 d1       	rcall	.+946    	; 0x4d2 <main>
+ 120:	2c c2       	rjmp	.+1112   	; 0x57a <_exit>
+
+00000122 <__bad_interrupt>:
+ 122:	6e cf       	rjmp	.-292    	; 0x0 <__vectors>
+
+00000124 <resetState>:
+	serial_print(buffer);
+	itoa(remainder, buffer, 10); // Convert data to string
+	serial_print(".");
+	serial_print(buffer);
+	serial_print(", ");
+}
+ 124:	78 94       	sei
+ 126:	e6 e7       	ldi	r30, 0x76	; 118
+ 128:	f3 e0       	ldi	r31, 0x03	; 3
+ 12a:	11 82       	std	Z+1, r1	; 0x01
+ 12c:	10 82       	st	Z, r1
+ 12e:	13 82       	std	Z+3, r1	; 0x03
+ 130:	12 82       	std	Z+2, r1	; 0x02
+ 132:	15 82       	std	Z+5, r1	; 0x05
+ 134:	14 82       	std	Z+4, r1	; 0x04
+ 136:	17 82       	std	Z+7, r1	; 0x07
+ 138:	16 82       	std	Z+6, r1	; 0x06
+ 13a:	11 86       	std	Z+9, r1	; 0x09
+ 13c:	10 86       	std	Z+8, r1	; 0x08
+ 13e:	08 95       	ret
+
+00000140 <serial_open>:
+ 140:	cf 92       	push	r12
+ 142:	df 92       	push	r13
+ 144:	ef 92       	push	r14
+ 146:	ff 92       	push	r15
+ 148:	cf 93       	push	r28
+ 14a:	df 93       	push	r29
+ 14c:	6a 01       	movw	r12, r20
+ 14e:	7b 01       	movw	r14, r22
+ 150:	e8 2f       	mov	r30, r24
+ 152:	f0 e0       	ldi	r31, 0x00	; 0
+ 154:	ee 0f       	add	r30, r30
+ 156:	ff 1f       	adc	r31, r31
+ 158:	e0 50       	subi	r30, 0x00	; 0
+ 15a:	fe 4f       	sbci	r31, 0xFE	; 254
+ 15c:	a0 81       	ld	r26, Z
+ 15e:	b1 81       	ldd	r27, Z+1	; 0x01
+ 160:	88 e1       	ldi	r24, 0x18	; 24
+ 162:	11 96       	adiw	r26, 0x01	; 1
+ 164:	8c 93       	st	X, r24
+ 166:	c0 81       	ld	r28, Z
+ 168:	d1 81       	ldd	r29, Z+1	; 0x01
+ 16a:	2a 83       	std	Y+2, r18	; 0x02
+ 16c:	60 e4       	ldi	r22, 0x40	; 64
+ 16e:	72 e4       	ldi	r23, 0x42	; 66
+ 170:	8f e0       	ldi	r24, 0x0F	; 15
+ 172:	90 e0       	ldi	r25, 0x00	; 0
+ 174:	a7 01       	movw	r20, r14
+ 176:	96 01       	movw	r18, r12
+ 178:	c2 d1       	rcall	.+900    	; 0x4fe <__divmodsi4>
+ 17a:	da 01       	movw	r26, r20
+ 17c:	c9 01       	movw	r24, r18
+ 17e:	01 97       	sbiw	r24, 0x01	; 1
+ 180:	a1 09       	sbc	r26, r1
+ 182:	b1 09       	sbc	r27, r1
+ 184:	9d 83       	std	Y+5, r25	; 0x05
+ 186:	8c 83       	std	Y+4, r24	; 0x04
+ 188:	df 91       	pop	r29
+ 18a:	cf 91       	pop	r28
+ 18c:	ff 90       	pop	r15
+ 18e:	ef 90       	pop	r14
+ 190:	df 90       	pop	r13
+ 192:	cf 90       	pop	r12
+ 194:	08 95       	ret
+
+00000196 <serial_write>:
+ 196:	e0 ec       	ldi	r30, 0xC0	; 192
+ 198:	f0 e0       	ldi	r31, 0x00	; 0
+ 19a:	80 81       	ld	r24, Z
+ 19c:	85 ff       	sbrs	r24, 5
+ 19e:	fd cf       	rjmp	.-6      	; 0x19a <serial_write+0x4>
+ 1a0:	60 93 c6 00 	sts	0x00C6, r22	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7000c6>
+ 1a4:	08 95       	ret
+
+000001a6 <serial_print>:
+ 1a6:	cf 93       	push	r28
+ 1a8:	df 93       	push	r29
+ 1aa:	fc 01       	movw	r30, r24
+ 1ac:	60 81       	ld	r22, Z
+ 1ae:	66 23       	and	r22, r22
+ 1b0:	39 f0       	breq	.+14     	; 0x1c0 <serial_print+0x1a>
+ 1b2:	ec 01       	movw	r28, r24
+ 1b4:	21 96       	adiw	r28, 0x01	; 1
+ 1b6:	80 e0       	ldi	r24, 0x00	; 0
+ 1b8:	ee df       	rcall	.-36     	; 0x196 <serial_write>
+ 1ba:	69 91       	ld	r22, Y+
+ 1bc:	61 11       	cpse	r22, r1
+ 1be:	fb cf       	rjmp	.-10     	; 0x1b6 <serial_print+0x10>
+ 1c0:	df 91       	pop	r29
+ 1c2:	cf 91       	pop	r28
+ 1c4:	08 95       	ret
+
+000001c6 <checkSum>:
+* plus the sum of all 16 temperature bits, 
+* matches the single byte checksum value
+* If so, it prints the data. Otherwise, it'll print a checksum error.
+***********************************************************************/
+void checkSum()
+{
+ 1c6:	cf 93       	push	r28
+ 1c8:	df 93       	push	r29
+	unsigned char sum;
+	sum = bytes[0] + bytes[1] + bytes[2] + bytes[3];
+	if(bytes[4] == sum)
+ 1ca:	e6 e7       	ldi	r30, 0x76	; 118
+ 1cc:	f3 e0       	ldi	r31, 0x03	; 3
+* If so, it prints the data. Otherwise, it'll print a checksum error.
+***********************************************************************/
+void checkSum()
+{
+	unsigned char sum;
+	sum = bytes[0] + bytes[1] + bytes[2] + bytes[3];
+ 1ce:	92 81       	ldd	r25, Z+2	; 0x02
+ 1d0:	80 81       	ld	r24, Z
+ 1d2:	89 0f       	add	r24, r25
+ 1d4:	94 81       	ldd	r25, Z+4	; 0x04
+ 1d6:	89 0f       	add	r24, r25
+ 1d8:	96 81       	ldd	r25, Z+6	; 0x06
+ 1da:	89 0f       	add	r24, r25
+	if(bytes[4] == sum)
+ 1dc:	90 e0       	ldi	r25, 0x00	; 0
+ 1de:	20 85       	ldd	r18, Z+8	; 0x08
+ 1e0:	31 85       	ldd	r19, Z+9	; 0x09
+ 1e2:	28 17       	cp	r18, r24
+ 1e4:	39 07       	cpc	r19, r25
+ 1e6:	c1 f4       	brne	.+48     	; 0x218 <checkSum+0x52>
+	{
+		//printHumidity(bytes[0], bytes[1]);
+		//printTemperature(bytes[2], bytes[3]);
+		serial_write(0, 0xAA);
+ 1e8:	6a ea       	ldi	r22, 0xAA	; 170
+ 1ea:	80 e0       	ldi	r24, 0x00	; 0
+ 1ec:	d4 df       	rcall	.-88     	; 0x196 <serial_write>
+		serial_write(0, bytes[0]);
+ 1ee:	c6 e7       	ldi	r28, 0x76	; 118
+ 1f0:	d3 e0       	ldi	r29, 0x03	; 3
+ 1f2:	68 81       	ld	r22, Y
+ 1f4:	80 e0       	ldi	r24, 0x00	; 0
+ 1f6:	cf df       	rcall	.-98     	; 0x196 <serial_write>
+		serial_write(0, bytes[1]);
+ 1f8:	6a 81       	ldd	r22, Y+2	; 0x02
+ 1fa:	80 e0       	ldi	r24, 0x00	; 0
+ 1fc:	cc df       	rcall	.-104    	; 0x196 <serial_write>
+		serial_write(0, bytes[2]);
+ 1fe:	6c 81       	ldd	r22, Y+4	; 0x04
+ 200:	80 e0       	ldi	r24, 0x00	; 0
+ 202:	c9 df       	rcall	.-110    	; 0x196 <serial_write>
+		serial_write(0, bytes[3]);
+ 204:	6e 81       	ldd	r22, Y+6	; 0x06
+ 206:	80 e0       	ldi	r24, 0x00	; 0
+ 208:	c6 df       	rcall	.-116    	; 0x196 <serial_write>
+		serial_write(0, bytes[4]);
+ 20a:	68 85       	ldd	r22, Y+8	; 0x08
+ 20c:	80 e0       	ldi	r24, 0x00	; 0
+ 20e:	c3 df       	rcall	.-122    	; 0x196 <serial_write>
+		serial_write(0, 0x99);
+ 210:	69 e9       	ldi	r22, 0x99	; 153
+ 212:	80 e0       	ldi	r24, 0x00	; 0
+ 214:	c0 df       	rcall	.-128    	; 0x196 <serial_write>
+ 216:	03 c0       	rjmp	.+6      	; 0x21e <checkSum+0x58>
+		
+	}
+	else
+	{
+		serial_print("Checksum Error. \r");
+ 218:	8d e4       	ldi	r24, 0x4D	; 77
+ 21a:	92 e0       	ldi	r25, 0x02	; 2
+ 21c:	c4 df       	rcall	.-120    	; 0x1a6 <serial_print>
+	}
+	
+}
+ 21e:	df 91       	pop	r29
+ 220:	cf 91       	pop	r28
+ 222:	08 95       	ret
+
+00000224 <pinMode>:
+* internal pull-up, or an output.
+* pin: the number of the pin whose mode you wish to set
+* mode: INPUT, OUTPUT, or INPUT_PULLUP
+***********************************************************************/
+void pinMode(int pin, char mode)
+{
+ 224:	1f 93       	push	r17
+ 226:	cf 93       	push	r28
+ 228:	df 93       	push	r29
+ 22a:	ec 01       	movw	r28, r24
+ 22c:	16 2f       	mov	r17, r22
+	// Not a port or not a pin
+	if (pin > 53 || pin < 0)
+ 22e:	c6 97       	sbiw	r24, 0x36	; 54
+ 230:	18 f0       	brcs	.+6      	; 0x238 <pinMode+0x14>
+	{
+		serial_print("Error: Invalid PIN number (0 - 53). \r");
+ 232:	8f e5       	ldi	r24, 0x5F	; 95
+ 234:	92 e0       	ldi	r25, 0x02	; 2
+ 236:	b7 df       	rcall	.-146    	; 0x1a6 <serial_print>
+	}
+	if (mode < 0 || mode > 2)
+ 238:	13 30       	cpi	r17, 0x03	; 3
+ 23a:	18 f0       	brcs	.+6      	; 0x242 <pinMode+0x1e>
+	{
+		serial_print("Error: Invalid MODE (INPUT, OUTPUT, INPUT_PULLUP). \r");
+ 23c:	85 e8       	ldi	r24, 0x85	; 133
+ 23e:	92 e0       	ldi	r25, 0x02	; 2
+ 240:	b2 df       	rcall	.-156    	; 0x1a6 <serial_print>
+	}
+
+	if (mode == INPUT)
+ 242:	11 11       	cpse	r17, r1
+ 244:	23 c0       	rjmp	.+70     	; 0x28c <pinMode+0x68>
+	{
+		*(map[pin].ddr) &= ~(1 << map[pin].bitShift);
+ 246:	cc 0f       	add	r28, r28
+ 248:	dd 1f       	adc	r29, r29
+ 24a:	cc 0f       	add	r28, r28
+ 24c:	dd 1f       	adc	r29, r29
+ 24e:	ce 5f       	subi	r28, 0xFE	; 254
+ 250:	dd 4f       	sbci	r29, 0xFD	; 253
+ 252:	e8 81       	ld	r30, Y
+ 254:	f9 81       	ldd	r31, Y+1	; 0x01
+ 256:	30 81       	ld	r19, Z
+ 258:	81 e0       	ldi	r24, 0x01	; 1
+ 25a:	90 e0       	ldi	r25, 0x00	; 0
+ 25c:	ac 01       	movw	r20, r24
+ 25e:	0b 80       	ldd	r0, Y+3	; 0x03
+ 260:	02 c0       	rjmp	.+4      	; 0x266 <pinMode+0x42>
+ 262:	44 0f       	add	r20, r20
+ 264:	55 1f       	adc	r21, r21
+ 266:	0a 94       	dec	r0
+ 268:	e2 f7       	brpl	.-8      	; 0x262 <pinMode+0x3e>
+ 26a:	24 2f       	mov	r18, r20
+ 26c:	20 95       	com	r18
+ 26e:	23 23       	and	r18, r19
+ 270:	20 83       	st	Z, r18
+		*(map[pin].ddr + 1) &= ~(1 << map[pin].bitShift);
+ 272:	e8 81       	ld	r30, Y
+ 274:	f9 81       	ldd	r31, Y+1	; 0x01
+ 276:	21 81       	ldd	r18, Z+1	; 0x01
+ 278:	0b 80       	ldd	r0, Y+3	; 0x03
+ 27a:	02 c0       	rjmp	.+4      	; 0x280 <pinMode+0x5c>
+ 27c:	88 0f       	add	r24, r24
+ 27e:	99 1f       	adc	r25, r25
+ 280:	0a 94       	dec	r0
+ 282:	e2 f7       	brpl	.-8      	; 0x27c <pinMode+0x58>
+ 284:	80 95       	com	r24
+ 286:	82 23       	and	r24, r18
+ 288:	81 83       	std	Z+1, r24	; 0x01
+ 28a:	39 c0       	rjmp	.+114    	; 0x2fe <pinMode+0xda>
+	}
+	else if (mode == OUTPUT)
+ 28c:	11 30       	cpi	r17, 0x01	; 1
+ 28e:	a1 f4       	brne	.+40     	; 0x2b8 <pinMode+0x94>
+	{
+		*(map[pin].ddr) |= (1 << map[pin].bitShift);
+ 290:	cc 0f       	add	r28, r28
+ 292:	dd 1f       	adc	r29, r29
+ 294:	cc 0f       	add	r28, r28
+ 296:	dd 1f       	adc	r29, r29
+ 298:	ce 5f       	subi	r28, 0xFE	; 254
+ 29a:	dd 4f       	sbci	r29, 0xFD	; 253
+ 29c:	e8 81       	ld	r30, Y
+ 29e:	f9 81       	ldd	r31, Y+1	; 0x01
+ 2a0:	20 81       	ld	r18, Z
+ 2a2:	81 e0       	ldi	r24, 0x01	; 1
+ 2a4:	90 e0       	ldi	r25, 0x00	; 0
+ 2a6:	0b 80       	ldd	r0, Y+3	; 0x03
+ 2a8:	02 c0       	rjmp	.+4      	; 0x2ae <pinMode+0x8a>
+ 2aa:	88 0f       	add	r24, r24
+ 2ac:	99 1f       	adc	r25, r25
+ 2ae:	0a 94       	dec	r0
+ 2b0:	e2 f7       	brpl	.-8      	; 0x2aa <pinMode+0x86>
+ 2b2:	82 2b       	or	r24, r18
+ 2b4:	80 83       	st	Z, r24
+ 2b6:	23 c0       	rjmp	.+70     	; 0x2fe <pinMode+0xda>
+	}
+	else if(mode == INPUT_PULLUP)
+ 2b8:	12 30       	cpi	r17, 0x02	; 2
+ 2ba:	09 f5       	brne	.+66     	; 0x2fe <pinMode+0xda>
+	{
+		*(map[pin].ddr) &= ~(1 << map[pin].bitShift);
+ 2bc:	cc 0f       	add	r28, r28
+ 2be:	dd 1f       	adc	r29, r29
+ 2c0:	cc 0f       	add	r28, r28
+ 2c2:	dd 1f       	adc	r29, r29
+ 2c4:	ce 5f       	subi	r28, 0xFE	; 254
+ 2c6:	dd 4f       	sbci	r29, 0xFD	; 253
+ 2c8:	e8 81       	ld	r30, Y
+ 2ca:	f9 81       	ldd	r31, Y+1	; 0x01
+ 2cc:	30 81       	ld	r19, Z
+ 2ce:	81 e0       	ldi	r24, 0x01	; 1
+ 2d0:	90 e0       	ldi	r25, 0x00	; 0
+ 2d2:	ac 01       	movw	r20, r24
+ 2d4:	0b 80       	ldd	r0, Y+3	; 0x03
+ 2d6:	02 c0       	rjmp	.+4      	; 0x2dc <pinMode+0xb8>
+ 2d8:	44 0f       	add	r20, r20
+ 2da:	55 1f       	adc	r21, r21
+ 2dc:	0a 94       	dec	r0
+ 2de:	e2 f7       	brpl	.-8      	; 0x2d8 <pinMode+0xb4>
+ 2e0:	24 2f       	mov	r18, r20
+ 2e2:	20 95       	com	r18
+ 2e4:	23 23       	and	r18, r19
+ 2e6:	20 83       	st	Z, r18
+		*(map[pin].ddr + 1) |= (1 << map[pin].bitShift);
+ 2e8:	e8 81       	ld	r30, Y
+ 2ea:	f9 81       	ldd	r31, Y+1	; 0x01
+ 2ec:	21 81       	ldd	r18, Z+1	; 0x01
+ 2ee:	0b 80       	ldd	r0, Y+3	; 0x03
+ 2f0:	02 c0       	rjmp	.+4      	; 0x2f6 <pinMode+0xd2>
+ 2f2:	88 0f       	add	r24, r24
+ 2f4:	99 1f       	adc	r25, r25
+ 2f6:	0a 94       	dec	r0
+ 2f8:	e2 f7       	brpl	.-8      	; 0x2f2 <pinMode+0xce>
+ 2fa:	82 2b       	or	r24, r18
+ 2fc:	81 83       	std	Z+1, r24	; 0x01
+	}
+	
+}
+ 2fe:	df 91       	pop	r29
+ 300:	cf 91       	pop	r28
+ 302:	1f 91       	pop	r17
+ 304:	08 95       	ret
+
+00000306 <digitalRead>:
+/***********************************************************************
+* Reads the value from a specified digital pin, either HIGH or LOW.
+* pin: the number of the pin whose mode you wish to set
+***********************************************************************/
+int digitalRead(int pin)
+{
+ 306:	cf 93       	push	r28
+ 308:	df 93       	push	r29
+ 30a:	ec 01       	movw	r28, r24
+	// Not a pin
+	if (pin > 53 || pin < 0)
+ 30c:	c6 97       	sbiw	r24, 0x36	; 54
+ 30e:	18 f0       	brcs	.+6      	; 0x316 <digitalRead+0x10>
+	{
+		serial_print("Error: Invalid PIN number (0 - 53). \r");
+ 310:	8f e5       	ldi	r24, 0x5F	; 95
+ 312:	92 e0       	ldi	r25, 0x02	; 2
+ 314:	48 df       	rcall	.-368    	; 0x1a6 <serial_print>
+	}
+	
+	return (*(map[pin].ddr - 1) & (1 << map[pin].bitShift)) ? 1 : 0;
+ 316:	cc 0f       	add	r28, r28
+ 318:	dd 1f       	adc	r29, r29
+ 31a:	cc 0f       	add	r28, r28
+ 31c:	dd 1f       	adc	r29, r29
+ 31e:	ce 5f       	subi	r28, 0xFE	; 254
+ 320:	dd 4f       	sbci	r29, 0xFD	; 253
+ 322:	e8 81       	ld	r30, Y
+ 324:	f9 81       	ldd	r31, Y+1	; 0x01
+ 326:	31 97       	sbiw	r30, 0x01	; 1
+ 328:	80 81       	ld	r24, Z
+ 32a:	90 e0       	ldi	r25, 0x00	; 0
+ 32c:	0b 80       	ldd	r0, Y+3	; 0x03
+ 32e:	02 c0       	rjmp	.+4      	; 0x334 <digitalRead+0x2e>
+ 330:	95 95       	asr	r25
+ 332:	87 95       	ror	r24
+ 334:	0a 94       	dec	r0
+ 336:	e2 f7       	brpl	.-8      	; 0x330 <digitalRead+0x2a>
+
+}
+ 338:	81 70       	andi	r24, 0x01	; 1
+ 33a:	99 27       	eor	r25, r25
+ 33c:	df 91       	pop	r29
+ 33e:	cf 91       	pop	r28
+ 340:	08 95       	ret
+
+00000342 <storeDataBytes>:
+* bytes[ 0-1 ] will contain humidity
+* bytes[ 2-4 ] will contain temperature
+* bytes[  5  ] will contain check sum
+***********************************************************************/
+void storeDataBytes()
+{
+ 342:	cf 92       	push	r12
+ 344:	df 92       	push	r13
+ 346:	ef 92       	push	r14
+ 348:	ff 92       	push	r15
+ 34a:	0f 93       	push	r16
+ 34c:	1f 93       	push	r17
+ 34e:	cf 93       	push	r28
+ 350:	df 93       	push	r29
+ 352:	06 e7       	ldi	r16, 0x76	; 118
+ 354:	13 e0       	ldi	r17, 0x03	; 3
+ 356:	0f 2e       	mov	r0, r31
+ 358:	f0 e8       	ldi	r31, 0x80	; 128
+ 35a:	ef 2e       	mov	r14, r31
+ 35c:	f3 e0       	ldi	r31, 0x03	; 3
+ 35e:	ff 2e       	mov	r15, r31
+ 360:	f0 2d       	mov	r31, r0
+	for (int i = 0; i < 5; i++) // 2B RH data, 2B T data, 1B checksum
+	{
+		getByte = 0; // reset data
+ 362:	68 94       	set
+ 364:	cc 24       	eor	r12, r12
+ 366:	c3 f8       	bld	r12, 3
+ 368:	d1 2c       	mov	r13, r1
+ 36a:	10 92 73 03 	sts	0x0373, r1	; 0x800373 <__data_end+0x1>
+ 36e:	10 92 72 03 	sts	0x0372, r1	; 0x800372 <__data_end>
+ 372:	cc 2d       	mov	r28, r12
+ 374:	dd 2d       	mov	r29, r13
+		for (int j = 0; j < 8; j++) // 8 bits for each byte
+		{
+			getByte <<= 1; // mask
+ 376:	80 91 72 03 	lds	r24, 0x0372	; 0x800372 <__data_end>
+ 37a:	90 91 73 03 	lds	r25, 0x0373	; 0x800373 <__data_end+0x1>
+ 37e:	88 0f       	add	r24, r24
+ 380:	99 1f       	adc	r25, r25
+ 382:	90 93 73 03 	sts	0x0373, r25	; 0x800373 <__data_end+0x1>
+ 386:	80 93 72 03 	sts	0x0372, r24	; 0x800372 <__data_end>
+			while (digitalRead(DATA_PIN)); // Wait for sensor to drive LOW
+ 38a:	87 e0       	ldi	r24, 0x07	; 7
+ 38c:	90 e0       	ldi	r25, 0x00	; 0
+ 38e:	bb df       	rcall	.-138    	; 0x306 <digitalRead>
+ 390:	89 2b       	or	r24, r25
+ 392:	d9 f7       	brne	.-10     	; 0x38a <storeDataBytes+0x48>
+			while (!digitalRead(DATA_PIN)); // Wait for sensor to drive HIGH
+ 394:	87 e0       	ldi	r24, 0x07	; 7
+ 396:	90 e0       	ldi	r25, 0x00	; 0
+ 398:	b6 df       	rcall	.-148    	; 0x306 <digitalRead>
+ 39a:	89 2b       	or	r24, r25
+ 39c:	d9 f3       	breq	.-10     	; 0x394 <storeDataBytes+0x52>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 39e:	f0 ea       	ldi	r31, 0xA0	; 160
+ 3a0:	fa 95       	dec	r31
+ 3a2:	f1 f7       	brne	.-4      	; 0x3a0 <storeDataBytes+0x5e>
+			
+			_delay_us(30); // while in high, 26-30 ms indicates a logical 0
+			
+			// so more than that, indicates a logical 1
+			if (digitalRead(DATA_PIN)) getByte |= 1; 
+ 3a4:	87 e0       	ldi	r24, 0x07	; 7
+ 3a6:	90 e0       	ldi	r25, 0x00	; 0
+ 3a8:	ae df       	rcall	.-164    	; 0x306 <digitalRead>
+ 3aa:	89 2b       	or	r24, r25
+ 3ac:	49 f0       	breq	.+18     	; 0x3c0 <storeDataBytes+0x7e>
+ 3ae:	80 91 72 03 	lds	r24, 0x0372	; 0x800372 <__data_end>
+ 3b2:	90 91 73 03 	lds	r25, 0x0373	; 0x800373 <__data_end+0x1>
+ 3b6:	81 60       	ori	r24, 0x01	; 1
+ 3b8:	90 93 73 03 	sts	0x0373, r25	; 0x800373 <__data_end+0x1>
+ 3bc:	80 93 72 03 	sts	0x0372, r24	; 0x800372 <__data_end>
+ 3c0:	21 97       	sbiw	r28, 0x01	; 1
+void storeDataBytes()
+{
+	for (int i = 0; i < 5; i++) // 2B RH data, 2B T data, 1B checksum
+	{
+		getByte = 0; // reset data
+		for (int j = 0; j < 8; j++) // 8 bits for each byte
+ 3c2:	c9 f6       	brne	.-78     	; 0x376 <storeDataBytes+0x34>
+			_delay_us(30); // while in high, 26-30 ms indicates a logical 0
+			
+			// so more than that, indicates a logical 1
+			if (digitalRead(DATA_PIN)) getByte |= 1; 
+		}
+		bytes[i] = getByte; // store byte
+ 3c4:	80 91 72 03 	lds	r24, 0x0372	; 0x800372 <__data_end>
+ 3c8:	90 91 73 03 	lds	r25, 0x0373	; 0x800373 <__data_end+0x1>
+ 3cc:	f8 01       	movw	r30, r16
+ 3ce:	81 93       	st	Z+, r24
+ 3d0:	91 93       	st	Z+, r25
+ 3d2:	8f 01       	movw	r16, r30
+* bytes[ 2-4 ] will contain temperature
+* bytes[  5  ] will contain check sum
+***********************************************************************/
+void storeDataBytes()
+{
+	for (int i = 0; i < 5; i++) // 2B RH data, 2B T data, 1B checksum
+ 3d4:	ee 15       	cp	r30, r14
+ 3d6:	ff 05       	cpc	r31, r15
+ 3d8:	41 f6       	brne	.-112    	; 0x36a <storeDataBytes+0x28>
+			// so more than that, indicates a logical 1
+			if (digitalRead(DATA_PIN)) getByte |= 1; 
+		}
+		bytes[i] = getByte; // store byte
+	}
+}
+ 3da:	df 91       	pop	r29
+ 3dc:	cf 91       	pop	r28
+ 3de:	1f 91       	pop	r17
+ 3e0:	0f 91       	pop	r16
+ 3e2:	ff 90       	pop	r15
+ 3e4:	ef 90       	pop	r14
+ 3e6:	df 90       	pop	r13
+ 3e8:	cf 90       	pop	r12
+ 3ea:	08 95       	ret
+
+000003ec <digitalWrite>:
+* Writes a HIGH or a LOW value to a digital pin.
+* pin: the number of the pin whose mode you wish to set
+* value: HIGH or LOW
+***********************************************************************/
+void digitalWrite(int pin, int value)
+{
+ 3ec:	0f 93       	push	r16
+ 3ee:	1f 93       	push	r17
+ 3f0:	cf 93       	push	r28
+ 3f2:	df 93       	push	r29
+ 3f4:	ec 01       	movw	r28, r24
+ 3f6:	8b 01       	movw	r16, r22
+	// Not a pin or not a possible value
+	if (pin > 53 || pin < 0)
+ 3f8:	c6 97       	sbiw	r24, 0x36	; 54
+ 3fa:	18 f0       	brcs	.+6      	; 0x402 <__LOCK_REGION_LENGTH__+0x2>
+	{
+		serial_print("Error: Invalid PIN number (0 - 53). \r");
+ 3fc:	8f e5       	ldi	r24, 0x5F	; 95
+ 3fe:	92 e0       	ldi	r25, 0x02	; 2
+ 400:	d2 de       	rcall	.-604    	; 0x1a6 <serial_print>
+	}
+	if (value < 0 || value > 1)
+ 402:	02 30       	cpi	r16, 0x02	; 2
+ 404:	11 05       	cpc	r17, r1
+ 406:	18 f0       	brcs	.+6      	; 0x40e <__LOCK_REGION_LENGTH__+0xe>
+	{
+		serial_print("Error: Invalid VALUE (HIGH, LOW). \r");
+ 408:	8a eb       	ldi	r24, 0xBA	; 186
+ 40a:	92 e0       	ldi	r25, 0x02	; 2
+ 40c:	cc de       	rcall	.-616    	; 0x1a6 <serial_print>
+	}
+	
+	if (value == HIGH)
+ 40e:	01 30       	cpi	r16, 0x01	; 1
+ 410:	11 05       	cpc	r17, r1
+ 412:	a1 f4       	brne	.+40     	; 0x43c <__LOCK_REGION_LENGTH__+0x3c>
+	{
+		*(map[pin].ddr + 1) |= (1 << map[pin].bitShift);
+ 414:	cc 0f       	add	r28, r28
+ 416:	dd 1f       	adc	r29, r29
+ 418:	cc 0f       	add	r28, r28
+ 41a:	dd 1f       	adc	r29, r29
+ 41c:	ce 5f       	subi	r28, 0xFE	; 254
+ 41e:	dd 4f       	sbci	r29, 0xFD	; 253
+ 420:	e8 81       	ld	r30, Y
+ 422:	f9 81       	ldd	r31, Y+1	; 0x01
+ 424:	21 81       	ldd	r18, Z+1	; 0x01
+ 426:	81 e0       	ldi	r24, 0x01	; 1
+ 428:	90 e0       	ldi	r25, 0x00	; 0
+ 42a:	0b 80       	ldd	r0, Y+3	; 0x03
+ 42c:	02 c0       	rjmp	.+4      	; 0x432 <__LOCK_REGION_LENGTH__+0x32>
+ 42e:	88 0f       	add	r24, r24
+ 430:	99 1f       	adc	r25, r25
+ 432:	0a 94       	dec	r0
+ 434:	e2 f7       	brpl	.-8      	; 0x42e <__LOCK_REGION_LENGTH__+0x2e>
+ 436:	82 2b       	or	r24, r18
+ 438:	81 83       	std	Z+1, r24	; 0x01
+ 43a:	14 c0       	rjmp	.+40     	; 0x464 <__LOCK_REGION_LENGTH__+0x64>
+	}
+	else
+	{
+		*(map[pin].ddr + 1) &= ~(1 << map[pin].bitShift);
+ 43c:	cc 0f       	add	r28, r28
+ 43e:	dd 1f       	adc	r29, r29
+ 440:	cc 0f       	add	r28, r28
+ 442:	dd 1f       	adc	r29, r29
+ 444:	ce 5f       	subi	r28, 0xFE	; 254
+ 446:	dd 4f       	sbci	r29, 0xFD	; 253
+ 448:	e8 81       	ld	r30, Y
+ 44a:	f9 81       	ldd	r31, Y+1	; 0x01
+ 44c:	21 81       	ldd	r18, Z+1	; 0x01
+ 44e:	81 e0       	ldi	r24, 0x01	; 1
+ 450:	90 e0       	ldi	r25, 0x00	; 0
+ 452:	0b 80       	ldd	r0, Y+3	; 0x03
+ 454:	02 c0       	rjmp	.+4      	; 0x45a <__LOCK_REGION_LENGTH__+0x5a>
+ 456:	88 0f       	add	r24, r24
+ 458:	99 1f       	adc	r25, r25
+ 45a:	0a 94       	dec	r0
+ 45c:	e2 f7       	brpl	.-8      	; 0x456 <__LOCK_REGION_LENGTH__+0x56>
+ 45e:	80 95       	com	r24
+ 460:	82 23       	and	r24, r18
+ 462:	81 83       	std	Z+1, r24	; 0x01
+	}
+}
+ 464:	df 91       	pop	r29
+ 466:	cf 91       	pop	r28
+ 468:	1f 91       	pop	r17
+ 46a:	0f 91       	pop	r16
+ 46c:	08 95       	ret
+
+0000046e <sensorSetup>:
+* Preliminary pin configurations for the DHT22 sensor set up. 
+* Function also checks the connection.
+***********************************************************************/
+void sensorSetup()
+{
+	cli();	// Disable interrupts
+ 46e:	f8 94       	cli
+	
+	pinMode(DATA_PIN, OUTPUT); // Configure digital pin for output
+ 470:	61 e0       	ldi	r22, 0x01	; 1
+ 472:	87 e0       	ldi	r24, 0x07	; 7
+ 474:	90 e0       	ldi	r25, 0x00	; 0
+ 476:	d6 de       	rcall	.-596    	; 0x224 <pinMode>
+	digitalWrite(DATA_PIN, LOW); // Drive line low
+ 478:	60 e0       	ldi	r22, 0x00	; 0
+ 47a:	70 e0       	ldi	r23, 0x00	; 0
+ 47c:	87 e0       	ldi	r24, 0x07	; 7
+ 47e:	90 e0       	ldi	r25, 0x00	; 0
+ 480:	b5 df       	rcall	.-150    	; 0x3ec <digitalWrite>
+ 482:	8f ec       	ldi	r24, 0xCF	; 207
+ 484:	97 e0       	ldi	r25, 0x07	; 7
+ 486:	01 97       	sbiw	r24, 0x01	; 1
+ 488:	f1 f7       	brne	.-4      	; 0x486 <sensorSetup+0x18>
+ 48a:	00 c0       	rjmp	.+0      	; 0x48c <sensorSetup+0x1e>
+ 48c:	00 00       	nop
+	_delay_us(500); // Wait for a request to read
+	
+	pinMode(DATA_PIN, INPUT_PULLUP); // Activate pull-up resistor
+ 48e:	62 e0       	ldi	r22, 0x02	; 2
+ 490:	87 e0       	ldi	r24, 0x07	; 7
+ 492:	90 e0       	ldi	r25, 0x00	; 0
+ 494:	c7 de       	rcall	.-626    	; 0x224 <pinMode>
+ 496:	8f e3       	ldi	r24, 0x3F	; 63
+ 498:	91 e0       	ldi	r25, 0x01	; 1
+ 49a:	01 97       	sbiw	r24, 0x01	; 1
+ 49c:	f1 f7       	brne	.-4      	; 0x49a <sensorSetup+0x2c>
+ 49e:	00 c0       	rjmp	.+0      	; 0x4a0 <sensorSetup+0x32>
+ 4a0:	00 00       	nop
+	_delay_us(80); // Wait for a signal from sensor
+	
+	if (digitalRead(DATA_PIN)) // Check sensor connection during line LOW
+ 4a2:	87 e0       	ldi	r24, 0x07	; 7
+ 4a4:	90 e0       	ldi	r25, 0x00	; 0
+ 4a6:	2f df       	rcall	.-418    	; 0x306 <digitalRead>
+ 4a8:	89 2b       	or	r24, r25
+ 4aa:	21 f0       	breq	.+8      	; 0x4b4 <sensorSetup+0x46>
+	{
+		serial_print("No connection response during LOW drive. Please check pin connections. \r");
+ 4ac:	8e ed       	ldi	r24, 0xDE	; 222
+ 4ae:	92 e0       	ldi	r25, 0x02	; 2
+ 4b0:	7a ce       	rjmp	.-780    	; 0x1a6 <serial_print>
+		return;
+ 4b2:	08 95       	ret
+ 4b4:	8f e3       	ldi	r24, 0x3F	; 63
+ 4b6:	91 e0       	ldi	r25, 0x01	; 1
+ 4b8:	01 97       	sbiw	r24, 0x01	; 1
+ 4ba:	f1 f7       	brne	.-4      	; 0x4b8 <sensorSetup+0x4a>
+ 4bc:	00 c0       	rjmp	.+0      	; 0x4be <sensorSetup+0x50>
+ 4be:	00 00       	nop
+	}
+	_delay_us(80); // Line is driven LOW for 80 usecs, so wait for next check
+	// Connection test when line is driven HIGH for last 80 usecs
+	if (!digitalRead(DATA_PIN)) // Check sensor connection during line HIGH
+ 4c0:	87 e0       	ldi	r24, 0x07	; 7
+ 4c2:	90 e0       	ldi	r25, 0x00	; 0
+ 4c4:	20 df       	rcall	.-448    	; 0x306 <digitalRead>
+ 4c6:	89 2b       	or	r24, r25
+ 4c8:	19 f4       	brne	.+6      	; 0x4d0 <sensorSetup+0x62>
+	{
+		serial_print("No connection response during HIGH drive. Please check pin connections. \r");
+ 4ca:	87 e2       	ldi	r24, 0x27	; 39
+ 4cc:	93 e0       	ldi	r25, 0x03	; 3
+ 4ce:	6b ce       	rjmp	.-810    	; 0x1a6 <serial_print>
+ 4d0:	08 95       	ret
+
+000004d2 <main>:
+	(SERIAL_REGS *)(0xc0),	// serial port 0
+};
+
+int main(void)
+{
+	serial_open(0, 2400, SERIAL_8E1);
+ 4d2:	26 e2       	ldi	r18, 0x26	; 38
+ 4d4:	30 e0       	ldi	r19, 0x00	; 0
+ 4d6:	40 e6       	ldi	r20, 0x60	; 96
+ 4d8:	59 e0       	ldi	r21, 0x09	; 9
+ 4da:	60 e0       	ldi	r22, 0x00	; 0
+ 4dc:	70 e0       	ldi	r23, 0x00	; 0
+ 4de:	80 e0       	ldi	r24, 0x00	; 0
+ 4e0:	2f de       	rcall	.-930    	; 0x140 <serial_open>
+	while (1)
+	{
+		sensorSetup();
+		storeDataBytes();
+		checkSum();
+		resetState();
+ 4e2:	06 e9       	ldi	r16, 0x96	; 150
+ 4e4:	10 e0       	ldi	r17, 0x00	; 0
+{
+	serial_open(0, 2400, SERIAL_8E1);
+	
+	while (1)
+	{
+		sensorSetup();
+ 4e6:	c3 df       	rcall	.-122    	; 0x46e <sensorSetup>
+		storeDataBytes();
+ 4e8:	2c df       	rcall	.-424    	; 0x342 <storeDataBytes>
+		checkSum();
+ 4ea:	6d de       	rcall	.-806    	; 0x1c6 <checkSum>
+		resetState();
+ 4ec:	1b de       	rcall	.-970    	; 0x124 <resetState>
+ 4ee:	c0 2f       	mov	r28, r16
+ 4f0:	d1 2f       	mov	r29, r17
+		for(int i = 0; i < 150; i++)
+		{
+			serial_write(0, 0x00);
+ 4f2:	60 e0       	ldi	r22, 0x00	; 0
+ 4f4:	80 e0       	ldi	r24, 0x00	; 0
+ 4f6:	4f de       	rcall	.-866    	; 0x196 <serial_write>
+ 4f8:	21 97       	sbiw	r28, 0x01	; 1
+	{
+		sensorSetup();
+		storeDataBytes();
+		checkSum();
+		resetState();
+		for(int i = 0; i < 150; i++)
+ 4fa:	d9 f7       	brne	.-10     	; 0x4f2 <main+0x20>
+ 4fc:	f4 cf       	rjmp	.-24     	; 0x4e6 <main+0x14>
+
+000004fe <__divmodsi4>:
+ 4fe:	05 2e       	mov	r0, r21
+ 500:	97 fb       	bst	r25, 7
+ 502:	16 f4       	brtc	.+4      	; 0x508 <__divmodsi4+0xa>
+ 504:	00 94       	com	r0
+ 506:	0f d0       	rcall	.+30     	; 0x526 <__negsi2>
+ 508:	57 fd       	sbrc	r21, 7
+ 50a:	05 d0       	rcall	.+10     	; 0x516 <__divmodsi4_neg2>
+ 50c:	14 d0       	rcall	.+40     	; 0x536 <__udivmodsi4>
+ 50e:	07 fc       	sbrc	r0, 7
+ 510:	02 d0       	rcall	.+4      	; 0x516 <__divmodsi4_neg2>
+ 512:	46 f4       	brtc	.+16     	; 0x524 <__divmodsi4_exit>
+ 514:	08 c0       	rjmp	.+16     	; 0x526 <__negsi2>
+
+00000516 <__divmodsi4_neg2>:
+ 516:	50 95       	com	r21
+ 518:	40 95       	com	r20
+ 51a:	30 95       	com	r19
+ 51c:	21 95       	neg	r18
+ 51e:	3f 4f       	sbci	r19, 0xFF	; 255
+ 520:	4f 4f       	sbci	r20, 0xFF	; 255
+ 522:	5f 4f       	sbci	r21, 0xFF	; 255
+
+00000524 <__divmodsi4_exit>:
+ 524:	08 95       	ret
+
+00000526 <__negsi2>:
+ 526:	90 95       	com	r25
+ 528:	80 95       	com	r24
+ 52a:	70 95       	com	r23
+ 52c:	61 95       	neg	r22
+ 52e:	7f 4f       	sbci	r23, 0xFF	; 255
+ 530:	8f 4f       	sbci	r24, 0xFF	; 255
+ 532:	9f 4f       	sbci	r25, 0xFF	; 255
+ 534:	08 95       	ret
+
+00000536 <__udivmodsi4>:
+ 536:	a1 e2       	ldi	r26, 0x21	; 33
+ 538:	1a 2e       	mov	r1, r26
+ 53a:	aa 1b       	sub	r26, r26
+ 53c:	bb 1b       	sub	r27, r27
+ 53e:	fd 01       	movw	r30, r26
+ 540:	0d c0       	rjmp	.+26     	; 0x55c <__udivmodsi4_ep>
+
+00000542 <__udivmodsi4_loop>:
+ 542:	aa 1f       	adc	r26, r26
+ 544:	bb 1f       	adc	r27, r27
+ 546:	ee 1f       	adc	r30, r30
+ 548:	ff 1f       	adc	r31, r31
+ 54a:	a2 17       	cp	r26, r18
+ 54c:	b3 07       	cpc	r27, r19
+ 54e:	e4 07       	cpc	r30, r20
+ 550:	f5 07       	cpc	r31, r21
+ 552:	20 f0       	brcs	.+8      	; 0x55c <__udivmodsi4_ep>
+ 554:	a2 1b       	sub	r26, r18
+ 556:	b3 0b       	sbc	r27, r19
+ 558:	e4 0b       	sbc	r30, r20
+ 55a:	f5 0b       	sbc	r31, r21
+
+0000055c <__udivmodsi4_ep>:
+ 55c:	66 1f       	adc	r22, r22
+ 55e:	77 1f       	adc	r23, r23
+ 560:	88 1f       	adc	r24, r24
+ 562:	99 1f       	adc	r25, r25
+ 564:	1a 94       	dec	r1
+ 566:	69 f7       	brne	.-38     	; 0x542 <__udivmodsi4_loop>
+ 568:	60 95       	com	r22
+ 56a:	70 95       	com	r23
+ 56c:	80 95       	com	r24
+ 56e:	90 95       	com	r25
+ 570:	9b 01       	movw	r18, r22
+ 572:	ac 01       	movw	r20, r24
+ 574:	bd 01       	movw	r22, r26
+ 576:	cf 01       	movw	r24, r30
+ 578:	08 95       	ret
+
+0000057a <_exit>:
+ 57a:	f8 94       	cli
+
+0000057c <__stop_program>:
+ 57c:	ff cf       	rjmp	.-2      	; 0x57c <__stop_program>

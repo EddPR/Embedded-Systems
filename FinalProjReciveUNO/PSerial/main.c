@@ -14,29 +14,20 @@
 int main(void)
 {
     /* Replace with your application code */
-	init_ports(600, SERIAL_8N1);
+	init_ports(2400, SERIAL_8E1);
 	//char test = '1';
 	
     while (1) 
     {
 		//	char label2[] ="helloWorld";
-			char label[] = "Hello World!!!";
-			char checksum = 0;
+			char label2[] = "0123456789ABCDEF";
 
-			for(int i = 0; i<14; i++)
-			{
-				PSerial_write(0, label[i]);
-				checksum += label[i];
-			}
-			PSerial_write(0, '\n');
-			PSerial_write(0, checksum);
-		/*
-			for(int i = 0; i<10; i++)
+			for(int i = 0; i<8; i++)
 			{
 				PSerial_write(0, label2[i]);
-				checksum += label2[i];
 			}
+			PSerial_write(0, '\r');
 			PSerial_write(0, '\n');
-			_delay_ms(500);*/
+			//_delay_ms(500);
     }
 }

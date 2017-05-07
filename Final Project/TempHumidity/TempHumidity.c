@@ -16,6 +16,10 @@ void readingThread(void);
 void helpCommands(void);
 volatile int temperature;
 
+volatile char readings = 1;
+volatile int tHigh = 85;
+volatile int tLow = 70;
+
 SERIAL_REGS *serial_port[] = {
 	(SERIAL_REGS *)(0xc0),	// serial port 0
 	(SERIAL_REGS *)(0xc8),	// serial port 1
@@ -25,15 +29,18 @@ SERIAL_REGS *serial_port[] = {
 
 int main(void)
 {
-	serial_open(0, 19200, SERIAL_8N1);
+	serial_open(0, 2400, SERIAL_8E1);
+	serial_open(1, 2400, SERIAL_8E1);
 	x_init();
-	x_new(1, (PTHREAD)ledThread, 1);
+	//x_new(2, (PTHREAD)ledThread, 1);
+	//x_new(1, (PTHREAD)readingThread, 1);
 	x_new(0, (PTHREAD)runSensorThread, 1);
 	
 	while (1)
 	{
-		// Should never enter loop
-		//runSensorThread();
+		//serial_print("test\n");
+		//if (readings == 1)	
+		serial_write(0, 'B');
 	}
 }
 
@@ -41,27 +48,39 @@ void runSensorThread()
 {
 	while(1)
 	{
-		sensorSetup();
-		storeDataBytes();
-		checkSum();
-		resetState();
-		x_delay(500);
+		if(serial_read(1) == 0xAA)
+		{
+			for(int i = 0; i < 5; i++)
+			{
+				bytes[i] = serial_read(1);
+			}
+			if(serial_read(1) == 0x99)
+			{
+				checkSum();
+				resetState();
+				x_delay(500);
+			}
+			
+		}
 	}
 }
 
 void ledThread()
 {
-	DDRC |= 0x01;	// PORTC.0 -> DP37
+	//DDRC |= 0x01;	// PORTC.0 -> DP37
+	DDRB = 0X80;	// Set PORTB.7 for OUTPUT BUILTIN LED
 	while(1)
 	{
-		if (temperature < 78)
+		if (temperature < tLow)
 		{
-			PORTC = 0x01;	// Toggle LED
+			PORTB &= ~0x80;  //led on
+			//PORTC = 0x01;	// Toggle LED
 			x_delay(1);
 		}
-		else
+		else if (temperature > tHigh)
 		{
-			PORTC = 0x00;	// TURN OFF LED
+			//PORTC = 0x00;	// TURN OFF LED
+			PORTB |= 0x80;		//led off
 			x_delay(5);
 		}
 		
@@ -70,17 +89,59 @@ void ledThread()
 
 void readingThread()
 {
-	if (serial_read(0) == 'H')
+	char temp;
+	while(1)
 	{
-		if (serial_read(0) == 'E')
+		serial_print("rt\n");
+		char buff[16] = "";
+		temp = ' ';
+		
+		for(int i = 0; i < 16; i++)
 		{
-			if (serial_read(0) == 'L')
+			temp = serial_read(0);
+			if (temp == '\n')
 			{
-				if (serial_read(0) == 'P')
-				{
-					helpCommands();
-				}
+				break;
 			}
+			else
+			{
+				buff[i] = temp;
+			}
+		}
+	
+		if (strncmp(buff, "HELP", 4) == 0)
+		{
+			helpCommands();
+		}
+		else if (strncmp(buff, "SET ON", 6) == 0)
+		{
+			readings = 1;
+			serial_print("SET ON");
+		}
+		else if (strncmp(buff, "SET OFF", 7) == 0)
+		{
+			readings = 0;
+			serial_print("SET OFF");
+		}
+		else if (strncmp(buff, "SET HEX", 7) == 0)
+		{
+			serial_print("SET HEX");
+		}
+		else if (strncmp(buff, "SET TLOW", 8) == 0)
+		{
+			serial_print("SET TLOW");
+		}
+		else if (strncmp(buff, "SET THIGH", 9) == 0)
+		{
+			serial_print("SET THIGH");
+		}
+		else if (strncmp(buff, "SET PERIOD", 10) == 0)
+		{
+			serial_print("SET PERIOD");
+		}
+		else if (strncmp(buff, "SET", 3) == 0)
+		{
+			serial_print("SET");
 		}
 	}
 }

@@ -136,7 +136,7 @@ LOAD main.o
 LOAD PSerial.o
 START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr6\libm.a
-LOAD C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\FinalProjReciveUNO\PSerial\libEmSysLib.a
+LOAD C:\Users\fenim\Desktop\GitRepo\Embedded-Systems\Lab3_SerialComm\Problem2\libEmSysLib.a
 END GROUP
 START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a
@@ -242,7 +242,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x2ac
+.text           0x00000000      0x2a4
  *(.vectors)
  .vectors       0x00000000       0xe4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega2560/avr6/crtatmega2560.o
                 0x00000000                __vector_default
@@ -360,31 +360,31 @@ END GROUP
                 0x00000122                __vector_42
                 0x00000124                . = ALIGN (0x2)
  *(.text.*)
- .text.main     0x00000124       0x70 main.o
+ .text.main     0x00000124       0x68 main.o
                 0x00000124                main
  .text.PSerial_open
-                0x00000194       0x64 PSerial.o
-                0x00000194                PSerial_open
+                0x0000018c       0x64 PSerial.o
+                0x0000018c                PSerial_open
  .text.PSerial_write
-                0x000001f8       0x28 PSerial.o
-                0x000001f8                PSerial_write
+                0x000001f0       0x28 PSerial.o
+                0x000001f0                PSerial_write
  .text.init_ports
-                0x00000220        0xc PSerial.o
-                0x00000220                init_ports
+                0x00000218        0xc PSerial.o
+                0x00000218                init_ports
  .text.libgcc.div
-                0x0000022c       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_divmodsi4.o)
-                0x0000022c                __divmodsi4
+                0x00000224       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_divmodsi4.o)
+                0x00000224                __divmodsi4
  .text.libgcc.div
-                0x00000254       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_negsi2.o)
-                0x00000254                __negsi2
+                0x0000024c       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_negsi2.o)
+                0x0000024c                __negsi2
  .text.libgcc.div
-                0x00000264       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_udivmodsi4.o)
-                0x00000264                __udivmodsi4
-                0x000002a8                . = ALIGN (0x2)
+                0x0000025c       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_udivmodsi4.o)
+                0x0000025c                __udivmodsi4
+                0x000002a0                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000002a8        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_exit.o)
-                0x000002a8                _exit
-                0x000002a8                exit
+ .fini9         0x000002a0        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_exit.o)
+                0x000002a0                _exit
+                0x000002a0                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -403,11 +403,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000002a8        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_exit.o)
+ .fini0         0x000002a0        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_exit.o)
  *(.fini0)
-                0x000002ac                _etext = .
+                0x000002a4                _etext = .
 
-.data           0x00800200       0x12 load address 0x000002ac
+.data           0x00800200       0x14 load address 0x000002a4
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -417,29 +417,29 @@ END GROUP
  *(.rodata)
  *(.rodata*)
  .rodata.str1.1
-                0x00800202        0xf main.o
+                0x00800202       0x11 main.o
  *(.gnu.linkonce.d*)
-                0x00800212                . = ALIGN (0x2)
- *fill*         0x00800211        0x1 
-                0x00800212                _edata = .
-                0x00800212                PROVIDE (__data_end, .)
+                0x00800214                . = ALIGN (0x2)
+ *fill*         0x00800213        0x1 
+                0x00800214                _edata = .
+                0x00800214                PROVIDE (__data_end, .)
 
-.bss            0x00800212        0x2
-                0x00800212                PROVIDE (__bss_start, .)
+.bss            0x00800214        0x2
+                0x00800214                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.udren.1850
-                0x00800212        0x2 PSerial.o
+                0x00800214        0x2 PSerial.o
  *(COMMON)
-                0x00800214                PROVIDE (__bss_end, .)
-                0x000002ac                __data_load_start = LOADADDR (.data)
-                0x000002be                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800216                PROVIDE (__bss_end, .)
+                0x000002a4                __data_load_start = LOADADDR (.data)
+                0x000002b8                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800214        0x0
+.noinit         0x00800216        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800214                _end = .
+                0x00800216                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -515,41 +515,41 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xf89
+.debug_info     0x00000000      0xf71
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xbbc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_info    0x00000bbc      0x17e main.o
- .debug_info    0x00000d3a      0x24f PSerial.o
+ .debug_info    0x00000bbc      0x166 main.o
+ .debug_info    0x00000d22      0x24f PSerial.o
 
-.debug_abbrev   0x00000000      0xd35
+.debug_abbrev   0x00000000      0xd26
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0xb1a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_abbrev  0x00000b1a       0xe1 main.o
- .debug_abbrev  0x00000bfb      0x13a PSerial.o
+ .debug_abbrev  0x00000b1a       0xd2 main.o
+ .debug_abbrev  0x00000bec      0x13a PSerial.o
 
-.debug_line     0x00000000      0x3ce
+.debug_line     0x00000000      0x3b2
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x1f9 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_line    0x000001f9       0x94 main.o
- .debug_line    0x0000028d      0x141 PSerial.o
+ .debug_line    0x000001f9       0x78 main.o
+ .debug_line    0x00000271      0x141 PSerial.o
 
 .debug_frame    0x00000000       0xa8
  *(.debug_frame)
  .debug_frame   0x00000000       0x34 main.o
  .debug_frame   0x00000034       0x74 PSerial.o
 
-.debug_str      0x00000000      0x5f3
+.debug_str      0x00000000      0x5eb
  *(.debug_str)
  .debug_str     0x00000000      0x3e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_str     0x000003e6      0x177 main.o
-                                0x1b0 (size before relaxing)
- .debug_str     0x0000055d       0x96 PSerial.o
+ .debug_str     0x000003e6      0x16f main.o
+                                0x1a8 (size before relaxing)
+ .debug_str     0x00000555       0x96 PSerial.o
                                 0x22b (size before relaxing)
 
-.debug_loc      0x00000000      0x212
+.debug_loc      0x00000000      0x1f3
  *(.debug_loc)
- .debug_loc     0x00000000       0x7a main.o
- .debug_loc     0x0000007a      0x198 PSerial.o
+ .debug_loc     0x00000000       0x5b main.o
+ .debug_loc     0x0000005b      0x198 PSerial.o
 
 .debug_macinfo
  *(.debug_macinfo)
