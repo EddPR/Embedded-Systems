@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include "TempHumidity.h"
 #include "acx.h"
+#include <avr/interrupt.h>
 
 void runSensorThread(void);
 void ledThread(void);
@@ -17,7 +18,7 @@ void helpCommands(void);
 volatile int temperature;
 
 volatile char readings = 1;
-volatile int tHigh = 85;
+volatile int tHigh = 75;
 volatile int tLow = 70;
 
 SERIAL_REGS *serial_port[] = {
@@ -29,11 +30,11 @@ SERIAL_REGS *serial_port[] = {
 
 int main(void)
 {
-	serial_open(0, 2400, SERIAL_8E1);
+	serial_open(0, 19200, SERIAL_8E1);
 	serial_open(1, 2400, SERIAL_8E1);
 	x_init();
-	//x_new(2, (PTHREAD)ledThread, 1);
-	//x_new(1, (PTHREAD)readingThread, 1);
+	x_new(2, (PTHREAD)ledThread, 1);
+	x_new(1, (PTHREAD)readingThread, 1);
 	x_new(0, (PTHREAD)runSensorThread, 1);
 	
 	while (1)
@@ -48,7 +49,7 @@ void runSensorThread()
 {
 	while(1)
 	{
-		if(serial_read(1) == 0xAA)
+		if(serial_read(1) == 0xAA && readings ==1)
 		{
 			for(int i = 0; i < 5; i++)
 			{
@@ -58,31 +59,29 @@ void runSensorThread()
 			{
 				checkSum();
 				resetState();
-				x_delay(500);
+				x_delay(2000);
 			}
-			
 		}
+		x_delay(5);
 	}
 }
 
 void ledThread()
 {
-	//DDRC |= 0x01;	// PORTC.0 -> DP37
-	DDRB = 0X80;	// Set PORTB.7 for OUTPUT BUILTIN LED
+	DDRC |= 0x01;	// PORTC.0 -> DP37
 	while(1)
 	{
 		if (temperature < tLow)
 		{
-			PORTB &= ~0x80;  //led on
-			//PORTC = 0x01;	// Toggle LED
-			x_delay(1);
+			PORTC = 0x01;	// Toggle ON LED
+			x_delay(5);
 		}
 		else if (temperature > tHigh)
 		{
-			//PORTC = 0x00;	// TURN OFF LED
-			PORTB |= 0x80;		//led off
+			PORTC = 0x00;	// TURN OFF LED
 			x_delay(5);
 		}
+		x_delay(5);
 		
 	}
 }
@@ -92,56 +91,86 @@ void readingThread()
 	char temp;
 	while(1)
 	{
-		serial_print("rt\n");
-		char buff[16] = "";
-		temp = ' ';
-		
-		for(int i = 0; i < 16; i++)
+		int top = 0;
+		int conv = 1;
+	//	serial_print("rt\n");
+		if(UCSR0A & (1 << RXC0))
 		{
-			temp = serial_read(0);
-			if (temp == '\n')
+			char buff[16] = "";
+			temp = ' ';
+			
+			for(int i = 0; i < 16; i++)
 			{
-				break;
+				temp = serial_read(0);
+				if (temp == '\n')
+				{
+					top = i - 2;
+					break;
+				}
+				else
+				{
+					buff[i] = temp;
+				}
 			}
-			else
+			
+			if (strncmp(buff, "HELP", 4) == 0)
 			{
-				buff[i] = temp;
+				helpCommands();
 			}
+			else if (strncmp(buff, "SET ON", 6) == 0)	//working
+			{
+				readings = 1;
+				serial_print("SET ON");
+			}
+			else if (strncmp(buff, "SET OFF", 7) == 0)	//working
+			{
+				readings = 0;
+				serial_print("SET OFF");
+			}
+			else if (strncmp(buff, "SET HEX", 7) == 0)
+			{
+				serial_print("SET HEX");
+			}
+			else if (strncmp(buff, "SET TLOW", 8) == 0)	//working
+			{
+				tLow = 0;
+				for(int x = top; x > 8; x--)
+				{
+					tLow += (((int)buff[x]) - 48)*conv;
+					conv *= 10;
+				}
+				serial_print("SET TLOW");
+			}
+			else if (strncmp(buff, "SET THIGH", 9) == 0)	//working
+			{
+				tHigh = 0;
+				for(int x = top; x > 9; x--)
+				{
+					tHigh += (((int)buff[x]) - 48)*conv;
+					conv *= 10;
+				}
+				serial_print("SET THIGH");
+			}
+			else if (strncmp(buff, "SET PERIOD", 10) == 0)
+			{
+				serial_print("SET PERIOD");
+			}
+			else if (strncmp(buff, "SET", 3) == 0) //working with the working things
+			{
+				char buffer[6];
+				serial_print("SET  tLow: ");
+				itoa(tLow, buffer, 10);
+				serial_print(buffer);
+				serial_print("  tHigh: ");
+				itoa(tHigh, buffer, 10);
+				serial_print(buffer);
+				serial_print("  \r");
+			}
+			x_yield();
 		}
-	
-		if (strncmp(buff, "HELP", 4) == 0)
+		else
 		{
-			helpCommands();
-		}
-		else if (strncmp(buff, "SET ON", 6) == 0)
-		{
-			readings = 1;
-			serial_print("SET ON");
-		}
-		else if (strncmp(buff, "SET OFF", 7) == 0)
-		{
-			readings = 0;
-			serial_print("SET OFF");
-		}
-		else if (strncmp(buff, "SET HEX", 7) == 0)
-		{
-			serial_print("SET HEX");
-		}
-		else if (strncmp(buff, "SET TLOW", 8) == 0)
-		{
-			serial_print("SET TLOW");
-		}
-		else if (strncmp(buff, "SET THIGH", 9) == 0)
-		{
-			serial_print("SET THIGH");
-		}
-		else if (strncmp(buff, "SET PERIOD", 10) == 0)
-		{
-			serial_print("SET PERIOD");
-		}
-		else if (strncmp(buff, "SET", 3) == 0)
-		{
-			serial_print("SET");
+			x_delay(1);
 		}
 	}
 }
@@ -495,3 +524,65 @@ void helpCommands()
 	serial_print("SET THIGH=<value> 	high temperature setting. If temp is above this, LED/heater should be turned off. \r");
 	serial_print("SET PERIOD=<value>	time in seconds between readings sent to the host. An integer value not less than 2, not greater than 65535. \r");
 }
+/*
+ISR(PCINT2_vect) //INTurpt vect enable for for rx0
+{
+	x_suspend(0);
+	x_suspend(1);
+	
+	char temp;
+	serial_print("rt\n");
+	char buff[16] = "";
+	temp = ' ';
+	
+	for(int i = 0; i < 16; i++)
+	{
+		temp = serial_read(0);
+		if (temp == '\n')
+		{
+			break;
+		}
+		else
+		{
+			buff[i] = temp;
+		}
+	}
+	
+	if (strncmp(buff, "HELP", 4) == 0)
+	{
+		helpCommands();
+	}
+	else if (strncmp(buff, "SET ON", 6) == 0)
+	{
+		readings = 1;
+		serial_print("SET ON");
+	}
+	else if (strncmp(buff, "SET OFF", 7) == 0)
+	{
+		readings = 0;
+		serial_print("SET OFF");
+	}
+	else if (strncmp(buff, "SET HEX", 7) == 0)
+	{
+		serial_print("SET HEX");
+	}
+	else if (strncmp(buff, "SET TLOW", 8) == 0)
+	{
+		serial_print("SET TLOW");
+	}
+	else if (strncmp(buff, "SET THIGH", 9) == 0)
+	{
+		serial_print("SET THIGH");
+	}
+	else if (strncmp(buff, "SET PERIOD", 10) == 0)
+	{
+		serial_print("SET PERIOD");
+	}
+	else if (strncmp(buff, "SET", 3) == 0)
+	{
+		serial_print("SET");
+	}
+	
+	x_resume(0);
+	x_resume(1);
+}*/
