@@ -4,22 +4,23 @@
  * Created: 3/21/2017 1:15:12 PM
  * Author : Eduardo Padilla	[padillae]
  * Member2: Sam Fenimore	[fenimoress]
+ * Main program for arduino mega 2560, rx module on rx1 (DP19) and led on dp 37
  */ 
 
 #include <stdbool.h>
 #include "TempHumidity.h"
 #include "acx.h"
-#include <avr/interrupt.h>
 
 void runSensorThread(void);
 void ledThread(void);
 void readingThread(void);
 void helpCommands(void);
-volatile int temperature;
 
+volatile int temperature;
 volatile char readings = 1;
 volatile int tHigh = 75;
 volatile int tLow = 70;
+volatile unsigned int period = 2;
 
 SERIAL_REGS *serial_port[] = {
 	(SERIAL_REGS *)(0xc0),	// serial port 0
@@ -39,8 +40,6 @@ int main(void)
 	
 	while (1)
 	{
-		//serial_print("test\n");
-		//if (readings == 1)	
 		serial_write(0, 'B');
 	}
 }
@@ -49,7 +48,7 @@ void runSensorThread()
 {
 	while(1)
 	{
-		if(serial_read(1) == 0xAA && readings ==1)
+		if(serial_read(1) == 0xAA)
 		{
 			for(int i = 0; i < 5; i++)
 			{
@@ -59,10 +58,16 @@ void runSensorThread()
 			{
 				checkSum();
 				resetState();
-				x_delay(2000);
+			//	for(int i = 0; i < 1000; i++)
+			//	{
+					x_delay((period*1000));
+			//	}
 			}
 		}
-		x_delay(5);
+		else
+		{
+			x_delay(5);
+		}
 	}
 }
 
@@ -74,15 +79,17 @@ void ledThread()
 		if (temperature < tLow)
 		{
 			PORTC = 0x01;	// Toggle ON LED
-			x_delay(5);
+			x_delay(1);
 		}
-		else if (temperature > tHigh)
+		else if (temperature >= tHigh)
 		{
 			PORTC = 0x00;	// TURN OFF LED
-			x_delay(5);
+			x_delay(1);
 		}
-		x_delay(5);
-		
+		else
+		{
+			x_delay(2);
+		}
 	}
 }
 
@@ -93,15 +100,15 @@ void readingThread()
 	{
 		int top = 0;
 		int conv = 1;
-	//	serial_print("rt\n");
 		if(UCSR0A & (1 << RXC0))
 		{
-			char buff[16] = "";
+			char buff[18] = "";
 			temp = ' ';
 			
-			for(int i = 0; i < 16; i++)
+			for(int i = 0; i < 18; i++)
 			{
 				temp = serial_read(0);
+				serial_write(0,temp);
 				if (temp == '\n')
 				{
 					top = i - 2;
@@ -109,6 +116,10 @@ void readingThread()
 				}
 				else
 				{
+					if ((temp >= 97) && (temp <= 122))
+					{
+						temp -= 32;
+					}
 					buff[i] = temp;
 				}
 			}
@@ -117,21 +128,26 @@ void readingThread()
 			{
 				helpCommands();
 			}
-			else if (strncmp(buff, "SET ON", 6) == 0)	//working
+			else if (strncmp(buff, "SET ON", 6) == 0)
 			{
 				readings = 1;
-				serial_print("SET ON");
 			}
-			else if (strncmp(buff, "SET OFF", 7) == 0)	//working
+			else if (strncmp(buff, "SET OFF", 7) == 0)
 			{
 				readings = 0;
-				serial_print("SET OFF");
 			}
 			else if (strncmp(buff, "SET HEX", 7) == 0)
 			{
-				serial_print("SET HEX");
+				if(readings == 2)
+				{
+					readings = 1;
+				}
+				else
+				{
+					readings = 2;
+				}
 			}
-			else if (strncmp(buff, "SET TLOW", 8) == 0)	//working
+			else if (strncmp(buff, "SET TLOW", 8) == 0)
 			{
 				tLow = 0;
 				for(int x = top; x > 8; x--)
@@ -139,9 +155,8 @@ void readingThread()
 					tLow += (((int)buff[x]) - 48)*conv;
 					conv *= 10;
 				}
-				serial_print("SET TLOW");
 			}
-			else if (strncmp(buff, "SET THIGH", 9) == 0)	//working
+			else if (strncmp(buff, "SET THIGH", 9) == 0)
 			{
 				tHigh = 0;
 				for(int x = top; x > 9; x--)
@@ -149,29 +164,49 @@ void readingThread()
 					tHigh += (((int)buff[x]) - 48)*conv;
 					conv *= 10;
 				}
-				serial_print("SET THIGH");
 			}
 			else if (strncmp(buff, "SET PERIOD", 10) == 0)
 			{
-				serial_print("SET PERIOD");
+				period = 0;
+				for(int x = top; x > 10; x--)
+				{
+					period += (((int)buff[x]) - 48)*conv;
+					conv *= 10;
+				}
 			}
-			else if (strncmp(buff, "SET", 3) == 0) //working with the working things
+			else if (strncmp(buff, "SET", 3) == 0)
 			{
-				char buffer[6];
-				serial_print("SET  tLow: ");
+				char buffer[8];
+				
 				itoa(tLow, buffer, 10);
+				serial_print("tLow: ");
 				serial_print(buffer);
-				serial_print("  tHigh: ");
+				
 				itoa(tHigh, buffer, 10);
+				serial_print("  tHigh: ");
 				serial_print(buffer);
+				
+				if (readings == 1)
+				{
+					serial_print("  decimal");
+				}
+				else
+				{
+					serial_print("  HEX");
+				}
+				
+				utoa(period, buffer, 10);
+				serial_print("  period: ");
+				serial_print(buffer);
+				
 				serial_print("  \r");
 			}
-			x_yield();
+			else
+			{
+				serial_print("???\r");
+			}
 		}
-		else
-		{
-			x_delay(1);
-		}
+		x_delay(1);
 	}
 }
 
@@ -214,7 +249,6 @@ void resetState()
 	
 	for (int i = 0; i < 5; i++) bytes[i] = 0; // Clear bytes
 	
-	//_delay_ms(3000); // Data should be sent every 3 seconds
 }
 
 /***********************************************************************
@@ -225,45 +259,79 @@ void resetState()
 ***********************************************************************/
 void printTemperature(uint8_t bytes2, uint8_t bytes3)
 {
-	char buffer[8];
-	
+	char buffer[15];
+
 	int temp = ((bytes2) << 8) | bytes3; // store bytes into single var
 	temp = temp / 10; // Calculate the whole number 
 	int remainder = temp % 10; // Calculate the fraction
 	temp = ((temp * 9) / 5) + 32; // Converting Celsius to Fahrenheit
 	if (bytes2 < 0) temp = temp * -1; // If negative, print it as such
-	itoa(temp, buffer, 10); // Convert data to string
-	serial_print(" TMP= ");
-	serial_print(buffer);
-	itoa(remainder, buffer, 10); // Convert data to string
-	serial_print(".");
-	serial_print(buffer);
-	serial_print(" \r");
-	
 	temperature = temp;
+	
+	if (readings == 1)
+	{
+		ultoa(x_gtime(), buffer, 10);
+		serial_print(buffer);
+		serial_print(", ");
+		
+		itoa(temp, buffer, 10); // Convert data to string
+		//serial_print(" TMP= ");
+		serial_print(buffer);
+		itoa(remainder, buffer, 10); // Convert data to string
+		serial_print(".");
+		serial_print(buffer);
+		serial_print(", ");
+
+		itoa(tLow, buffer, 10);
+		serial_print(buffer);
+		
+		itoa(tHigh, buffer, 10);
+		serial_print(" ,");
+		serial_print(buffer);
+		
+		if((PINC & 0x01) == 0x01)
+		{
+			serial_print(", HEATING\r");
+		}
+		else
+		{
+			serial_print(", COOLING\r");
+		}
+	}
+	else if (readings == 2)
+	{
+		ultoa(x_gtime(), buffer, 16);
+		serial_print(buffer);
+		serial_print(", ");
+			
+		itoa(bytes2, buffer, 16); // Convert data to string
+		//serial_print(" TMP= ");
+		serial_print(buffer);
+		itoa(bytes3, buffer, 16); // Convert data to string
+		serial_print(buffer);
+				
+		serial_print(", ");
+
+		itoa(tLow, buffer, 16);
+		serial_print(buffer);
+		
+		serial_print(" ,");
+		
+		itoa(tHigh, buffer, 16);
+		serial_print(buffer);
+		
+		
+		if((PINC & 0x01) == 0x01)
+		{
+			serial_print(",  1 \r");
+		}
+		else
+		{
+			serial_print(",  0 \r");
+		}
+	}
 }
 
-/***********************************************************************
-* Function expects the 2 byte humidity data to store them as 1 16 bit
-* value to properly interpret the humidity value. 
-* bytes0: upper 8 bits from Humidity data
-* bytes1: lower 8 bits from Humidity data
-***********************************************************************/
-void printHumidity(uint8_t bytes0, uint8_t bytes1)
-{
-	char buffer[8];
-	
-	int relHum = (bytes0 << 8) | bytes1; // store bytes into single var
-	relHum = relHum / 10; // Calculate the whole number 
-	int remainder = relHum % 10; // Calculate the fraction
-	serial_print("RHUM= "); 
-	itoa(relHum, buffer, 10); // Convert data to string
-	serial_print(buffer);
-	itoa(remainder, buffer, 10); // Convert data to string
-	serial_print(".");
-	serial_print(buffer);
-	serial_print(", ");
-}
 
 /***********************************************************************
 * Function insures that that the sun of all 16 humidity bits, 
@@ -277,8 +345,8 @@ void checkSum()
 	sum = bytes[0] + bytes[1] + bytes[2] + bytes[3];
 	if(bytes[4] == sum)
 	{
-		printHumidity(bytes[0], bytes[1]);
 		printTemperature(bytes[2], bytes[3]);
+		
 	}
 	else
 	{
@@ -524,65 +592,3 @@ void helpCommands()
 	serial_print("SET THIGH=<value> 	high temperature setting. If temp is above this, LED/heater should be turned off. \r");
 	serial_print("SET PERIOD=<value>	time in seconds between readings sent to the host. An integer value not less than 2, not greater than 65535. \r");
 }
-/*
-ISR(PCINT2_vect) //INTurpt vect enable for for rx0
-{
-	x_suspend(0);
-	x_suspend(1);
-	
-	char temp;
-	serial_print("rt\n");
-	char buff[16] = "";
-	temp = ' ';
-	
-	for(int i = 0; i < 16; i++)
-	{
-		temp = serial_read(0);
-		if (temp == '\n')
-		{
-			break;
-		}
-		else
-		{
-			buff[i] = temp;
-		}
-	}
-	
-	if (strncmp(buff, "HELP", 4) == 0)
-	{
-		helpCommands();
-	}
-	else if (strncmp(buff, "SET ON", 6) == 0)
-	{
-		readings = 1;
-		serial_print("SET ON");
-	}
-	else if (strncmp(buff, "SET OFF", 7) == 0)
-	{
-		readings = 0;
-		serial_print("SET OFF");
-	}
-	else if (strncmp(buff, "SET HEX", 7) == 0)
-	{
-		serial_print("SET HEX");
-	}
-	else if (strncmp(buff, "SET TLOW", 8) == 0)
-	{
-		serial_print("SET TLOW");
-	}
-	else if (strncmp(buff, "SET THIGH", 9) == 0)
-	{
-		serial_print("SET THIGH");
-	}
-	else if (strncmp(buff, "SET PERIOD", 10) == 0)
-	{
-		serial_print("SET PERIOD");
-	}
-	else if (strncmp(buff, "SET", 3) == 0)
-	{
-		serial_print("SET");
-	}
-	
-	x_resume(0);
-	x_resume(1);
-}*/

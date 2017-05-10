@@ -4,6 +4,8 @@
  * Created: 3/21/2017 1:15:12 PM
  * Author : Eduardo Padilla	[padillae]
  * Member2: Sam Fenimore	[fenimoress]
+ *This is the driver program for the arduino uno it takes the temp sensor readings on pin 5
+ *and it sends them to serial tx0 which is transmitted with a 433mhz rf transmitter
  */ 
 
 #include <stdbool.h>
@@ -29,9 +31,7 @@ int main(void)
 		{
 			serial_write(0, 0x00);
 		}
-		//_delay_ms(500);
-		// Should never enter loop
-		//runSensorThread();
+
 	}
 }
 
@@ -75,54 +75,6 @@ void resetState()
 	for (int i = 0; i < 5; i++) bytes[i] = 0; // Clear bytes
 	
 	//_delay_ms(3000); // Data should be sent every 3 seconds
-}
-
-/***********************************************************************
-* Function expects the 2 byte temperature data to store them as 1 16 bit
-* value to properly calculate the temperature from Celsius to Fahrenheit.
-* bytes2: upper 8 bits from Temperature data
-* bytes3: lower 8 bits from Temperature data
-***********************************************************************/
-void printTemperature(uint8_t bytes2, uint8_t bytes3)
-{
-	char buffer[8];
-	
-	int temp = ((bytes2) << 8) | bytes3; // store bytes into single var
-	temp = temp / 10; // Calculate the whole number 
-	int remainder = temp % 10; // Calculate the fraction
-	temp = ((temp * 9) / 5) + 32; // Converting Celsius to Fahrenheit
-	if (bytes2 < 0) temp = temp * -1; // If negative, print it as such
-	itoa(temp, buffer, 10); // Convert data to string
-	serial_print(" TMP= ");
-	serial_print(buffer);
-	itoa(remainder, buffer, 10); // Convert data to string
-	serial_print(".");
-	serial_print(buffer);
-	serial_print(" \r");
-	
-	temperature = temp;
-}
-
-/***********************************************************************
-* Function expects the 2 byte humidity data to store them as 1 16 bit
-* value to properly interpret the humidity value. 
-* bytes0: upper 8 bits from Humidity data
-* bytes1: lower 8 bits from Humidity data
-***********************************************************************/
-void printHumidity(uint8_t bytes0, uint8_t bytes1)
-{
-	char buffer[8];
-	
-	int relHum = (bytes0 << 8) | bytes1; // store bytes into single var
-	relHum = relHum / 10; // Calculate the whole number 
-	int remainder = relHum % 10; // Calculate the fraction
-	serial_print("RHUM= "); 
-	itoa(relHum, buffer, 10); // Convert data to string
-	serial_print(buffer);
-	itoa(remainder, buffer, 10); // Convert data to string
-	serial_print(".");
-	serial_print(buffer);
-	serial_print(", ");
 }
 
 /***********************************************************************

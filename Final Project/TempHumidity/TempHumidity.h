@@ -26,7 +26,7 @@ extern char * itoa(int, char *, int);
 
 void sensorSetup(void);
 void resetState(void);
-void printHumidity(uint8_t, uint8_t);
+//void printHumidity(uint8_t, uint8_t);
 void printTemperature(uint8_t, uint8_t);
 void storeDataBytes(void);
 void checkSum(void);
