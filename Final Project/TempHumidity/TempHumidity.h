@@ -18,8 +18,7 @@
 
 #define DATA_PIN 7
 
-short int getByte;
-short int bytes[5];
+
 
 // Prototypes
 extern char * itoa(int, char *, int);

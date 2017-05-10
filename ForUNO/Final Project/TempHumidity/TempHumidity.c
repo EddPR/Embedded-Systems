@@ -27,7 +27,7 @@ int main(void)
 		storeDataBytes();
 		checkSum();
 		resetState();
-		for(int i = 0; i < 150; i++)
+		for(int i = 0; i < 140; i++)	//acts as a rough delay and keeps the tx module warmed up until data is avalible to send again
 		{
 			serial_write(0, 0x00);
 		}
@@ -81,7 +81,7 @@ void resetState()
 * Function insures that that the sun of all 16 humidity bits, 
 * plus the sum of all 16 temperature bits, 
 * matches the single byte checksum value
-* If so, it prints the data. Otherwise, it'll print a checksum error.
+* If so, it prints the raw hex for the tx module
 ***********************************************************************/
 void checkSum()
 {
@@ -89,15 +89,14 @@ void checkSum()
 	sum = bytes[0] + bytes[1] + bytes[2] + bytes[3];
 	if(bytes[4] == sum)
 	{
-		//printHumidity(bytes[0], bytes[1]);
-		//printTemperature(bytes[2], bytes[3]);
-		serial_write(0, 0xAA);
+		
+		serial_write(0, 0xAA);			//signifies to the RX recieving program beginning of data
 		serial_write(0, bytes[0]);
 		serial_write(0, bytes[1]);
 		serial_write(0, bytes[2]);
 		serial_write(0, bytes[3]);
 		serial_write(0, bytes[4]);
-		serial_write(0, 0x99);
+		serial_write(0, 0x99);			//signifies end of data
 		
 	}
 	else

@@ -307,7 +307,7 @@ void serial_print(char* data)
 000001c6 <checkSum>:
 * plus the sum of all 16 temperature bits, 
 * matches the single byte checksum value
-* If so, it prints the data. Otherwise, it'll print a checksum error.
+* If so, it prints the raw hex for the tx module
 ***********************************************************************/
 void checkSum()
 {
@@ -318,7 +318,7 @@ void checkSum()
 	if(bytes[4] == sum)
  1ca:	e2 e6       	ldi	r30, 0x62	; 98
  1cc:	f3 e0       	ldi	r31, 0x03	; 3
-* If so, it prints the data. Otherwise, it'll print a checksum error.
+* If so, it prints the raw hex for the tx module
 ***********************************************************************/
 void checkSum()
 {
@@ -339,9 +339,8 @@ void checkSum()
  1e4:	39 07       	cpc	r19, r25
  1e6:	c1 f4       	brne	.+48     	; 0x218 <checkSum+0x52>
 	{
-		//printHumidity(bytes[0], bytes[1]);
-		//printTemperature(bytes[2], bytes[3]);
-		serial_write(0, 0xAA);
+		
+		serial_write(0, 0xAA);			//signifies to the RX recieving program beginning of data
  1e8:	6a ea       	ldi	r22, 0xAA	; 170
  1ea:	80 e0       	ldi	r24, 0x00	; 0
  1ec:	d4 df       	rcall	.-88     	; 0x196 <serial_write>
@@ -367,7 +366,7 @@ void checkSum()
  20a:	68 85       	ldd	r22, Y+8	; 0x08
  20c:	80 e0       	ldi	r24, 0x00	; 0
  20e:	c3 df       	rcall	.-122    	; 0x196 <serial_write>
-		serial_write(0, 0x99);
+		serial_write(0, 0x99);			//signifies end of data
  210:	69 e9       	ldi	r22, 0x99	; 153
  212:	80 e0       	ldi	r24, 0x00	; 0
  214:	c0 df       	rcall	.-128    	; 0x196 <serial_write>
@@ -894,7 +893,7 @@ int main(void)
 		storeDataBytes();
 		checkSum();
 		resetState();
- 4e2:	06 e9       	ldi	r16, 0x96	; 150
+ 4e2:	0c e8       	ldi	r16, 0x8C	; 140
  4e4:	10 e0       	ldi	r17, 0x00	; 0
 {
 	serial_open(0, 2400, SERIAL_8E1);
@@ -911,7 +910,7 @@ int main(void)
  4ec:	1b de       	rcall	.-970    	; 0x124 <resetState>
  4ee:	c0 2f       	mov	r28, r16
  4f0:	d1 2f       	mov	r29, r17
-		for(int i = 0; i < 150; i++)
+		for(int i = 0; i < 140; i++)	//acts as a rough delay and keeps the tx module warmed up until data is avalible to send again
 		{
 			serial_write(0, 0x00);
  4f2:	60 e0       	ldi	r22, 0x00	; 0
@@ -923,7 +922,7 @@ int main(void)
 		storeDataBytes();
 		checkSum();
 		resetState();
-		for(int i = 0; i < 150; i++)
+		for(int i = 0; i < 140; i++)	//acts as a rough delay and keeps the tx module warmed up until data is avalible to send again
  4fa:	d9 f7       	brne	.-10     	; 0x4f2 <main+0x20>
  4fc:	f4 cf       	rjmp	.-24     	; 0x4e6 <main+0x14>
 

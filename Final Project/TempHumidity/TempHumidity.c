@@ -16,6 +16,8 @@ void ledThread(void);
 void readingThread(void);
 void helpCommands(void);
 
+short int getByte;
+short int bytes[5];
 volatile int temperature;
 volatile char readings = 1;
 volatile int tHigh = 75;
@@ -31,9 +33,10 @@ SERIAL_REGS *serial_port[] = {
 
 int main(void)
 {
-	serial_open(0, 19200, SERIAL_8E1);
+	serial_open(0, 19200, SERIAL_8N1);
 	serial_open(1, 2400, SERIAL_8E1);
 	x_init();
+	
 	x_new(2, (PTHREAD)ledThread, 1);
 	x_new(1, (PTHREAD)readingThread, 1);
 	x_new(0, (PTHREAD)runSensorThread, 1);
@@ -51,13 +54,14 @@ void runSensorThread()
 {
 	while(1)
 	{
-		if(serial_read(1) == 0xAA)
+		//Will be reading from RX1 where the RX module is hooked up
+		if(serial_read(1) == 0xAA)		//AA signifies begin of data from the TX module
 		{
-			for(int i = 0; i < 5; i++)
+			for(int i = 0; i < 5; i++)	//TX module sends out 5 bytes of data
 			{
 				bytes[i] = serial_read(1);
 			}
-			if(serial_read(1) == 0x99)
+			if(serial_read(1) == 0x99)	//ends it's packet with 0x99
 			{
 				checkSum();
 				resetState();
@@ -70,7 +74,7 @@ void runSensorThread()
 		}
 		else
 		{
-			x_delay(5);
+			x_delay(2);
 		}
 	}
 }
@@ -82,19 +86,19 @@ void ledThread()
 	DDRC |= 0x01;	// PORTC.0 -> DP37
 	while(1)
 	{
-		if (temperature < tLow)
+		if (temperature < tLow)			//heating
 		{
-			PORTC = 0x01;	// Toggle ON LED
-			x_delay(1);
+			PORTC = 0x01;				// Toggle ON LED
+			x_delay(5);
 		}
-		else if (temperature >= tHigh)
+		else if (temperature >= tHigh)	//cooling
 		{
-			PORTC = 0x00;	// TURN OFF LED
-			x_delay(1);
+			PORTC = 0x00;				// TURN OFF LED
+			x_delay(5);
 		}
 		else
 		{
-			x_delay(2);
+			x_delay(5);
 		}
 	}
 }
@@ -108,7 +112,7 @@ void readingThread()
 	{
 		int top = 0;
 		int conv = 1;
-		if(UCSR0A & (1 << RXC0))
+		if(UCSR0A & (1 << RXC0))							//if there is anything to read in RX0
 		{
 			char buff[18] = "";
 			temp = ' ';
@@ -116,35 +120,32 @@ void readingThread()
 			for(int i = 0; i < 18; i++)
 			{
 				temp = serial_read(0);
-				serial_write(0,temp);
-				if (temp == '\n')
+				serial_write(0, temp);						//show what is being sent
+				if (temp == '\n')							//read to end of line
 				{
-					top = i - 2;
+					top = i - 2;							//for later use if there is a value being passed in
 					break;
 				}
-				else
+				else if ((temp >= 97) && (temp <= 122))		//if its lowercase conv to uppercase
 				{
-					if ((temp >= 97) && (temp <= 122))
-					{
-						temp -= 32;
-					}
-					buff[i] = temp;
+					temp -= 32;
 				}
+				buff[i] = temp;
 			}
 			
-			if (strncmp(buff, "HELP", 4) == 0)
+			if (strncmp(buff, "HELP", 4) == 0)				//help function
 			{
 				helpCommands();
 			}
-			else if (strncmp(buff, "SET ON", 6) == 0)
+			else if (strncmp(buff, "SET ON", 6) == 0)		//send readings to host
 			{
 				readings = 1;
 			}
-			else if (strncmp(buff, "SET OFF", 7) == 0)
+			else if (strncmp(buff, "SET OFF", 7) == 0)		//don't send readings to host
 			{
 				readings = 0;
 			}
-			else if (strncmp(buff, "SET HEX", 7) == 0)
+			else if (strncmp(buff, "SET HEX", 7) == 0)		//Output in hex
 			{
 				if(readings == 2)
 				{
@@ -155,16 +156,16 @@ void readingThread()
 					readings = 2;
 				}
 			}
-			else if (strncmp(buff, "SET TLOW", 8) == 0)
+			else if (strncmp(buff, "SET TLOW", 8) == 0)		//low limit set
 			{
 				tLow = 0;
-				for(int x = top; x > 8; x--)
+				for(int x = top; x > 8; x--)				//handles conversion from chars to int
 				{
 					tLow += (((int)buff[x]) - 48)*conv;
 					conv *= 10;
 				}
 			}
-			else if (strncmp(buff, "SET THIGH", 9) == 0)
+			else if (strncmp(buff, "SET THIGH", 9) == 0)	//high limit set
 			{
 				tHigh = 0;
 				for(int x = top; x > 9; x--)
@@ -173,7 +174,7 @@ void readingThread()
 					conv *= 10;
 				}
 			}
-			else if (strncmp(buff, "SET PERIOD", 10) == 0)
+			else if (strncmp(buff, "SET PERIOD", 10) == 0)	//set output period in seconds
 			{
 				period = 0;
 				for(int x = top; x > 10; x--)
@@ -182,17 +183,16 @@ void readingThread()
 					conv *= 10;
 				}
 			}
-			else if (strncmp(buff, "SET", 3) == 0)
+			else if (strncmp(buff, "SET", 3) == 0)			//gives values of current variables
 			{
-				char buffer[8];
 				
-				itoa(tLow, buffer, 10);
+				itoa(tLow, buff, 10);
 				serial_print("tLow: ");
-				serial_print(buffer);
+				serial_print(buff);
 				
-				itoa(tHigh, buffer, 10);
+				itoa(tHigh, buff, 10);
 				serial_print("  tHigh: ");
-				serial_print(buffer);
+				serial_print(buff);
 				
 				if (readings == 1)
 				{
@@ -203,13 +203,13 @@ void readingThread()
 					serial_print("  HEX");
 				}
 				
-				utoa(period, buffer, 10);
+				utoa(period, buff, 10);
 				serial_print("  period: ");
-				serial_print(buffer);
+				serial_print(buff);
 				
 				serial_print("  \r");
 			}
-			else
+			else											//no know command
 			{
 				serial_print("???\r");
 			}
@@ -278,9 +278,9 @@ void printTemperature(uint8_t bytes2, uint8_t bytes3)
 	if (bytes2 < 0) temp = temp * -1; // If negative, print it as such
 	temperature = temp;
 	
-	if (readings == 1)
+	if (readings == 1)								//decimal output
 	{
-		ultoa(x_gtime(), buffer, 10);
+		ultoa(x_gtime(), buffer, 10);				//unsigned long to char to show timestamp
 		serial_print(buffer);
 		serial_print(", ");
 		
@@ -299,7 +299,7 @@ void printTemperature(uint8_t bytes2, uint8_t bytes3)
 		serial_print(" ,");
 		serial_print(buffer);
 		
-		if((PINC & 0x01) == 0x01)
+		if((PINC & 0x01) == 0x01)				//use led state to tell if heating or cooling
 		{
 			serial_print(", HEATING\r");
 		}
@@ -308,7 +308,7 @@ void printTemperature(uint8_t bytes2, uint8_t bytes3)
 			serial_print(", COOLING\r");
 		}
 	}
-	else if (readings == 2)
+	else if (readings == 2)						//hex output
 	{
 		ultoa(x_gtime(), buffer, 16);
 		serial_print(buffer);

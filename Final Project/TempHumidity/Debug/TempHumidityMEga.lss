@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000138  00000000  00000000  000013d0  2**3
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000286e  00000000  00000000  00001508  2**0
+  6 .debug_info   0000284f  00000000  00000000  00001508  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000011ae  00000000  00000000  00003d76  2**0
+  7 .debug_abbrev 000011ae  00000000  00000000  00003d57  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000011d6  00000000  00000000  00004f24  2**0
+  8 .debug_line   000011c6  00000000  00000000  00004f05  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000032c  00000000  00000000  000060fc  2**2
+  9 .debug_frame  0000032c  00000000  00000000  000060cc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000096f  00000000  00000000  00006428  2**0
+ 10 .debug_str    0000096f  00000000  00000000  000063f8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000122c  00000000  00000000  00006d97  2**0
+ 11 .debug_loc    0000122c  00000000  00000000  00006d67  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000178  00000000  00000000  00007fc3  2**0
+ 12 .debug_ranges 00000178  00000000  00000000  00007f93  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -330,7 +330,7 @@ Disassembly of section .text:
  22c:	39 07       	cpc	r19, r25
  22e:	2c f4       	brge	.+10     	; 0x23a <ledThread+0x24>
  230:	c8 b9       	out	0x08, r28	; 8
- 232:	81 e0       	ldi	r24, 0x01	; 1
+ 232:	85 e0       	ldi	r24, 0x05	; 5
  234:	90 e0       	ldi	r25, 0x00	; 0
  236:	7d d4       	rcall	.+2298   	; 0xb32 <x_delay>
  238:	f0 cf       	rjmp	.-32     	; 0x21a <ledThread+0x4>
@@ -342,11 +342,11 @@ Disassembly of section .text:
  24c:	39 07       	cpc	r19, r25
  24e:	2c f0       	brlt	.+10     	; 0x25a <ledThread+0x44>
  250:	18 b8       	out	0x08, r1	; 8
- 252:	81 e0       	ldi	r24, 0x01	; 1
+ 252:	85 e0       	ldi	r24, 0x05	; 5
  254:	90 e0       	ldi	r25, 0x00	; 0
  256:	6d d4       	rcall	.+2266   	; 0xb32 <x_delay>
  258:	e0 cf       	rjmp	.-64     	; 0x21a <ledThread+0x4>
- 25a:	82 e0       	ldi	r24, 0x02	; 2
+ 25a:	85 e0       	ldi	r24, 0x05	; 5
  25c:	90 e0       	ldi	r25, 0x00	; 0
  25e:	69 d4       	rcall	.+2258   	; 0xb32 <x_delay>
  260:	dc cf       	rjmp	.-72     	; 0x21a <ledThread+0x4>
@@ -459,7 +459,7 @@ Disassembly of section .text:
  334:	08 95       	ret
 
 00000336 <main>:
- 336:	26 e2       	ldi	r18, 0x26	; 38
+ 336:	26 e0       	ldi	r18, 0x06	; 6
  338:	30 e0       	ldi	r19, 0x00	; 0
  33a:	40 e0       	ldi	r20, 0x00	; 0
  33c:	5b e4       	ldi	r21, 0x4B	; 75
@@ -850,7 +850,7 @@ Disassembly of section .text:
  650:	21 97       	sbiw	r28, 0x01	; 1
  652:	c9 f7       	brne	.-14     	; 0x646 <runSensorThread+0x4a>
  654:	e3 cf       	rjmp	.-58     	; 0x61c <runSensorThread+0x20>
- 656:	85 e0       	ldi	r24, 0x05	; 5
+ 656:	82 e0       	ldi	r24, 0x02	; 2
  658:	90 e0       	ldi	r25, 0x00	; 0
  65a:	6b d2       	rcall	.+1238   	; 0xb32 <x_delay>
  65c:	df cf       	rjmp	.-66     	; 0x61c <runSensorThread+0x20>
@@ -902,7 +902,7 @@ void readingThread()
  68c:	df 93       	push	r29
  68e:	cd b7       	in	r28, 0x3d	; 61
  690:	de b7       	in	r29, 0x3e	; 62
- 692:	6e 97       	sbiw	r28, 0x1e	; 30
+ 692:	66 97       	sbiw	r28, 0x16	; 22
  694:	0f b6       	in	r0, 0x3f	; 63
  696:	f8 94       	cli
  698:	de bf       	out	0x3e, r29	; 62
@@ -913,7 +913,7 @@ void readingThread()
 	{
 		int top = 0;
 		int conv = 1;
-		if(UCSR0A & (1 << RXC0))
+		if(UCSR0A & (1 << RXC0))							//if there is anything to read in RX0
  69e:	0f 2e       	mov	r0, r31
  6a0:	f0 ec       	ldi	r31, 0xC0	; 192
  6a2:	ef 2e       	mov	r14, r31
@@ -936,11 +936,11 @@ void readingThread()
  6ba:	31 2c       	mov	r3, r1
  6bc:	ce 01       	movw	r24, r28
  6be:	0c 96       	adiw	r24, 0x0c	; 12
- 6c0:	9c 8f       	std	Y+28, r25	; 0x1c
- 6c2:	8b 8f       	std	Y+27, r24	; 0x1b
+ 6c0:	9c 8b       	std	Y+20, r25	; 0x14
+ 6c2:	8b 8b       	std	Y+19, r24	; 0x13
 				}
 			}
-			else if (strncmp(buff, "SET PERIOD", 10) == 0)
+			else if (strncmp(buff, "SET PERIOD", 10) == 0)	//set output period in seconds
 			{
 				period = 0;
 				for(int x = top; x > 10; x--)
@@ -949,8 +949,8 @@ void readingThread()
  6c8:	71 2c       	mov	r7, r1
  6ca:	fe 01       	movw	r30, r28
  6cc:	3b 96       	adiw	r30, 0x0b	; 11
- 6ce:	fe 8f       	std	Y+30, r31	; 0x1e
- 6d0:	ed 8f       	std	Y+29, r30	; 0x1d
+ 6ce:	fe 8b       	std	Y+22, r31	; 0x16
+ 6d0:	ed 8b       	std	Y+21, r30	; 0x15
  6d2:	5e 01       	movw	r10, r28
  6d4:	fa e0       	ldi	r31, 0x0A	; 10
  6d6:	af 0e       	add	r10, r31
@@ -960,7 +960,7 @@ void readingThread()
 	{
 		int top = 0;
 		int conv = 1;
-		if(UCSR0A & (1 << RXC0))
+		if(UCSR0A & (1 << RXC0))							//if there is anything to read in RX0
  6da:	f7 01       	movw	r30, r14
  6dc:	80 81       	ld	r24, Z
  6de:	88 23       	and	r24, r24
@@ -989,38 +989,36 @@ void readingThread()
  6fe:	80 e0       	ldi	r24, 0x00	; 0
  700:	3e de       	rcall	.-900    	; 0x37e <serial_read>
  702:	48 2e       	mov	r4, r24
-				serial_write(0,temp);
+				serial_write(0, temp);						//show what is being sent
  704:	68 2f       	mov	r22, r24
  706:	80 e0       	ldi	r24, 0x00	; 0
  708:	e6 dd       	rcall	.-1076   	; 0x2d6 <serial_write>
-				if (temp == '\n')
+				if (temp == '\n')							//read to end of line
  70a:	9a e0       	ldi	r25, 0x0A	; 10
  70c:	49 12       	cpse	r4, r25
  70e:	03 c0       	rjmp	.+6      	; 0x716 <readingThread+0x8c>
 				{
-					top = i - 2;
+					top = i - 2;							//for later use if there is a value being passed in
  710:	02 50       	subi	r16, 0x02	; 2
  712:	11 09       	sbc	r17, r1
 					break;
  714:	0f c0       	rjmp	.+30     	; 0x734 <readingThread+0xaa>
 				}
-				else
-				{
-					if ((temp >= 97) && (temp <= 122))
+				else if ((temp >= 97) && (temp <= 122))		//if its lowercase conv to uppercase
  716:	8f e9       	ldi	r24, 0x9F	; 159
  718:	84 0d       	add	r24, r4
  71a:	8a 31       	cpi	r24, 0x1A	; 26
  71c:	10 f4       	brcc	.+4      	; 0x722 <readingThread+0x98>
-					{
-						temp -= 32;
+				{
+					temp -= 32;
  71e:	e0 ee       	ldi	r30, 0xE0	; 224
  720:	4e 0e       	add	r4, r30
-					}
-					buff[i] = temp;
+				}
+				buff[i] = temp;
  722:	f4 01       	movw	r30, r8
  724:	41 92       	st	Z+, r4
  726:	4f 01       	movw	r8, r30
-		if(UCSR0A & (1 << RXC0))
+		if(UCSR0A & (1 << RXC0))							//if there is anything to read in RX0
 		{
 			char buff[18] = "";
 			temp = ' ';
@@ -1038,12 +1036,12 @@ void readingThread()
 	{
 		int top = 0;
  732:	81 01       	movw	r16, r2
-					}
-					buff[i] = temp;
+					temp -= 32;
 				}
+				buff[i] = temp;
 			}
 			
-			if (strncmp(buff, "HELP", 4) == 0)
+			if (strncmp(buff, "HELP", 4) == 0)				//help function
  734:	44 e0       	ldi	r20, 0x04	; 4
  736:	50 e0       	ldi	r21, 0x00	; 0
  738:	67 ed       	ldi	r22, 0xD7	; 215
@@ -1058,7 +1056,7 @@ void readingThread()
  746:	8b df       	rcall	.-234    	; 0x65e <helpCommands>
  748:	3b c1       	rjmp	.+630    	; 0x9c0 <readingThread+0x336>
 			}
-			else if (strncmp(buff, "SET ON", 6) == 0)
+			else if (strncmp(buff, "SET ON", 6) == 0)		//send readings to host
  74a:	46 e0       	ldi	r20, 0x06	; 6
  74c:	50 e0       	ldi	r21, 0x00	; 0
  74e:	6c ed       	ldi	r22, 0xDC	; 220
@@ -1074,7 +1072,7 @@ void readingThread()
  75e:	f0 93 0e 02 	sts	0x020E, r31	; 0x80020e <readings>
  762:	2e c1       	rjmp	.+604    	; 0x9c0 <readingThread+0x336>
 			}
-			else if (strncmp(buff, "SET OFF", 7) == 0)
+			else if (strncmp(buff, "SET OFF", 7) == 0)		//don't send readings to host
  764:	47 e0       	ldi	r20, 0x07	; 7
  766:	50 e0       	ldi	r21, 0x00	; 0
  768:	63 ee       	ldi	r22, 0xE3	; 227
@@ -1089,7 +1087,7 @@ void readingThread()
  776:	10 92 0e 02 	sts	0x020E, r1	; 0x80020e <readings>
  77a:	22 c1       	rjmp	.+580    	; 0x9c0 <readingThread+0x336>
 			}
-			else if (strncmp(buff, "SET HEX", 7) == 0)
+			else if (strncmp(buff, "SET HEX", 7) == 0)		//Output in hex
  77c:	47 e0       	ldi	r20, 0x07	; 7
  77e:	50 e0       	ldi	r21, 0x00	; 0
  780:	6b ee       	ldi	r22, 0xEB	; 235
@@ -1118,7 +1116,7 @@ void readingThread()
  7a4:	0d c1       	rjmp	.+538    	; 0x9c0 <readingThread+0x336>
 				}
 			}
-			else if (strncmp(buff, "SET TLOW", 8) == 0)
+			else if (strncmp(buff, "SET TLOW", 8) == 0)		//low limit set
  7a6:	48 e0       	ldi	r20, 0x08	; 8
  7a8:	50 e0       	ldi	r21, 0x00	; 0
  7aa:	63 ef       	ldi	r22, 0xF3	; 243
@@ -1132,7 +1130,7 @@ void readingThread()
 				tLow = 0;
  7b8:	30 92 0b 02 	sts	0x020B, r3	; 0x80020b <tLow+0x1>
  7bc:	20 92 0a 02 	sts	0x020A, r2	; 0x80020a <tLow>
-				for(int x = top; x > 8; x--)
+				for(int x = top; x > 8; x--)				//handles conversion from chars to int
  7c0:	09 30       	cpi	r16, 0x09	; 9
  7c2:	11 05       	cpc	r17, r1
  7c4:	0c f4       	brge	.+2      	; 0x7c8 <readingThread+0x13e>
@@ -1180,10 +1178,10 @@ void readingThread()
  81a:	93 1f       	adc	r25, r19
 				}
 			}
-			else if (strncmp(buff, "SET TLOW", 8) == 0)
+			else if (strncmp(buff, "SET TLOW", 8) == 0)		//low limit set
 			{
 				tLow = 0;
-				for(int x = top; x > 8; x--)
+				for(int x = top; x > 8; x--)				//handles conversion from chars to int
  81c:	ea 15       	cp	r30, r10
  81e:	fb 05       	cpc	r31, r11
  820:	e9 f6       	brne	.-70     	; 0x7dc <readingThread+0x152>
@@ -1193,7 +1191,7 @@ void readingThread()
 					conv *= 10;
 				}
 			}
-			else if (strncmp(buff, "SET THIGH", 9) == 0)
+			else if (strncmp(buff, "SET THIGH", 9) == 0)	//high limit set
  824:	49 e0       	ldi	r20, 0x09	; 9
  826:	50 e0       	ldi	r21, 0x00	; 0
  828:	6c ef       	ldi	r22, 0xFC	; 252
@@ -1255,12 +1253,12 @@ void readingThread()
  898:	93 1f       	adc	r25, r19
 				}
 			}
-			else if (strncmp(buff, "SET THIGH", 9) == 0)
+			else if (strncmp(buff, "SET THIGH", 9) == 0)	//high limit set
 			{
 				tHigh = 0;
 				for(int x = top; x > 9; x--)
- 89a:	2d 8d       	ldd	r18, Y+29	; 0x1d
- 89c:	3e 8d       	ldd	r19, Y+30	; 0x1e
+ 89a:	2d 89       	ldd	r18, Y+21	; 0x15
+ 89c:	3e 89       	ldd	r19, Y+22	; 0x16
  89e:	e2 17       	cp	r30, r18
  8a0:	f3 07       	cpc	r31, r19
  8a2:	d9 f6       	brne	.-74     	; 0x85a <readingThread+0x1d0>
@@ -1270,7 +1268,7 @@ void readingThread()
 					conv *= 10;
 				}
 			}
-			else if (strncmp(buff, "SET PERIOD", 10) == 0)
+			else if (strncmp(buff, "SET PERIOD", 10) == 0)	//set output period in seconds
  8a6:	4a e0       	ldi	r20, 0x0A	; 10
  8a8:	50 e0       	ldi	r21, 0x00	; 0
  8aa:	66 e0       	ldi	r22, 0x06	; 6
@@ -1332,12 +1330,12 @@ void readingThread()
  91a:	93 1f       	adc	r25, r19
 				}
 			}
-			else if (strncmp(buff, "SET PERIOD", 10) == 0)
+			else if (strncmp(buff, "SET PERIOD", 10) == 0)	//set output period in seconds
 			{
 				period = 0;
 				for(int x = top; x > 10; x--)
- 91c:	2b 8d       	ldd	r18, Y+27	; 0x1b
- 91e:	3c 8d       	ldd	r19, Y+28	; 0x1c
+ 91c:	2b 89       	ldd	r18, Y+19	; 0x13
+ 91e:	3c 89       	ldd	r19, Y+20	; 0x14
  920:	e2 17       	cp	r30, r18
  922:	f3 07       	cpc	r31, r19
  924:	d9 f6       	brne	.-74     	; 0x8dc <readingThread+0x252>
@@ -1347,7 +1345,7 @@ void readingThread()
 					conv *= 10;
 				}
 			}
-			else if (strncmp(buff, "SET", 3) == 0)
+			else if (strncmp(buff, "SET", 3) == 0)			//gives values of current variables
  928:	43 e0       	ldi	r20, 0x03	; 3
  92a:	50 e0       	ldi	r21, 0x00	; 0
  92c:	61 e1       	ldi	r22, 0x11	; 17
@@ -1359,42 +1357,41 @@ void readingThread()
  938:	09 f0       	breq	.+2      	; 0x93c <readingThread+0x2b2>
  93a:	3f c0       	rjmp	.+126    	; 0x9ba <readingThread+0x330>
 			{
-				char buffer[8];
 				
-				itoa(tLow, buffer, 10);
+				itoa(tLow, buff, 10);
  93c:	80 91 0a 02 	lds	r24, 0x020A	; 0x80020a <tLow>
  940:	90 91 0b 02 	lds	r25, 0x020B	; 0x80020b <tLow+0x1>
  944:	4a e0       	ldi	r20, 0x0A	; 10
  946:	50 e0       	ldi	r21, 0x00	; 0
  948:	be 01       	movw	r22, r28
- 94a:	6d 5e       	subi	r22, 0xED	; 237
+ 94a:	6f 5f       	subi	r22, 0xFF	; 255
  94c:	7f 4f       	sbci	r23, 0xFF	; 255
  94e:	0b d2       	rcall	.+1046   	; 0xd66 <itoa>
 				serial_print("tLow: ");
  950:	85 e1       	ldi	r24, 0x15	; 21
  952:	96 e0       	ldi	r25, 0x06	; 6
  954:	44 dd       	rcall	.-1400   	; 0x3de <serial_print>
-				serial_print(buffer);
+				serial_print(buff);
  956:	ce 01       	movw	r24, r28
- 958:	43 96       	adiw	r24, 0x13	; 19
+ 958:	01 96       	adiw	r24, 0x01	; 1
  95a:	41 dd       	rcall	.-1406   	; 0x3de <serial_print>
 				
-				itoa(tHigh, buffer, 10);
+				itoa(tHigh, buff, 10);
  95c:	80 91 0c 02 	lds	r24, 0x020C	; 0x80020c <tHigh>
  960:	90 91 0d 02 	lds	r25, 0x020D	; 0x80020d <tHigh+0x1>
  964:	4a e0       	ldi	r20, 0x0A	; 10
  966:	50 e0       	ldi	r21, 0x00	; 0
  968:	be 01       	movw	r22, r28
- 96a:	6d 5e       	subi	r22, 0xED	; 237
+ 96a:	6f 5f       	subi	r22, 0xFF	; 255
  96c:	7f 4f       	sbci	r23, 0xFF	; 255
  96e:	fb d1       	rcall	.+1014   	; 0xd66 <itoa>
 				serial_print("  tHigh: ");
  970:	8c e1       	ldi	r24, 0x1C	; 28
  972:	96 e0       	ldi	r25, 0x06	; 6
  974:	34 dd       	rcall	.-1432   	; 0x3de <serial_print>
-				serial_print(buffer);
+				serial_print(buff);
  976:	ce 01       	movw	r24, r28
- 978:	43 96       	adiw	r24, 0x13	; 19
+ 978:	01 96       	adiw	r24, 0x01	; 1
  97a:	31 dd       	rcall	.-1438   	; 0x3de <serial_print>
 				
 				if (readings == 1)
@@ -1416,22 +1413,22 @@ void readingThread()
  990:	26 dd       	rcall	.-1460   	; 0x3de <serial_print>
 				}
 				
-				utoa(period, buffer, 10);
+				utoa(period, buff, 10);
  992:	80 91 08 02 	lds	r24, 0x0208	; 0x800208 <period>
  996:	90 91 09 02 	lds	r25, 0x0209	; 0x800209 <period+0x1>
  99a:	4a e0       	ldi	r20, 0x0A	; 10
  99c:	50 e0       	ldi	r21, 0x00	; 0
  99e:	be 01       	movw	r22, r28
- 9a0:	6d 5e       	subi	r22, 0xED	; 237
+ 9a0:	6f 5f       	subi	r22, 0xFF	; 255
  9a2:	7f 4f       	sbci	r23, 0xFF	; 255
  9a4:	1f d2       	rcall	.+1086   	; 0xde4 <utoa>
 				serial_print("  period: ");
  9a6:	86 e3       	ldi	r24, 0x36	; 54
  9a8:	96 e0       	ldi	r25, 0x06	; 6
  9aa:	19 dd       	rcall	.-1486   	; 0x3de <serial_print>
-				serial_print(buffer);
+				serial_print(buff);
  9ac:	ce 01       	movw	r24, r28
- 9ae:	43 96       	adiw	r24, 0x13	; 19
+ 9ae:	01 96       	adiw	r24, 0x01	; 1
  9b0:	16 dd       	rcall	.-1492   	; 0x3de <serial_print>
 				
 				serial_print("  \r");
@@ -1440,7 +1437,7 @@ void readingThread()
  9b6:	13 dd       	rcall	.-1498   	; 0x3de <serial_print>
  9b8:	03 c0       	rjmp	.+6      	; 0x9c0 <readingThread+0x336>
 			}
-			else
+			else											//no know command
 			{
 				serial_print("???\r");
  9ba:	85 e4       	ldi	r24, 0x45	; 69
