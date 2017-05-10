@@ -43,7 +43,10 @@ int main(void)
 		serial_write(0, 'B');
 	}
 }
-
+/***********************************************************************
+* Watches the rx module for the opening value to a data packet
+* It reads said packet and calls functions to handle the data
+***********************************************************************/
 void runSensorThread()
 {
 	while(1)
@@ -58,10 +61,11 @@ void runSensorThread()
 			{
 				checkSum();
 				resetState();
-			//	for(int i = 0; i < 1000; i++)
-			//	{
-					x_delay((period*1000));
-			//	}
+				//use loop as to not overflow x_delay variable
+				for(int i = 0; i < 1000; i++)
+				{
+					x_delay((period));
+				}
 			}
 		}
 		else
@@ -70,7 +74,9 @@ void runSensorThread()
 		}
 	}
 }
-
+/***********************************************************************
+* Toggles the led on DP37 on or off according to the temp and boundry values
+***********************************************************************/
 void ledThread()
 {
 	DDRC |= 0x01;	// PORTC.0 -> DP37
@@ -92,7 +98,9 @@ void ledThread()
 		}
 	}
 }
-
+/***********************************************************************
+* Handles user input from the terminal, and changes values accordingly
+***********************************************************************/
 void readingThread()
 {
 	char temp;
@@ -256,6 +264,8 @@ void resetState()
 * value to properly calculate the temperature from Celsius to Fahrenheit.
 * bytes2: upper 8 bits from Temperature data
 * bytes3: lower 8 bits from Temperature data
+* depending on dec or hex mode it will print out timestamp, current temp
+* tLow, tHigh, and if the system needs heating or cooling
 ***********************************************************************/
 void printTemperature(uint8_t bytes2, uint8_t bytes3)
 {
